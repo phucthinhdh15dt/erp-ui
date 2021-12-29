@@ -1,0 +1,28 @@
+steps:
+    - id: build-n-push
+      name: "gcr.io/kaniko-project/executor:v1.6.0"
+      args:
+          - --destination=gcr.io/$PROJECT_ID/${_INSTANCE_NAME}:latest
+          - --cache=true
+          - --build-arg=BUILD_MODE=${_BUILD_MODE}
+
+    - id: deploy-gcrun
+      name: "gcr.io/google.com/cloudsdktool/cloud-sdk:alpine"
+      entrypoint: gcloud
+      args:
+          [
+              "run",
+              "deploy",
+              "${_INSTANCE_NAME}",
+              "--image",
+              "gcr.io/$PROJECT_ID/${_INSTANCE_NAME}:latest",
+              "--region",
+              "${_REGION}",
+          ]
+
+timeout: 1200s
+
+substitutions:
+    _INSTANCE_NAME: xxx
+    _BUILD_MODE: xxx
+    _REGION: asia-southeast1
