@@ -1,3 +1,3 @@
 export const useTest = () => {
-  return useState<boolean>("test", () => false);
+  return useState<string>("test", () => 'hê lô quơ');
 };
