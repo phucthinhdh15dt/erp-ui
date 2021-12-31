@@ -12,8 +12,6 @@
                 }"
             >
                 <slot></slot>
-                {{ data }}
-                {{ result }}
             </a-layout-content>
         </a-layout>
     </a-layout>
@@ -27,7 +25,7 @@ export default {
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useTestComposable } from '@/composables/useTest';
+
 import {
     UserOutlined,
     VideoCameraOutlined,
@@ -36,11 +34,6 @@ import {
     MenuFoldOutlined,
 } from '@ant-design/icons-vue';
 
-const { getTest, result } = useTestComposable();
-onMounted(() => {
-    console.log('Component is mounted!');
-    getTest();
-});
 const collapsed = ref<boolean>(false);
 </script>
 

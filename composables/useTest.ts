@@ -1,20 +1,25 @@
-import { ref, onMounted } from 'vue';
+import { ref, toRaw, reactive, toRefs } from 'vue';
 
 export const useTestComposable = () => {
-    const result = ref<object>({});
+    const result = ref<object>(null);
+    const state = reactive<object>({
+        error: null,
+        loading: false,
+    });
 
     const getTest = async () => {
-        const { data } = await useFetch('/api/test');
-        console.log("🚀 ~ file: useTest.ts ~ line 8 ~ getTest ~ data", data)
-        
+        console.log('herre');
+        const { data } = await useFetch('/api/test', { pick: ['title'] });
+        console.log('🚀 ~ file: useTest.ts ~ line 8 ~ getTest ~ data', data);
         result.value = data;
     };
 
-    onMounted(getTest)
+    getTest();
 
     return {
         getTest,
         result,
+        ...toRefs(state),
     };
 };
 

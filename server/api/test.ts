@@ -1,7 +1,8 @@
-import { useFetch } from '#app';
+import axios from "axios";
 
-export default async (req, res) => {
-    const response = await $fetch('http://dummy.restapiexample.com/api/v1/employees', { method: 'GET'});
-    console.log(response);
+export default async(req, res) => {
+    console.log('herre 2')
+    const response = await $fetch('https://jsonplaceholder.typicode.com/todos/1');
+
     return response;
 };
