@@ -1,29 +1,34 @@
-# Nuxt 3 Minimal Starter
+# erp-ui
 
-We recommend to look at the [documentation](https://v3.nuxtjs.org).
-
-## Setup
-
-Make sure to install the dependencies
-
-```bash
+## Project setup
+```
 yarn install
 ```
 
-## Development
-
-Start the development server on http://localhost:3000
-
-```bash
+### Compiles and hot-reloads for development
+```
 yarn dev
 ```
 
-## Production
-
-Build the application for production:
-
-```bash
+### Compiles and minifies for production
+```
 yarn build
 ```
 
-Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment).
+### Run your unit tests
+```
+yarn test:unit
+```
+
+### Run your end-to-end tests
+```
+yarn test:e2e
+```
+
+### Lints and fixes files
+```
+yarn lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).

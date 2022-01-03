@@ -1,0 +1,44 @@
+{
+    "processors": [
+        "stylelint-processor-html"
+    ],
+    "extends": [
+        "stylelint-config-standard"
+    ],
+    "rules": {
+        "at-rule-empty-line-before": null,
+        "block-closing-brace-newline-after": [
+            "always",
+            {
+                "ignoreAtRules": [
+                    "if",
+                    "else"
+                ]
+            }
+        ],
+        "block-closing-brace-space-before": null,
+        "color-named": "never",
+        "color-hex-case": "lower",
+        "declaration-block-no-duplicate-properties": true,
+        "declaration-block-semicolon-space-after": null,
+        "declaration-block-single-line-max-declarations": 3,
+        "declaration-colon-newline-after": null,
+        "indentation": 4,
+        "max-empty-lines": 5,
+        "max-nesting-depth": 5,
+        "number-no-trailing-zeros": null,
+        "selector-class-pattern": "^[A-Za-z]+(?:-[A-Za-z0-9]+)*(?:__[A-Za-z0-9\\-]+){0,2}(?:--[A-Za-z0-9\\-]+)?$",
+        "selector-list-comma-newline-after": null,
+        "selector-max-id": 0,
+        "shorthand-property-no-redundant-values": null,
+        "string-quotes": "single",
+        "no-empty-source": null,
+        "value-list-comma-newline-after": null
+    },
+    "ignoreFiles": [
+        ".nuxt/components/nuxt-build-indicator.vue",
+        ".nuxt/components/nuxt-error.vue",
+        ".nuxt/components/nuxt-loading.vue",
+        "src/assets/stylesheets/font-face.scss"
+    ]
+}
