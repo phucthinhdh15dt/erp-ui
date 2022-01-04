@@ -7,8 +7,8 @@ export default {
     state: () => ({
         create: {
             data: {
-                category: {},
-                brand: {},
+                category: undefined,
+                brand: undefined,
                 name: '',
                 attributes: [],
             },
