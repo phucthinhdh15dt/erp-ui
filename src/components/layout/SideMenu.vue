@@ -11,13 +11,13 @@
                 <template #icon>
                     <FormOutlined />
                 </template>
-                <template #title>Quản lý gì đó</template>
-                <!--  <router-link to="/order/create">
-                    <MenuItem key="1.1">Tạo đơn hàng</MenuItem>
+                <template #title>Quản lý thuộc tính</template>
+                <router-link to="/attribute/create">
+                    <MenuItem key="1.1">Tạo thuộc tính</MenuItem>
                 </router-link>
-                <router-link to="/order/list">
-                    <MenuItem key="1.2">Danh sách đơn hàng</MenuItem>
-                </router-link> -->
+                <router-link to="/attribute/list">
+                    <MenuItem key="1.2">Danh sách Thuộc tính</MenuItem>
+                </router-link>
             </SubMenu>
         </Menu>
     </LayoutSider>
@@ -37,7 +37,7 @@ export default defineComponent({
     components: {
         FormOutlined,
         Menu,
-        // MenuItem,
+        MenuItem,
         SubMenu,
         LayoutSider,
     },

@@ -4,6 +4,10 @@ import { useAuth } from '@/composables/auth/index';
 import { nextTick } from 'vue';
 
 const Login = () => import('@/views/auth/login.vue');
+const Attribute = () => import('@/views/attribute/index.vue');
+const AttributeCreate = () => import('@/views/attribute/create.vue');
+const AttributeDetail = () => import('@/views/attribute/detail.vue');
+const AttributeList = () => import('@/views/attribute/list.vue');
 
 const routes = [
     {
@@ -11,7 +15,7 @@ const routes = [
         name: 'Home',
         component: Home,
         meta: {
-            title: 'ERP',
+            title: 'Blissbery - ERP',
             authRequired: true,
         },
     },
@@ -24,58 +28,58 @@ const routes = [
             layout: 'blank',
         },
     },
-    // {
-    //     path: '/order',
-    //     name: 'Order',
-    //     component: Order,
-    //     meta: {
-    //         title: 'Đơn hàng',
-    //         breadCrumb: 'Đơn hàng',
-    //         authRequired: true,
-    //         layout: 'default',
-    //     },
-    //     children: [
-    //         {
-    //             name: 'OrderDetail',
-    //             path: ':id',
-    //             component: OrderDetail,
-    //             meta: {
-    //                 title: 'Đơn hàng',
-    //                 breadCrumb: 'Chi tiết đơn hàng',
-    //                 authRequired: true,
-    //                 layout: 'default',
-    //                 subMenuKey: '1',
-    //                 menuKey: '1.3',
-    //             },
-    //         },
-    //         {
-    //             name: 'OrderList',
-    //             path: 'list',
-    //             component: OrderList,
-    //             meta: {
-    //                 title: 'Đơn hàng',
-    //                 breadCrumb: 'Danh sách đơn hàng',
-    //                 authRequired: true,
-    //                 layout: 'default',
-    //                 subMenuKey: '1',
-    //                 menuKey: '1.2',
-    //             },
-    //         },
-    //         {
-    //             name: 'OrderCreate',
-    //             path: 'create',
-    //             component: OrderCreate,
-    //             meta: {
-    //                 title: 'Đơn hàng',
-    //                 breadCrumb: 'Tạo đơn hàng',
-    //                 authRequired: true,
-    //                 layout: 'default',
-    //                 subMenuKey: '1',
-    //                 menuKey: '1.1',
-    //             },
-    //         },
-    //     ],
-    // },
+    {
+        path: '/attribute',
+        name: 'Attribute',
+        component: Attribute,
+        meta: {
+            title: 'Thuộc tính',
+            breadCrumb: 'Thuộc tính',
+            authRequired: true,
+            layout: 'default',
+        },
+        children: [
+            {
+                name: 'AttributeDetail',
+                path: ':id',
+                component: AttributeDetail,
+                meta: {
+                    title: 'Thuộc tính',
+                    breadCrumb: 'Chi tiết thuộc tính',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '1',
+                    menuKey: '1.3',
+                },
+            },
+            {
+                name: 'AttributeList',
+                path: 'list',
+                component: AttributeList,
+                meta: {
+                    title: 'Thuộc tính',
+                    breadCrumb: 'Danh sách đthuộc tính',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '1',
+                    menuKey: '1.2',
+                },
+            },
+            {
+                name: 'AttributeCreate',
+                path: 'create',
+                component: AttributeCreate,
+                meta: {
+                    title: 'Thuộc tính',
+                    breadCrumb: 'Tạo thuộc tính',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '1',
+                    menuKey: '1.1',
+                },
+            },
+        ],
+    },
 ];
 
 const router = createRouter({
