@@ -6,7 +6,13 @@
             <Button
                 type="primary"
                 class="confirm"
-                :disabled="!modelRef.category || !modelRef.brand || !modelRef.name"
+                :disabled="
+                    !modelRef.category ||
+                    !modelRef.brand ||
+                    !modelRef.name ||
+                    !modelRef.attributes ||
+                    modelRef.attributes.length <= 0
+                "
                 @click="onCreate"
                 >Xác nhận</Button
             >
@@ -14,7 +20,7 @@
     </Row>
 </template>
 <script>
-import { Row, Button, Modal } from 'ant-design-vue';
+import { Row, Button, Modal, message } from 'ant-design-vue';
 import { inject } from 'vue';
 
 export default {
@@ -39,7 +45,14 @@ export default {
         const resetField = () => {
             resetFields();
         };
-        const onCreate = () => {};
+        const onCreate = () => {
+            if (modelRef.value.attributes.length >= 0) {
+                var exits = modelRef.value.attributes.findIndex(_ => !_.id || _.id <= 0);
+                if (exits >= 0) {
+                    message.warning('Vui lòng kiểm tra lại danh sách thuộc tính');
+                }
+            }
+        };
         return { onCancel, onCreate, modelRef };
     },
 };
