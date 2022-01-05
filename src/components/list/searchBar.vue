@@ -42,7 +42,6 @@ import { defineComponent, defineAsyncComponent, watch, computed, inject, ref, pr
 import { Card, Input, Select, message, Button, Drawer, Form, Row, Col } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { trim, cloneDeep } from 'lodash/fp';
-import { STATUS } from '@/constants';
 
 const { Search } = Input;
 const { Item: FormItem } = Form;
@@ -129,15 +128,6 @@ export default defineComponent({
             onClose();
         };
 
-        const statusList = Object.keys(STATUS).reduce((acc, status) => {
-            acc.push({
-                value: STATUS[status].code,
-                label: STATUS[status].name,
-            });
-
-            return acc;
-        }, []);
-
         watch(
             keyword,
             () => {
@@ -159,7 +149,6 @@ export default defineComponent({
         return {
             inputRef,
             onSearchEnter,
-            statusList,
             filters,
             keyword,
             localKeyword,
