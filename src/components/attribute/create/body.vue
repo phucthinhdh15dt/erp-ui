@@ -1,5 +1,5 @@
 <template>
-    <Card>
+    <Card style="min-height: 400px">
         <Row type="flex">
             <Col :span="8">
                 <FormItem label="Ngành hàng" v-bind="validateInfos['category']">
@@ -45,8 +45,9 @@
 </template>
 <script>
 import { Card, Form, Select, Input, Col, Row } from 'ant-design-vue';
-import { inject } from 'vue';
+import { inject, ref, watch } from 'vue';
 import Propertie from '@/components/attribute/create/propertie.vue';
+import { useCreate } from '@/composables/attribute/create';
 
 const { Item: FormItem } = Form;
 const { Option } = Select;
@@ -63,29 +64,33 @@ export default {
         Propertie,
     },
     setup() {
+        const categorys = ref([]);
+        const brands = ref([]);
         const modelRef = inject('modelRef');
         const validateInfos = inject('validateInfos');
-        const categorys = [
-            {
-                id: 1,
-                name: 'Trang chủ',
-            },
-            {
-                id: 1,
-                name: 'Dưỡng da',
-            },
-        ];
+        const { getCategory, getBrand, resultBrand, resultCate } = useCreate();
+        getCategory();
+        watch(
+            () => resultCate.value,
+            () => {
+                if (resultCate.value) {
+                    categorys.value = resultCate.value;
+                    getBrand();
+                }
+            }
+        );
+
+        watch(
+            () => resultBrand.value,
+            () => {
+                if (resultBrand.value) {
+                    brands.value = resultBrand.value;
+                }
+            }
+        );
+
         const onChangeCategory = () => {};
-        const brands = [
-            {
-                id: 1,
-                name: 'Trang chủ',
-            },
-            {
-                id: 1,
-                name: 'Dưỡng da',
-            },
-        ];
+
         const onChangeBrand = () => {};
         return {
             modelRef,

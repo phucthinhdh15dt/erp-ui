@@ -8,9 +8,12 @@ import store from '@/store';
 import api from '@/api';
 import Layout from '@/layouts';
 import printer from './plugins/printer';
+import VueVirtualScroller from 'vue-virtual-scroller';
 
 mbbFirebase.initializeApp();
 const app = createApp(App);
+
+app.use(VueVirtualScroller);
 
 app.use(store);
 app.use(router);
