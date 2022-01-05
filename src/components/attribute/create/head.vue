@@ -2,7 +2,7 @@
     <Row justify="space-between">
         <div class="card-head-title font-18 font-bold">Nhóm thuộc tính</div>
         <div class="mt-12">
-            <Button type="danger" class="cancel mr-12" @click="onCancel">Hủy bỏ</Button>
+            <Button type="primary" danger class="mr-12" @click="onCancel">Hủy bỏ</Button>
             <Button
                 type="primary"
                 class="confirm"
@@ -28,7 +28,7 @@ export default {
 
         const onCancel = () => {
             Modal.confirm({
-                title: 'Bạn có muốn hủy hết thao tác',
+                title: 'Bạn có muốn hủy hết thao tác?',
                 content: '',
                 okText: 'Xác nhận',
                 cancelText: 'Đóng',

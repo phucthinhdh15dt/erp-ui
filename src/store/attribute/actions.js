@@ -1,8 +1,6 @@
 import { cloneDeep } from 'lodash';
 
 const addAttribute = (context, data) => {
-    debugger;
-
     const { state } = context;
     const attributes = state.create.data.attributes;
     const foundAttribute = attributes.findIndex(_ => _.id === data.id);

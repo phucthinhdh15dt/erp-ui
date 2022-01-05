@@ -11,11 +11,12 @@
                 <Row v-for="(item, idx) in modelRef.attributes" :key="idx" class="AttributeChoose__List__Item">
                     <Col :span="11" style="padding-right: 20px">
                         <Row>
-                            <label>Thuộc tính {{ idx + 1 }}</label>
+                            <label style="font-weight: bold">Thuộc tính {{ idx + 1 }}</label>
                         </Row>
                         <Row style="margin-top: 20px">
-                            <label v-if="item.attributeName">{{ item.attributeName }}</label>
+                            <label v-if="item.attributeName" style="margin-left: 20px">{{ item.attributeName }}</label>
                             <Input
+                                v-else
                                 v-model:value="propertiesNew.attributeName"
                                 placeholder="Nhập tên thuộc tính"
                                 size="large"
@@ -23,9 +24,9 @@
                             </Input>
                         </Row>
                     </Col>
-                    <Col :span="11">
+                    <Col :span="10">
                         <Row>
-                            <label>Tính chất {{ idx + 1 }}</label>
+                            <label style="font-weight: bold">Tính chất {{ idx + 1 }}</label>
                         </Row>
                         <Row style="margin-top: 20px">
                             <label v-if="item.nature">{{ item.nature.natureName }}</label>
@@ -44,8 +45,11 @@
                             </Select>
                         </Row>
                     </Col>
-                    <Col :span="2">
-                        <Button type="danger" @click="onRemove(item)"><DeleteOutlined /> Xóa</Button>
+                    <Col :span="3">
+                        <Row>&nbsp;</Row>
+                        <Row align="bottom" style="margin-top: 20px">
+                            <Button type="danger" size="large" @click="onRemove(item)"><DeleteOutlined /> Xóa</Button>
+                        </Row>
                     </Col>
                 </Row>
             </ul>
@@ -58,7 +62,12 @@
                     :overlay-style="{ maxHeight: '500px', overflowY: 'auto', boxShadow: '0 2px 8px #00000026' }"
                     class="AttributeChoose__Dropdown"
                 >
-                    <Input v-model:value="searchKey" placeholder="Nhập tên sản phẩm" size="large" @change="onChange">
+                    <Input
+                        v-model:value="searchKey"
+                        placeholder="Nhập tên thuộc tính cần tìm?"
+                        size="large"
+                        @change="onChange"
+                    >
                         <template #suffix>
                             <SearchOutlined style="color: rgba(0, 0, 0, 0.25)" />
                         </template>
@@ -79,7 +88,7 @@
                             <li v-for="(item, idx) in attributeSuggestion" :key="idx" class="item">
                                 <Row>
                                     <Checkbox
-                                        v-model:value="modelRef.attributes"
+                                        :checked="isCheck(item)"
                                         :disabled="false"
                                         @change="() => onSelect(item)"
                                         >{{ item.attributeName }}</Checkbox
@@ -192,6 +201,14 @@ export default {
                 store.dispatch('attribute/addAttribute', properties);
             }
         };
+
+        const isCheck = item => {
+            var exits = modelRef.value.attributes.findIndex(_ => _.id === item.id);
+            if (exits < 0) {
+                return false;
+            }
+            return true;
+        };
         return {
             modelRef,
             validateInfos,
@@ -208,6 +225,7 @@ export default {
             onNewProperties,
             propertiesNew,
             isAddProperties,
+            isCheck,
         };
     },
 };
@@ -230,23 +248,10 @@ export default {
     &__List {
         padding: 0;
 
-        .ant-row {
-            :nth-child(1) {
-                label {
-                    font-weight: bold;
-                }
-            }
-
-            :nth-child(2) {
-                label {
-                    margin-left: 20px;
-                    font-weight: normal;
-                }
-            }
-        }
-
         &__Item {
             margin-bottom: 20px;
+            padding: 15px;
+            background: #d8e0e3;
 
             &:last-child {
                 margin-bottom: 0;
