@@ -1,6 +1,6 @@
 <template>
     <Row justify="space-between" class="AttributeEditDead">
-        <div class="font-18 font-bold">Nhóm thuộc tính</div>
+        <div class="font-18 font-bold">Tên nhóm thuộc tính: {{ modelRef.name }}</div>
         <div class="mb-12">
             <Button v-if="!isEdit" type="primary" class="mr-12 edit" @click="onEdit"><EditOutlined />Chỉnh sửa</Button>
             <Button v-if="!isEdit" type="primary" danger @click="onRemove"><DeleteOutlined />Xóa</Button>
@@ -32,14 +32,15 @@ export default {
         const attributeId = inject('attributeId');
 
         const isEdit = computed(() => store.state.attribute.detail.isEdit);
+        const modelRef = computed(() => store.state.attribute.detail.data);
 
         const { result, removeAttributeId } = useRemoveAttribute();
         const { getUpdateAttribute } = useGetAttribute();
 
         const onRemove = () => {
             Modal.confirm({
-                title: 'Bạn có muốn xóa thuộc tính này',
-                content: '',
+                title: 'Bạn chắc chắn muốn xóa nhóm thuộc tính này?',
+                content: 'Lưu ý khi xoá sẽ không khôi phục lại được',
                 okText: 'Xác nhận',
                 cancelText: 'Đóng',
                 centered: true,
@@ -69,7 +70,7 @@ export default {
 
         const onSave = () => {
             Modal.confirm({
-                title: 'Bạn có muốn lưu thông tin thuộc tính này',
+                title: 'Bạn có muốn lưu thông tin đã chỉnh sửa?',
                 content: '',
                 okText: 'Xác nhận',
                 cancelText: 'Đóng',
@@ -84,6 +85,7 @@ export default {
             isEdit,
             onCancel,
             onSave,
+            modelRef,
         };
     },
 };
