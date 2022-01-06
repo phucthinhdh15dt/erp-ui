@@ -6,12 +6,14 @@
             <Button v-if="!isEdit" type="primary" danger @click="onRemove"><DeleteOutlined />Xóa</Button>
 
             <Button v-if="isEdit" type="primary" danger class="mr-12" @click="onCancel"><EditOutlined />Hủy bỏ</Button>
-            <Button v-if="isEdit" type="primary" @click="onSave"><CheckCircleOutlined />Xác nhận</Button>
+            <Button v-if="isEdit" :disabled="!isShowSave" type="primary" @click="onSave"
+                ><CheckCircleOutlined />Xác nhận</Button
+            >
         </div>
     </Row>
 </template>
 <script>
-import { Row, Button, Modal } from 'ant-design-vue';
+import { Row, Button, Modal, message } from 'ant-design-vue';
 import { DeleteOutlined, EditOutlined, CheckCircleOutlined } from '@ant-design/icons-vue';
 import { inject, computed, watch } from 'vue';
 import { useRemoveAttribute, useGetAttribute } from '@/composables/attribute/create';
@@ -30,9 +32,18 @@ export default {
         const router = useRouter();
         const store = useStore();
         const attributeId = inject('attributeId');
+        const form = inject('form');
+        const { validate } = form;
 
         const isEdit = computed(() => store.state.attribute.detail.isEdit);
         const modelRef = computed(() => store.state.attribute.detail.data);
+        const isShowSave = computed(() => {
+            const index = modelRef.value.attributes.findIndex(
+                _ => !_.id || !_.attributeName || !_.nature || (!_.nature.key && !_.nature.id)
+            );
+            if (index < 0) return true;
+            return false;
+        });
 
         const { result, removeAttributeId } = useRemoveAttribute();
         const { getUpdateAttribute } = useGetAttribute();
@@ -79,13 +90,28 @@ export default {
         };
 
         const onSave = () => {
-            Modal.confirm({
-                title: 'Bạn có muốn lưu thông tin đã chỉnh sửa?',
-                content: '',
-                okText: 'Xác nhận',
-                cancelText: 'Đóng',
-                centered: true,
-                onOk: getUpdateAttribute,
+            debugger;
+            if (modelRef.value.attributes.length >= 0) {
+                const exits = modelRef.value.attributes.filter(_ => !_.id || _.id <= 0);
+                if (exits) {
+                    const index = modelRef.value.attributes.findIndex(
+                        _ => !_.id || !_.attributeName || !_.nature || (!_.nature.key && !_.nature.id)
+                    );
+                    if (index >= 0) {
+                        message.warning('Vui lòng kiểm tra lại danh sách thuộc tính');
+                        return;
+                    }
+                }
+            }
+            validate().then(() => {
+                Modal.confirm({
+                    title: 'Bạn có muốn lưu thông tin đã chỉnh sửa?',
+                    content: '',
+                    okText: 'Xác nhận',
+                    cancelText: 'Đóng',
+                    centered: true,
+                    onOk: getUpdateAttribute,
+                });
             });
         };
 
@@ -96,6 +122,7 @@ export default {
             onCancel,
             onSave,
             modelRef,
+            isShowSave,
         };
     },
 };

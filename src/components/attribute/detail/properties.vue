@@ -165,9 +165,10 @@ export default {
         const onChange = e => onSearch(e.target.value);
 
         const onSelect = value => {
+            debugger;
             const foundAttribute = attributeSuggestion.value.find(_ => _.id === value.id);
             if (foundAttribute) {
-                store.dispatch('attribute/addAttribute', toRaw(foundAttribute));
+                store.dispatch('attribute/addDetailAttribute', toRaw(foundAttribute));
             }
             searchKey.value = '';
         };
