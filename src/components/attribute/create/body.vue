@@ -40,13 +40,13 @@
                 </FormItem>
             </Col>
         </Row>
-        <Propertie />
+        <Properties />
     </Card>
 </template>
 <script>
 import { Card, Form, Select, Input, Col, Row } from 'ant-design-vue';
 import { inject, ref, watch } from 'vue';
-import Propertie from '@/components/attribute/create/propertie.vue';
+import Properties from '@/components/attribute/create/properties.vue';
 import { useCreate } from '@/composables/attribute/create';
 
 const { Item: FormItem } = Form;
@@ -61,15 +61,19 @@ export default {
         Col,
         Option,
         Row,
-        Propertie,
+        Properties,
     },
     setup() {
         const categorys = ref([]);
         const brands = ref([]);
         const modelRef = inject('modelRef');
-        const validateInfos = inject('validateInfos');
+        const form = inject('form');
+        const { validateInfos } = form;
+
         const { getCategory, getBrand, resultBrand, resultCate } = useCreate();
+
         getCategory();
+
         watch(
             () => resultCate.value,
             () => {

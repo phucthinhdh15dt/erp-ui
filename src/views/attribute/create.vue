@@ -52,8 +52,6 @@ export default defineComponent({
                     console.log('error', err);
                 });
         };
-        provide('validateInfos', validateInfos);
-        provide('resetFields', resetFields);
         return {
             validateInfos,
             resetFields,

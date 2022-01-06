@@ -21,7 +21,8 @@
 </template>
 <script>
 import { Row, Button, Modal, message } from 'ant-design-vue';
-import { inject } from 'vue';
+import { inject, watch } from 'vue';
+import { useCreate } from '@/composables/attribute/create';
 
 export default {
     components: {
@@ -30,7 +31,9 @@ export default {
     },
     setup() {
         const modelRef = inject('modelRef');
-        const resetFields = inject('resetFields');
+        const form = inject('form');
+        const { validate, resetFields } = form;
+        const { result, createAttribute } = useCreate();
 
         const onCancel = () => {
             Modal.confirm({
@@ -51,8 +54,45 @@ export default {
                 if (exits >= 0) {
                     message.warning('Vui lòng kiểm tra lại danh sách thuộc tính');
                 }
+            } else {
+                validate()
+                    .then(() => {
+                        Modal.confirm({
+                            title: 'Xác nhận tạo nhóm thuộc tính',
+                            content: '',
+                            okText: 'Xác nhận',
+                            cancelText: 'Đóng',
+                            centered: true,
+                            onOk: createAttribute,
+                        });
+                    })
+                    .catch(error => {
+                        console.log('error', error);
+                    });
             }
         };
+
+        watch(
+            () => result,
+            () => {
+                if (result.value) {
+                    Modal.info({
+                        title: 'Tạo nhóm thuộc tính thành công',
+                        content: () =>
+                            h('div', {}, [
+                                'Mã nhóm thuộc tính ',
+                                h('a', { href: `/attribute/${result.value}` }, `#${result.value}`),
+                            ]),
+                        okText: 'Đóng',
+                        centered: true,
+                        onOk: () => {
+                            window.location.reload();
+                        },
+                    });
+                }
+            },
+            { deep: true }
+        );
         return { onCancel, onCreate, modelRef };
     },
 };

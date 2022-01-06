@@ -9,6 +9,8 @@ const useCreate = () => {
     const errorMessage = ref('');
     const loadingCate = ref(false);
     const loadingBrand = ref(false);
+    const loading = ref(false);
+    const result = ref({});
 
     const getCategory = async () => {
         loadingCate.value = true;
@@ -29,6 +31,17 @@ const useCreate = () => {
         loadingBrand.value = false;
     };
 
+    const createAttribute = async data => {
+        debugger;
+        loading.value = true;
+        errorMessage.value = '';
+        result.value = '';
+        const response = await api.attribute.createAttribute();
+
+        result.value = response;
+        loading.value = false;
+    };
+
     return {
         getCategory,
         getBrand,
@@ -37,6 +50,9 @@ const useCreate = () => {
         errorMessage,
         loadingCate,
         loadingBrand,
+        createAttribute,
+        result,
+        loading,
     };
 };
 
@@ -48,13 +64,18 @@ const useProperties = () => {
     const errorMessage = ref('');
     const loading = ref(false);
 
-    const getProperties = async () => {
+    const getProperties = async key => {
         loading.value = true;
         errorMessage.value = '';
         result.value = '';
         const response = await api.attribute.getProperties();
 
-        result.value = response;
+        // hardcode
+        if (key) {
+            result.value = response.filter(v => v.attributeName.toLowerCase().indexOf(key.toLowerCase()) >= 0);
+        } else {
+            result.value = response;
+        }
         loading.value = false;
     };
 
@@ -74,7 +95,7 @@ const useProperties = () => {
         loading,
         errorMessage,
         getNature,
-        resultNature
+        resultNature,
     };
 };
 

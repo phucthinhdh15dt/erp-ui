@@ -79,4 +79,7 @@ export default axios => ({
             },
         ];
     },
+    createAttribute(data) {
+        return 1;
+    },
 });
