@@ -40,7 +40,7 @@ export default {
         const onRemove = () => {
             Modal.confirm({
                 title: 'Bạn chắc chắn muốn xóa nhóm thuộc tính này?',
-                content: 'Lưu ý khi xoá sẽ không khôi phục lại được',
+                content: 'Lưu ý khi xoá sẽ không khôi phục lại được.',
                 okText: 'Xác nhận',
                 cancelText: 'Đóng',
                 centered: true,
@@ -65,6 +65,16 @@ export default {
         };
 
         const onCancel = () => {
+            Modal.confirm({
+                title: 'Bạn sẽ hủy bỏ các thông tin đã sửa?',
+                content: 'Lưu ý khi hủy sẽ không khôi phục lại được.',
+                okText: 'Xác nhận',
+                cancelText: 'Đóng',
+                centered: true,
+                onOk: reload,
+            });
+        };
+        const reload = () => {
             window.location.reload(true);
         };
 

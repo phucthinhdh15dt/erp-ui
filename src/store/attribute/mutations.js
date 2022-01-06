@@ -27,6 +27,9 @@ const setDetailAttributeCategory = (state, data) => {
 const setDetailAttributeBrand = (state, data) => {
     state.detail.data.brand = data;
 };
+const setDetailAttributeProperties = (state, data) => {
+    state.detail.data.attributes = data;
+};
 
 export default {
     setAttributeCreate,
@@ -38,4 +41,5 @@ export default {
     setDetailIsEdit,
     setDetailAttributeCategory,
     setDetailAttributeBrand,
+    setDetailAttributeProperties,
 };

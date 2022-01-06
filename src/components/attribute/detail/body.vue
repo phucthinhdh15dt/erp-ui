@@ -2,9 +2,11 @@
     <Card style="min-height: 400px">
         <Form>
             <Row type="flex">
-                <Col :span="8">
+                <Col :span="7">
                     <FormItem label="Ngành hàng" v-bind="validateInfos.category">
-                        <label v-if="!isEdit && modelRef.category">{{ modelRef.category.name }}</label>
+                        <label v-if="!isEdit && modelRef.category" style="font-weight: bold">{{
+                            modelRef.category.name
+                        }}</label>
                         <Select
                             v-else
                             v-model:value="state.categoryName"
@@ -19,7 +21,7 @@
                         </Select>
                     </FormItem>
                     <FormItem label="Tên nhóm thuộc tính" v-bind="validateInfos.name">
-                        <label v-if="!isEdit">{{ modelRef.name }}</label>
+                        <label v-if="!isEdit" style="font-weight: bold">{{ modelRef.name }}</label>
                         <Input
                             v-else
                             v-model:value="modelRef.name"
@@ -31,9 +33,11 @@
                     </FormItem>
                 </Col>
 
-                <Col :span="8">
+                <Col :span="7">
                     <FormItem label="Thương hiệu" style="margin-left: 24px">
-                        <label v-if="!isEdit && modelRef.brand">{{ modelRef.brand.name }}</label>
+                        <label v-if="!isEdit && modelRef.brand" style="font-weight: bold">{{
+                            modelRef.brand.name
+                        }}</label>
                         <Select
                             v-else
                             v-model:value="state.brandName"
@@ -49,7 +53,7 @@
                     </FormItem>
                 </Col>
             </Row>
-            <!-- <Properties /> -->
+            <Properties />
         </Form>
     </Card>
 </template>
@@ -74,8 +78,11 @@ export default {
         Option,
         Row,
         Form,
+        Properties,
     },
     setup() {
+        const store = useStore();
+
         const categorys = ref([]);
         const state = reactive({
             categoryName: undefined,
@@ -83,7 +90,7 @@ export default {
         });
         const form = inject('form');
         const { validateInfos } = form;
-        const store = useStore();
+
         const modelRef = computed(() => store.state.attribute.detail.data);
 
         const isEdit = computed(() => store.state.attribute.detail.isEdit);

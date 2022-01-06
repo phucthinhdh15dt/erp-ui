@@ -52,7 +52,7 @@
                                 </Select>
                             </Row>
                         </Col>
-                        <Col :span="3">
+                        <Col v-if="isEdit" :span="3">
                             <Row>&nbsp;</Row>
                             <Row align="bottom" style="margin-top: 20px">
                                 <Button type="primary" danger size="large" @click="onRemove(item)"
@@ -64,7 +64,7 @@
                 </ul>
             </Col>
         </Row>
-        <Row>
+        <Row v-if="isEdit">
             <Col :span="12">
                 <FormItem style="margin-top: 24px">
                     <Dropdown
@@ -142,11 +142,15 @@ export default {
     },
     setup() {
         const store = useStore();
-        const modelRef = inject('modelRef');
+        const modelRef = computed(() => store.state.attribute.detail.data);
+        const isEdit = computed(() => store.state.attribute.detail.isEdit);
 
         const lstProperties = ref([]);
         const searchKey = ref('');
         const propertiesNew = ref({});
+
+        const form = inject('form');
+        const { validateInfos } = form;
 
         const {
             getProperties,
@@ -185,7 +189,7 @@ export default {
         };
 
         const removeProperties = item => {
-            store.dispatch('attribute/removeAttribute', item);
+            store.dispatch('attribute/removeDetailAttribute', item);
         };
 
         const onChangeNature = (value, e) => {
@@ -209,7 +213,7 @@ export default {
                     nature: undefined,
                 };
             }
-            store.dispatch('attribute/addAttribute', properties);
+            store.dispatch('attribute/addDetailAttribute', properties);
         };
 
         const isCheck = item => {
@@ -234,6 +238,8 @@ export default {
             onNewProperties,
             propertiesNew,
             isCheck,
+            validateInfos,
+            isEdit,
         };
     },
 };
