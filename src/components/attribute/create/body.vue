@@ -4,7 +4,7 @@
             <Col :span="8">
                 <FormItem label="Ngành hàng" v-bind="validateInfos['category']">
                     <Select
-                        v-model="modelRef.category"
+                        v-model:value="modelRef.category"
                         label-in-value
                         allow-clear
                         placeholder="Chọn ngành hàng"
@@ -16,7 +16,7 @@
                 </FormItem>
                 <FormItem label="Tên nhóm thuộc tính" v-bind="validateInfos['name']">
                     <Input
-                        v-model="modelRef.name"
+                        v-model:value="modelRef.name"
                         name="name"
                         :maxlength="80"
                         placeholder="Tên nhóm thuộc tính"
@@ -28,7 +28,7 @@
             <Col :span="8">
                 <FormItem label="Thương hiệu" v-bind="validateInfos['brand']" style="margin-left: 24px">
                     <Select
-                        v-model="modelRef.brand"
+                        v-model:value="modelRef.brand"
                         label-in-value
                         allow-clear
                         placeholder="Chọn thương hiệu"

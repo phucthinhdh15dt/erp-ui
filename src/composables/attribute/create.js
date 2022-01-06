@@ -31,12 +31,15 @@ const useCreate = () => {
         loadingBrand.value = false;
     };
 
-    const createAttribute = async data => {
+    const createAttribute = () => {
         debugger;
         loading.value = true;
         errorMessage.value = '';
         result.value = '';
-        const response = await api.attribute.createAttribute();
+
+        const data = store.state.attribute.create.data;
+
+        const response = api.attribute.createAttribute();
 
         result.value = response;
         loading.value = false;

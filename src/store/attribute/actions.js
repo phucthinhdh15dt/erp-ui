@@ -12,6 +12,17 @@ const addAttribute = (context, data) => {
     }
 };
 
+const updateAttribute = (context, data) => {
+    debugger;
+    const { state } = context;
+    const attributes = state.create.data.attributes;
+    const foundAttribute = attributes.findIndex(_ => _.id === data.id);
+    if (foundAttribute >= 0) {
+        attributes[foundAttribute] = data;
+        context.commit('setAttributeCreateListAttribute', cloneDeep(attributes));
+    }
+};
+
 const removeAttribute = (context, data) => {
     const { state } = context;
     const attributes = state.create.data.attributes;
@@ -56,4 +67,5 @@ export default {
     setAttributeDetail,
     removeDetailAttribute,
     addDetailAttribute,
+    updateAttribute,
 };

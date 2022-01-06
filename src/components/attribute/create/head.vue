@@ -7,11 +7,7 @@
                 type="primary"
                 class="confirm"
                 :disabled="
-                    !modelRef.category ||
-                    !modelRef.brand ||
-                    !modelRef.name ||
-                    !modelRef.attributes ||
-                    modelRef.attributes.length <= 0
+                    !modelRef.category || !modelRef.name || !modelRef.attributes || modelRef.attributes.length <= 0
                 "
                 @click="onCreate"
                 >Xác nhận</Button
@@ -21,7 +17,7 @@
 </template>
 <script>
 import { Row, Button, Modal, message } from 'ant-design-vue';
-import { inject, watch } from 'vue';
+import { h, inject, watch } from 'vue';
 import { useCreate } from '@/composables/attribute/create';
 
 export default {
@@ -50,32 +46,36 @@ export default {
         };
         const onCreate = () => {
             if (modelRef.value.attributes.length >= 0) {
-                var exits = modelRef.value.attributes.findIndex(_ => !_.id || _.id <= 0);
-                if (exits >= 0) {
-                    message.warning('Vui lòng kiểm tra lại danh sách thuộc tính');
+                var exits = modelRef.value.attributes.filter(_ => !_.id || _.id <= 0);
+                if (exits) {
+                    var index = modelRef.value.attributes.findIndex(_ => !_.id || !_.nature || !_.nature.key);
+                    if (index >= 0) {
+                        message.warning('Vui lòng kiểm tra lại danh sách thuộc tính');
+                        return;
+                    }
                 }
-            } else {
-                validate()
-                    .then(() => {
-                        Modal.confirm({
-                            title: 'Xác nhận tạo nhóm thuộc tính',
-                            content: '',
-                            okText: 'Xác nhận',
-                            cancelText: 'Đóng',
-                            centered: true,
-                            onOk: createAttribute,
-                        });
-                    })
-                    .catch(error => {
-                        console.log('error', error);
-                    });
             }
+            validate()
+                .then(() => {
+                    Modal.confirm({
+                        title: 'Xác nhận tạo nhóm thuộc tính',
+                        content: '',
+                        okText: 'Xác nhận',
+                        cancelText: 'Đóng',
+                        centered: true,
+                        onOk: createAttribute,
+                    });
+                })
+                .catch(error => {
+                    console.log('error', error);
+                });
         };
 
         watch(
             () => result,
             () => {
                 if (result.value) {
+                    debugger;
                     Modal.info({
                         title: 'Tạo nhóm thuộc tính thành công',
                         content: () =>
