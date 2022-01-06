@@ -22,11 +22,11 @@ export default axios => ({
         return [
             {
                 id: 1,
-                name: 'Trang chủ',
+                name: 'Blissbery',
             },
             {
                 id: 2,
-                name: 'Dưỡng da',
+                name: 'Bach hóa xanh',
             },
         ];
     },
@@ -81,5 +81,41 @@ export default axios => ({
     },
     createAttribute(data) {
         return 1;
+    },
+
+    getAttributeId(id) {
+        return {
+            id: id,
+            category: {
+                id: 2,
+                name: 'Dưỡng da',
+            },
+            brand: {
+                id: 2,
+                name: 'Bách hóa xanh',
+            },
+            name: 'Test nè',
+            attributes: [
+                {
+                    id: 2,
+                    attributeName: 'Thuộc tính test 1',
+                    nature: {
+                        id: 2,
+                        natureName: 'Thời gian',
+                    },
+                },
+                {
+                    id: 5,
+                    attributeName: 'Thuộc tính test 5',
+                    nature: {
+                        id: 3,
+                        natureName: 'Yes/No',
+                    },
+                },
+            ],
+        };
+    },
+    removeAttributeId(id) {
+        return 'OK';
     },
 });

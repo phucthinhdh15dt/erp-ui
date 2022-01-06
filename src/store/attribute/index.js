@@ -13,6 +13,15 @@ export default {
                 attributes: [],
             },
         },
+        detail: {
+            data: {
+                category: undefined,
+                brand: undefined,
+                name: '',
+                attributes: [],
+            },
+            isEdit: false,
+        },
     }),
     getters,
     actions,

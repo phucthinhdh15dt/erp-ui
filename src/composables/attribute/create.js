@@ -99,4 +99,69 @@ const useProperties = () => {
     };
 };
 
-export { useCreate, useProperties };
+const useGetAttribute = () => {
+    const api = inject('api');
+    const store = useStore();
+    const loading = ref(false);
+    const errorMessage = ref('');
+    const result = ref({});
+
+    const getAttributeId = async id => {
+        loading.value = true;
+        errorMessage.value = '';
+        result.value = '';
+        const response = await api.attribute.getAttributeId(id);
+        store.dispatch('attribute/setAttributeDetail', response);
+        result.value = response;
+        loading.value = false;
+    };
+
+    const getUpdateAttribute = async () => {
+        loading.value = true;
+        errorMessage.value = '';
+        result.value = '';
+        const data = store.state.attribute.detail.data;
+        debugger;
+        const response = await api.attribute.getUpdateAttribute(data);
+        debugger;
+        store.dispatch('attribute/setAttributeDetail', response);
+        result.value = response;
+        loading.value = false;
+    };
+
+    return {
+        loading,
+        result,
+        errorMessage,
+        getAttributeId,
+        getUpdateAttribute,
+    };
+};
+
+const useRemoveAttribute = () => {
+    const api = inject('api');
+    const store = useStore();
+    const loading = ref(false);
+    const errorMessage = ref('');
+    const result = ref({});
+
+    const removeAttributeId = async id => {
+        loading.value = true;
+        errorMessage.value = '';
+        result.value = '';
+        const response = await api.attribute.removeAttributeId(id);
+
+        result.value = response;
+
+        loading.value = false;
+    };
+
+    return {
+        loading,
+        result,
+        errorMessage,
+        removeAttributeId,
+    };
+};
+
+export { useCreate, useProperties, useGetAttribute, useRemoveAttribute };

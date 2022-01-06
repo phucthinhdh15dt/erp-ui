@@ -23,7 +23,12 @@ const removeAttribute = (context, data) => {
     }
 };
 
+const setAttributeDetail = (context, data) => {
+    context.commit('setAttributeDetail', data);
+};
+
 export default {
     addAttribute,
     removeAttribute,
+    setAttributeDetail,
 };
