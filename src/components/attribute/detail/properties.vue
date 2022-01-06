@@ -15,12 +15,10 @@
                                 <label style="font-weight: bold">Thuộc tính {{ idx + 1 }}</label>
                             </Row>
                             <Row style="margin-top: 20px">
-                                <label v-if="item.attributeName" style="margin-left: 20px">{{
-                                    item.attributeName
-                                }}</label>
+                                <label v-if="!item.isAdd" style="margin-left: 20px">{{ item.attributeName }}</label>
                                 <Input
                                     v-else
-                                    v-model:value="propertiesNew.attributeName"
+                                    v-model:value="item.attributeName"
                                     placeholder="Nhập tên thuộc tính"
                                     size="large"
                                 >
@@ -32,11 +30,11 @@
                                 <label style="font-weight: bold">Tính chất {{ idx + 1 }}</label>
                             </Row>
                             <Row style="margin-top: 20px">
-                                <label v-if="item.nature">{{ item.nature.natureName }}</label>
+                                <label v-if="!item.isAdd && item.nature">{{ item.nature.natureName }}</label>
 
                                 <Select
                                     v-else
-                                    v-model="propertiesNew.nature"
+                                    v-model:value="item.nature"
                                     label-in-value
                                     placeholder="Chọn tính chất"
                                     size="large"
@@ -147,7 +145,6 @@ export default {
 
         const lstProperties = ref([]);
         const searchKey = ref('');
-        const propertiesNew = ref({});
 
         const form = inject('form');
         const { validateInfos } = form;
@@ -204,6 +201,7 @@ export default {
                     id: -1,
                     attributeName: undefined,
                     nature: undefined,
+                    isAdd: true,
                 };
             } else {
                 const ids = modelRef.value.attributes.filter(v => v.id < 0).map(m => m.id);
@@ -211,6 +209,7 @@ export default {
                     id: Math.min(ids) - 1,
                     attributeName: undefined,
                     nature: undefined,
+                    isAdd: true,
                 };
             }
             store.dispatch('attribute/addDetailAttribute', properties);
@@ -236,7 +235,6 @@ export default {
             natureSuggestion,
             onChangeNature,
             onNewProperties,
-            propertiesNew,
             isCheck,
             validateInfos,
             isEdit,

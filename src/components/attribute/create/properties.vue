@@ -143,7 +143,6 @@ export default {
 
         const lstProperties = ref([]);
         const searchKey = ref('');
-        const propertiesNew = ref({});
 
         const {
             getProperties,
@@ -246,7 +245,6 @@ export default {
             natureSuggestion,
             onChangeNature,
             onNewProperties,
-            propertiesNew,
             isCheck,
             onSavePropertiesNew,
         };
