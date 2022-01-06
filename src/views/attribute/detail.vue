@@ -15,12 +15,17 @@
     </div>
 </template>
 <script>
-import { defineComponent, watch, computed, provide } from 'vue';
+import { defineComponent, watch, computed, provide, reactive } from 'vue';
 import { useRoute } from 'vue-router';
 import { Row, Col, Form } from 'ant-design-vue';
 import Head from '@/components/attribute/detail/head.vue';
 import Body from '@/components/attribute/detail/body.vue';
 import { useGetAttribute } from '@/composables/attribute/create';
+import { rulesDetail } from '@/composables/attribute/rules';
+
+import { useStore } from 'vuex';
+
+const useForm = Form.useForm;
 
 export default defineComponent({
     name: 'AttributeCreate',
@@ -32,9 +37,11 @@ export default defineComponent({
         Body,
     },
     setup() {
+        const store = useStore();
         const route = useRoute();
         const { getAttributeId } = useGetAttribute();
         const attributeId = computed(() => route.params.id);
+        const modelRef = computed(() => store.state.attribute.detail.data);
         provide('attributeId', attributeId);
 
         watch(
@@ -46,6 +53,10 @@ export default defineComponent({
             },
             { immediate: true }
         );
+
+        const rulesRef = reactive(rulesDetail);
+        const form = useForm(modelRef, rulesRef);
+        provide('form', form);
 
         return {
             labelCol: { span: 8 },

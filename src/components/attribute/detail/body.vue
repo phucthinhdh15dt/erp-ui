@@ -1,57 +1,64 @@
 <template>
     <Card style="min-height: 400px">
-        <Row type="flex">
-            <Col :span="8">
-                <FormItem v-if="modelRef.category" label="Ngành hàng">
-                    <label v-if="!isEdit">{{ modelRef.category.name }}</label>
-                    <Select
-                        v-else
-                        v-model:value="state.categoryName"
-                        allow-clear
-                        placeholder="Chọn ngành hàng"
-                        size="large"
-                        @change="onChangeCategory"
-                    >
-                        <Option v-for="item in categorys" :key="item.id" :value="item.name"> {{ item.name }}</Option>
-                    </Select>
-                </FormItem>
-                <FormItem label="Tên nhóm thuộc tính">
-                    <label v-if="!isEdit">{{ modelRef.name }}</label>
-                    <Input
-                        v-else
-                        v-model:value="modelRef.name"
-                        name="name"
-                        :maxlength="80"
-                        placeholder="Tên nhóm thuộc tính"
-                        size="large"
-                    />
-                </FormItem>
-            </Col>
+        <Form>
+            <Row type="flex">
+                <Col :span="8">
+                    <FormItem label="Ngành hàng" v-bind="validateInfos.category">
+                        <label v-if="!isEdit && modelRef.category">{{ modelRef.category.name }}</label>
+                        <Select
+                            v-else
+                            v-model:value="state.categoryName"
+                            allow-clear
+                            placeholder="Chọn ngành hàng"
+                            size="large"
+                            @change="onChangeCategory"
+                        >
+                            <Option v-for="item in categorys" :key="item.id" :value="item.name">
+                                {{ item.name }}</Option
+                            >
+                        </Select>
+                    </FormItem>
+                    <FormItem label="Tên nhóm thuộc tính" v-bind="validateInfos.name">
+                        <label v-if="!isEdit">{{ modelRef.name }}</label>
+                        <Input
+                            v-else
+                            v-model:value="modelRef.name"
+                            name="name"
+                            :maxlength="80"
+                            placeholder="Tên nhóm thuộc tính"
+                            size="large"
+                        />
+                    </FormItem>
+                </Col>
 
-            <Col :span="8">
-                <FormItem v-if="modelRef.brand" label="Thương hiệu" style="margin-left: 24px">
-                    <label v-if="!isEdit">{{ modelRef.brand.name }}</label>
-                    <Select
-                        v-else
-                        v-model:value="state.brandName"
-                        allow-clear
-                        placeholder="Chọn thương hiệu"
-                        size="large"
-                        @change="onChangeBrand"
-                    >
-                        <Option v-for="item in resultBrand" :key="item.id" :value="item.name"> {{ item.name }}</Option>
-                    </Select>
-                </FormItem>
-            </Col>
-        </Row>
-        <!-- <Properties /> -->
+                <Col :span="8">
+                    <FormItem label="Thương hiệu" style="margin-left: 24px">
+                        <label v-if="!isEdit && modelRef.brand">{{ modelRef.brand.name }}</label>
+                        <Select
+                            v-else
+                            v-model:value="state.brandName"
+                            allow-clear
+                            placeholder="Chọn thương hiệu"
+                            size="large"
+                            @change="onChangeBrand"
+                        >
+                            <Option v-for="item in resultBrand" :key="item.id" :value="item.name">
+                                {{ item.name }}</Option
+                            >
+                        </Select>
+                    </FormItem>
+                </Col>
+            </Row>
+            <!-- <Properties /> -->
+        </Form>
     </Card>
 </template>
 <script>
 import { Card, Form, Select, Input, Col, Row } from 'ant-design-vue';
-import { watch, ref, computed, reactive } from 'vue';
+import { watch, ref, computed, reactive, inject } from 'vue';
 import Properties from '@/components/attribute/detail/properties.vue';
 import { useStore } from 'vuex';
+
 import { useCreate } from '@/composables/attribute/create';
 
 const { Item: FormItem } = Form;
@@ -66,6 +73,7 @@ export default {
         Col,
         Option,
         Row,
+        Form,
     },
     setup() {
         const categorys = ref([]);
@@ -73,7 +81,8 @@ export default {
             categoryName: undefined,
             brandName: undefined,
         });
-
+        const form = inject('form');
+        const { validateInfos } = form;
         const store = useStore();
         const modelRef = computed(() => store.state.attribute.detail.data);
 
@@ -112,18 +121,25 @@ export default {
         );
 
         const onChangeCategory = (value, option) => {
-            debugger;
-            const object = resultCate.value.find(f => f.id === option.key);
-            if (object) {
-                store.commit('attribute/setDetailAttributeCategory', object);
+            if (option !== undefined) {
+                const object = resultCate.value.find(f => f.id === option.key);
+                if (object) {
+                    store.commit('attribute/setDetailAttributeCategory', object);
+                    return;
+                }
             }
+            store.commit('attribute/setDetailAttributeCategory', undefined);
         };
 
         const onChangeBrand = (value, option) => {
-            const object = resultBrand.value.find(f => f.id === option.key);
-            if (object) {
-                store.commit('attribute/setDetailAttributeBrand', object);
+            if (option !== undefined) {
+                const object = resultBrand.value.find(f => f.id === option.key);
+                if (object) {
+                    store.commit('attribute/setDetailAttributeBrand', object);
+                    return;
+                }
             }
+            store.commit('attribute/setDetailAttributeBrand', undefined);
         };
 
         return {
@@ -134,6 +150,7 @@ export default {
             onChangeBrand,
             onChangeCategory,
             state,
+            validateInfos,
         };
     },
 };
