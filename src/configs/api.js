@@ -1,25 +1,23 @@
 export const API_NAME = {
     // MODULE.ORDER
-    GET_ORDER: 'GET_ORDER',
     SEARCH_ATTRIBUTE: 'SEARCH_ATTRIBUTE',
+    GET_ATTRIBUTE: 'GET_ATTRIBUTE',
 };
 
 const MODULE = {
-    ORDER: 'order',
     Attribute: 'attribute',
 };
 
 export default {
-    // MODULE.ORDER_INDEX
-    [API_NAME.SEARCH_ORDER]: {
-        module: MODULE.ORDER_INDEX,
+    [API_NAME.SEARCH_ATTRIBUTE]: {
+        module: MODULE.Attribute,
         endpoint: 'search',
         version: 'v1',
         method: 'GET',
     },
-    [API_NAME.SEARCH_ATTRIBUTE]: {
+    [API_NAME.GET_ATTRIBUTE]: {
         module: MODULE.Attribute,
-        endpoint: 'search',
+        endpoint: '{id}',
         version: 'v1',
         method: 'GET',
     },
