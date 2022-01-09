@@ -1,18 +1,26 @@
 <template>
     <div class="ActionArea">
-        <Button type="primary"> Tạo mới </Button>
+        <Button type="primary" class="mr-12" @click="onCreate"><PlusOutlined /> Tạo mới </Button>
+        <Button type="primary" danger @click="onDelete"><EditOutlined />Xóa</Button>
     </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
 import { Button } from 'ant-design-vue';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons-vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
     name: 'ActionArea',
-    components: { Button },
+    components: { Button, EditOutlined, PlusOutlined },
     setup() {
-        return {};
+        const router = useRouter();
+        const onDelete = () => {};
+        const onCreate = () => {
+            router.push('/attribute/create');
+        };
+        return { onDelete, onCreate };
     },
 });
 </script>

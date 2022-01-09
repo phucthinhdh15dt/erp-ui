@@ -44,8 +44,8 @@ const routes = [
                 path: ':id',
                 component: AttributeDetail,
                 meta: {
-                    title: 'Thuộc tính',
-                    breadCrumb: 'Chi tiết thuộc tính',
+                    title: 'Chi tiết nhóm thuộc tính',
+                    breadCrumb: 'Chi tiết nhóm thuộc tính',
                     authRequired: true,
                     layout: 'default',
                     subMenuKey: '1',
@@ -57,8 +57,8 @@ const routes = [
                 path: 'list',
                 component: AttributeList,
                 meta: {
-                    title: 'Thuộc tính',
-                    breadCrumb: 'Danh sách đthuộc tính',
+                    title: 'Danh sách thuộc tính',
+                    breadCrumb: 'Danh sách thuộc tính',
                     authRequired: true,
                     layout: 'default',
                     subMenuKey: '1',
@@ -70,8 +70,8 @@ const routes = [
                 path: 'create',
                 component: AttributeCreate,
                 meta: {
-                    title: 'Thuộc tính',
-                    breadCrumb: 'Tạo thuộc tính',
+                    title: 'Tạo nhóm thuộc tính',
+                    breadCrumb: 'Tạo nhóm thuộc tính',
                     authRequired: true,
                     layout: 'default',
                     subMenuKey: '1',

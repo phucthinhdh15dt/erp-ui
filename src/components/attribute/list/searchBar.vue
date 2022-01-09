@@ -10,7 +10,7 @@
                 @search="onSearchEnter"
                 @blur="onBlurSearch"
             />
-            <Button class="SearchBar__Filter__Btn" type="primary" @click="onOpen">Lọc</Button>
+            <Button class="SearchBar__Filter__Btn" type="primary" @click="onOpen"><FilterOutlined />Lọc</Button>
             <slot name="ActionArea" />
             <Drawer title="Bộ lọc" placement="bottom" :height="300" closable :visible="visible" @close="onClose">
                 <Form>
@@ -28,8 +28,8 @@
                         </Col>
                     </Row>
                     <div class="SearchBar__Action">
-                        <Button style="margin-right: 8px" @click="onResetFilters">Làm mới</Button>
-                        <Button type="primary" @click="search">Tìm kiếm</Button>
+                        <Button style="margin-right: 8px" @click="onResetFilters"><PlusOutlined /> Làm mới</Button>
+                        <Button type="primary" @click="search"><SearchOutlined />Tìm kiếm</Button>
                     </div>
                 </Form>
             </Drawer>
@@ -38,8 +38,9 @@
 </template>
 
 <script>
-import { defineComponent, watch, computed, inject, ref, provide } from 'vue';
+import { defineComponent, defineAsyncComponent, watch, computed, inject, ref, provide } from 'vue';
 import { Card, Input, Select, message, Button, Drawer, Form, Row, Col } from 'ant-design-vue';
+import { FilterOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { useStore } from 'vuex';
 import { trim, cloneDeep } from 'lodash/fp';
 const { Search } = Input;
@@ -56,6 +57,10 @@ export default defineComponent({
         FormItem,
         Row,
         Col,
+        FilterOutlined,
+        PlusOutlined,
+        SearchOutlined,
+        Selection: defineAsyncComponent(() => import(`./filters/selection.vue`)),
     },
     props: {
         filterConfigs: {

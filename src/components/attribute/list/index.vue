@@ -58,9 +58,9 @@ export default defineComponent({
         const { filterConfigs, filterDefault, searchConfigs, sortConfigs, name } = toRefs(props);
         const store = useStore();
         const { search } = useSearch();
-        const filters = computed(() => store.state.list.filters);
-        const keyword = computed(() => store.state.list.keyword);
-        const pagination = computed(() => store.state.list.pagination);
+        const filters = computed(() => store.state.attribute.list.data.filters);
+        const keyword = computed(() => store.state.attribute.list.data.keyword);
+        const pagination = computed(() => store.state.attribute.list.data.pagination);
         const searchQuery = computed(() => {
             const filtersCollected = Object.keys(filters.value).reduce((acc, filter) => {
                 if (filters.value[filter]) {
@@ -104,6 +104,7 @@ export default defineComponent({
             return omitBy(isNil)(searchData);
         });
         const onSearch = () => {
+            debugger;
             store.commit('attribute/setSearchSelectedRow', []);
             search(name.value, searchQuery.value);
         };

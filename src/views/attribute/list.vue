@@ -1,11 +1,10 @@
 <template>
-    <div class="AttributeList"></div>
     <List
         :columns="columns"
         :filter-configs="filters"
         :search-configs="searchConfigs"
         :sort-configs="sortConfigs"
-        name="Order"
+        name="Attribute"
     >
         <template #ActionArea><ActionArea /></template>
     </List>
@@ -33,8 +32,8 @@ export const columns = [
     },
     {
         title: 'Ngành hàng con',
-        dataIndex: 'categoryChild',
-        key: 'categoryChild',
+        dataIndex: 'category',
+        key: 'category',
         width: 150,
         align: 'center',
     },

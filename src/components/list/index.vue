@@ -13,12 +13,11 @@
 </template>
 
 <script>
-import { defineComponent, computed, provide, onMounted, toRefs, toRaw, watch } from 'vue';
+import { defineComponent, computed, provide, onMounted, toRefs, toRaw } from 'vue';
 import { Form } from 'ant-design-vue';
 import { useStore } from 'vuex';
-import { useSearch } from '@/composables/list/index';
+import { useSearch } from '@/composables/attribute/list/index';
 import { omitBy, isNil } from 'lodash/fp';
-import moment from 'moment';
 
 import ResultTable from './resultTable.vue';
 import SearchBar from './searchBar.vue';
@@ -74,36 +73,6 @@ export default defineComponent({
                     const rawValue = toRaw(filters.value[filter]);
 
                     switch (config.type) {
-                        case 'DateRange':
-                            const fromDate = moment(rawValue[0])
-                                .startOf('day')
-                                .utcOffset(0)
-                                .format('YYYY-MM-DDTHH:mm:ss');
-                            const toDate = moment(rawValue[1]).endOf('day').utcOffset(0).format('YYYY-MM-DDTHH:mm:ss');
-
-                            acc.push({
-                                range: {
-                                    [filter]: {
-                                        gte: fromDate,
-                                        lte: toDate,
-                                    },
-                                },
-                            });
-                            break;
-
-                        case 'NumberRange':
-                            if (Number.isInteger(rawValue[0]) && Number.isInteger(rawValue[1])) {
-                                acc.push({
-                                    range: {
-                                        [filter]: {
-                                            gte: rawValue[0],
-                                            lte: rawValue[1],
-                                        },
-                                    },
-                                });
-                            }
-                            break;
-
                         default:
                             acc.push({
                                 match: { [filter]: rawValue },
