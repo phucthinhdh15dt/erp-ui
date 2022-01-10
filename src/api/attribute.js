@@ -103,11 +103,11 @@ export default axios => ({
             },
         ];
     },
-    createAttribute(data) {
+    createAttributeGroup(data) {
         return 1;
     },
 
-    getAttributeId(id) {
+    getAttributeGroupId(id) {
         return {
             id: id,
             category: {
@@ -119,6 +119,7 @@ export default axios => ({
                 name: 'OEM',
             },
             name: 'Test nè',
+            groupOrder: 1,
             attributes: [
                 {
                     id: 2,
@@ -139,7 +140,8 @@ export default axios => ({
             ],
         };
     },
-    removeAttributeId(id) {
+
+    removeAttributeGroupId(id) {
         return 'OK';
     },
 });

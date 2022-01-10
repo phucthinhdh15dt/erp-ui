@@ -39,7 +39,7 @@ const useCreate = () => {
 
         const data = store.state.attribute.create.data;
 
-        const response = api.attribute.createAttribute();
+        const response = api.attribute.createAttributeGroup();
 
         result.value = response;
         loading.value = false;
@@ -112,7 +112,7 @@ const useGetAttribute = () => {
         loading.value = true;
         errorMessage.value = '';
         result.value = '';
-        const response = await api.attribute.getAttributeId(id);
+        const response = await api.attribute.getAttributeGroupId(id);
         store.dispatch('attribute/setAttributeDetail', response);
         result.value = response;
         loading.value = false;
@@ -151,7 +151,7 @@ const useRemoveAttribute = () => {
         loading.value = true;
         errorMessage.value = '';
         result.value = '';
-        const response = await api.attribute.removeAttributeId(id);
+        const response = await api.attribute.removeAttributeGroupId(id);
 
         result.value = response;
 

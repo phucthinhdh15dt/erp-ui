@@ -38,13 +38,16 @@
                         <Option v-for="item in brands" :key="item.id" :value="item.name"> {{ item.name }}</Option>
                     </Select>
                 </FormItem>
+                <FormItem label="Số thứ tự" style="margin-left: 24px">
+                    <InputNumber v-model:value="modelRef.groupOrder" size="large" :min="1" :max="10000"></InputNumber>
+                </FormItem>
             </Col>
         </Row>
         <Properties />
     </Card>
 </template>
 <script>
-import { Card, Form, Select, Input, Col, Row } from 'ant-design-vue';
+import { Card, Form, Select, Input, Col, Row, InputNumber } from 'ant-design-vue';
 import { inject, ref, watch } from 'vue';
 import Properties from '@/components/attribute/create/properties.vue';
 import { useCreate } from '@/composables/attribute/create';
@@ -62,6 +65,7 @@ export default {
         Option,
         Row,
         Properties,
+        InputNumber,
     },
     setup() {
         const categorys = ref([]);

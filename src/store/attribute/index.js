@@ -11,6 +11,7 @@ export default {
                 brand: undefined,
                 name: '',
                 attributes: [],
+                groupOrder: 0,
             },
         },
         detail: {
@@ -19,6 +20,7 @@ export default {
                 brand: undefined,
                 name: '',
                 attributes: [],
+                groupOrder: 0,
             },
             isEdit: false,
         },

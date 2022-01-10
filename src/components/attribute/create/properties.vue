@@ -4,13 +4,13 @@
         <Row>
             <Col
                 v-if="modelRef.attributes && modelRef.attributes.length > 0"
-                :span="12"
+                :span="15"
                 style="margin-bottom: 0; width: 100%; margin-top: 24px"
                 class="AttributeChoose"
             >
                 <ul class="AttributeChoose__List">
                     <Row v-for="(item, idx) in modelRef.attributes" :key="idx" class="AttributeChoose__List__Item">
-                        <Col :span="11" style="padding-right: 20px">
+                        <Col :span="8" style="padding-right: 20px">
                             <Row>
                                 <label style="font-weight: bold">Thuộc tính {{ idx + 1 }}</label>
                             </Row>
@@ -25,7 +25,7 @@
                                 </Input>
                             </Row>
                         </Col>
-                        <Col :span="10">
+                        <Col :span="6">
                             <Row>
                                 <label style="font-weight: bold">Tính chất {{ idx + 1 }}</label>
                             </Row>
@@ -48,6 +48,37 @@
                             </Row>
                         </Col>
                         <Col :span="3">
+                            <label style="font-weight: bold">Số thứ tự</label>
+                            <Row align="bottom" style="margin-top: 20px">
+                                <InputNumber
+                                    v-model:value="item.attributeOrder"
+                                    size="large"
+                                    :min="1"
+                                    :max="10000"
+                                ></InputNumber>
+                            </Row>
+                        </Col>
+                        <Col :span="4">
+                            <label style="font-weight: bold">Vị trí</label>
+                            <Row align="bottom" style="margin-top: 20px">
+                                <Select
+                                    v-model:value="item.attributePosition"
+                                    placeholder="Chọn vị trí"
+                                    label-in-value
+                                    size="large"
+                                    style="width: 150px"
+                                >
+                                    <Option
+                                        v-for="position in AttributePosition"
+                                        :key="position.id"
+                                        :value="position.text"
+                                    >
+                                        {{ position.text }}</Option
+                                    >
+                                </Select>
+                            </Row>
+                        </Col>
+                        <Col :span="3">
                             <Row>&nbsp;</Row>
                             <Row align="bottom" style="margin-top: 20px">
                                 <Button type="primary" danger size="large" @click="onRemove(item)"
@@ -59,6 +90,7 @@
                 </ul>
             </Col>
         </Row>
+
         <Row>
             <Col :span="12">
                 <FormItem v-bind="validateInfos['attributes']" style="margin-top: 24px">
@@ -109,12 +141,13 @@
     </div>
 </template>
 <script>
-import { Input, Form, Dropdown, Col, Spin, Checkbox, Button, Row, Modal, Select } from 'ant-design-vue';
+import { Input, Form, Dropdown, Col, Spin, Checkbox, Button, Row, Modal, Select, InputNumber } from 'ant-design-vue';
 import { SearchOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons-vue';
 import { useStore } from 'vuex';
-import { computed, inject, ref, toRaw } from 'vue';
+import { inject, ref, toRaw } from 'vue';
 import { useProperties } from '@/composables/attribute/create';
 import { debounce } from 'lodash/fp';
+import { AttributePosition } from '@/constants/attribibute';
 
 const { Item: FormItem } = Form;
 const { Option } = Select;
@@ -134,6 +167,7 @@ export default {
         Select,
         Option,
         PlusOutlined,
+        InputNumber,
     },
     setup() {
         const store = useStore();
@@ -196,6 +230,8 @@ export default {
                     id: -1,
                     attributeName: undefined,
                     nature: undefined,
+                    attributeOrder: 0,
+                    attributePosition: undefined,
                     isAdd: true,
                 };
             } else {
@@ -204,6 +240,8 @@ export default {
                     id: Math.min(ids) - 1,
                     attributeName: undefined,
                     nature: undefined,
+                    attributeOrder: 0,
+                    attributePosition: undefined,
                     isAdd: true,
                 };
             }
@@ -249,6 +287,7 @@ export default {
             onNewProperties,
             isCheck,
             onSavePropertiesNew,
+            AttributePosition,
         };
     },
 };

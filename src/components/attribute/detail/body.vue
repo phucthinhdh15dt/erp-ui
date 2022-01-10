@@ -51,6 +51,18 @@
                             >
                         </Select>
                     </FormItem>
+                    <FormItem label="Số thứ tự" style="margin-left: 24px">
+                        <label v-if="!isEdit && modelRef.groupOrder" style="font-weight: bold">{{
+                            modelRef.groupOrder
+                        }}</label>
+                        <InputNumber
+                            v-else
+                            v-model:value="modelRef.groupOrder"
+                            size="large"
+                            :min="1"
+                            :max="10000"
+                        ></InputNumber>
+                    </FormItem>
                 </Col>
             </Row>
             <Properties />
@@ -58,7 +70,7 @@
     </Card>
 </template>
 <script>
-import { Card, Form, Select, Input, Col, Row } from 'ant-design-vue';
+import { Card, Form, Select, Input, Col, Row, InputNumber } from 'ant-design-vue';
 import { watch, ref, computed, reactive, inject } from 'vue';
 import Properties from '@/components/attribute/detail/properties.vue';
 import { useStore } from 'vuex';
@@ -79,6 +91,7 @@ export default {
         Row,
         Form,
         Properties,
+        InputNumber,
     },
     setup() {
         const store = useStore();
