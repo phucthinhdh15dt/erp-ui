@@ -72,7 +72,6 @@ const useProperties = () => {
         errorMessage.value = '';
         result.value = '';
         const response = await api.attribute.getProperties();
-
         // hardcode
         if (key) {
             result.value = response.filter(v => v.attributeName.toLowerCase().indexOf(key.toLowerCase()) >= 0);

@@ -157,6 +157,8 @@ export default {
             getNature,
         } = useProperties();
 
+        getProperties(searchKey.value);
+
         getNature();
         const onCreateProps = () => {};
 
