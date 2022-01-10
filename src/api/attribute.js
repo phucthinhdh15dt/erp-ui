@@ -1,66 +1,22 @@
-// import { apiGenerator } from '@/helpers/api';
-// import { API_NAME } from '@/configs/api';
+import { apiGenerator } from '@/helpers/api';
+import { API_NAME } from '@/configs/api';
 
 export default axios => ({
-    getCategory() {
-        // const api = apiGenerator(axios, API_NAME.SEARCH_ORDER_ES, { payload });
-        // return api.call();
-        return [
-            {
-                id: 1,
-                name: 'Trang chủ',
-            },
-            {
-                id: 2,
-                name: 'Dưỡng da',
-            },
-        ];
+    createAttributeSet(payload) {
+        const api = apiGenerator(axios, API_NAME.POST_ATTRIBUTE_SET, { payload });
+        return api.call();
     },
-    getBrand() {
-        // const api = apiGenerator(axios, API_NAME.SEARCH_ORDER_ES, { payload });
-        // return api.call();
-        return [
-            {
-                id: 1,
-                name: 'Blissbery',
-            },
-            {
-                id: 2,
-                name: 'OEM',
-            },
-        ];
+
+    getAttributeSetId(id) {
+        const api = apiGenerator(axios, API_NAME.GET_ATTRIBUTE_SET, { params: { id } });
+        return api.call();
     },
-    getProperties() {
-        // const api = apiGenerator(axios, API_NAME.SEARCH_ORDER_ES, { payload });
-        // return api.call();
-        return [
-            {
-                id: 1,
-                attributeName: 'Chiều dài sản phẩm',
-                nature: null,
-            },
-            {
-                id: 2,
-                attributeName: 'Chiều rộng sản phẩm',
-                nature: null,
-            },
-            {
-                id: 3,
-                attributeName: 'Chiều cao sản phẩm',
-                nature: null,
-            },
-            {
-                id: 4,
-                attributeName: 'Khối lượng sản phẩm',
-                nature: null,
-            },
-            {
-                id: 5,
-                attributeName: 'Đặc tính sản phẩm',
-                nature: null,
-            },
-        ];
+
+    getAttribute() {
+        const api = apiGenerator(axios, API_NAME.SEARCH_ORDER_ES, { payload });
+        return api.call();
     },
+
     getNature() {
         // const api = apiGenerator(axios, API_NAME.SEARCH_ORDER_ES, { payload });
         // return api.call();
@@ -102,43 +58,6 @@ export default axios => ({
                 natureName: 'Text Swatch',
             },
         ];
-    },
-    createAttributeGroup(data) {
-        return 1;
-    },
-
-    getAttributeGroupId(id) {
-        return {
-            id: id,
-            category: {
-                id: 2,
-                name: 'Dưỡng da',
-            },
-            brand: {
-                id: 2,
-                name: 'OEM',
-            },
-            name: 'Test nè',
-            groupOrder: 1,
-            attributes: [
-                {
-                    id: 2,
-                    attributeName: 'Thuộc tính test 1',
-                    nature: {
-                        id: 2,
-                        natureName: 'Thời gian',
-                    },
-                },
-                {
-                    id: 5,
-                    attributeName: 'Thuộc tính test 5',
-                    nature: {
-                        id: 3,
-                        natureName: 'Yes/No',
-                    },
-                },
-            ],
-        };
     },
 
     removeAttributeGroupId(id) {

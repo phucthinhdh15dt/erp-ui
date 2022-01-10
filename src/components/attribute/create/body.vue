@@ -6,12 +6,11 @@
                     <Select
                         v-model:value="modelRef.category"
                         label-in-value
-                        allow-clear
                         placeholder="Chọn ngành hàng"
                         size="large"
                         @change="onChangeCategory"
                     >
-                        <Option v-for="item in categorys" :key="item.id" :value="item.name"> {{ item.name }}</Option>
+                        <Option v-for="item in resultCate" :key="item.id" :value="item.name"> {{ item.name }}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="Tên nhóm thuộc tính" v-bind="validateInfos['name']">
@@ -35,7 +34,7 @@
                         size="large"
                         @change="onChangeBrand"
                     >
-                        <Option v-for="item in brands" :key="item.id" :value="item.name"> {{ item.name }}</Option>
+                        <Option v-for="item in resultBrand" :key="item.id" :value="item.name"> {{ item.name }}</Option>
                     </Select>
                 </FormItem>
                 <FormItem label="Số thứ tự" style="margin-left: 24px">
@@ -51,6 +50,8 @@ import { Card, Form, Select, Input, Col, Row, InputNumber } from 'ant-design-vue
 import { inject, ref, watch } from 'vue';
 import Properties from '@/components/attribute/create/properties.vue';
 import { useCreate } from '@/composables/attribute/create';
+import { useCommon } from '@/composables/common/common';
+import store from '@/store';
 
 const { Item: FormItem } = Form;
 const { Option } = Select;
@@ -68,13 +69,11 @@ export default {
         InputNumber,
     },
     setup() {
-        const categorys = ref([]);
-        const brands = ref([]);
         const modelRef = inject('modelRef');
         const form = inject('form');
         const { validateInfos } = form;
 
-        const { getCategory, getBrand, resultBrand, resultCate } = useCreate();
+        const { getCategory, getBrand, resultBrand, result: resultCate } = useCommon();
 
         getCategory();
 
@@ -82,29 +81,24 @@ export default {
             () => resultCate.value,
             () => {
                 if (resultCate.value) {
-                    categorys.value = resultCate.value;
                     getBrand();
                 }
             }
         );
 
-        watch(
-            () => resultBrand.value,
-            () => {
-                if (resultBrand.value) {
-                    brands.value = resultBrand.value;
-                }
-            }
-        );
+        const onChangeCategory = (value, option) => {
+            debugger;
+            store.commit('attribute/setAttributeCreateCategory', option);
+        };
 
-        const onChangeCategory = () => {};
-
-        const onChangeBrand = () => {};
+        const onChangeBrand = (value, option) => {
+            store.commit('attribute/setAttributeCreateBrand', option);
+        };
         return {
             modelRef,
-            categorys,
+            resultCate,
             onChangeCategory,
-            brands,
+            resultBrand,
             onChangeBrand,
             validateInfos,
         };

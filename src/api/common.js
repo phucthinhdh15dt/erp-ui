@@ -2,14 +2,12 @@ import { apiGenerator } from '@/helpers/api';
 import { API_NAME } from '@/configs/api';
 
 export default axios => ({
-    //location
-    getLocation({ name, parentId, type }) {
-        const api = apiGenerator(axios, API_NAME.GET_LOCATION, { query: { name, parentId, type } });
+    getCategory(payload) {
+        const api = apiGenerator(axios, API_NAME.GET_CATEGORY, { payload });
         return api.call();
     },
-    //user
-    getUser(phone) {
-        const api = apiGenerator(axios, API_NAME.GET_USER, { query: { phone } });
+    getBrand(payload) {
+        const api = apiGenerator(axios, API_NAME.GET_BRAND, { payload });
         return api.call();
     },
 });

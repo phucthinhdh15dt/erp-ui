@@ -31,7 +31,7 @@ export default {
         const modelRef = inject('modelRef');
         const form = inject('form');
         const { validate, resetFields } = form;
-        const { result, createAttribute } = useCreate();
+        const { result, createAttributeSet } = useCreate();
         const isEnableSave = computed(() => {
             const data = store.state.attribute.create.data;
             if (!data.category || !data.name || !data.attributes) {
@@ -77,7 +77,7 @@ export default {
                         okText: 'Xác nhận',
                         cancelText: 'Đóng',
                         centered: true,
-                        onOk: createAttribute,
+                        onOk: createAttributeSet,
                     });
                 })
                 .catch(error => {

@@ -39,7 +39,7 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const route = useRoute();
-        const { getAttributeId } = useGetAttribute();
+        const { getAttributeSetId } = useGetAttribute();
         const attributeId = computed(() => route.params.id);
         const modelRef = computed(() => store.state.attribute.detail.data);
         provide('attributeId', attributeId);
@@ -48,7 +48,7 @@ export default defineComponent({
             attributeId,
             () => {
                 if (attributeId.value) {
-                    getAttributeId(attributeId.value);
+                    getAttributeSetId(attributeId.value);
                 }
             },
             { immediate: true }

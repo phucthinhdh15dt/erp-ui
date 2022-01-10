@@ -15,7 +15,7 @@
                             size="large"
                             @change="onChangeCategory"
                         >
-                            <Option v-for="item in categorys" :key="item.id" :value="item.name">
+                            <Option v-for="item in resultCate" :key="item.id" :value="item.name">
                                 {{ item.name }}</Option
                             >
                         </Select>
@@ -75,7 +75,7 @@ import { watch, ref, computed, reactive, inject } from 'vue';
 import Properties from '@/components/attribute/detail/properties.vue';
 import { useStore } from 'vuex';
 
-import { useCreate } from '@/composables/attribute/create';
+import { useCommon } from '@/composables/common/common';
 
 const { Item: FormItem } = Form;
 const { Option } = Select;
@@ -96,7 +96,6 @@ export default {
     setup() {
         const store = useStore();
 
-        const categorys = ref([]);
         const state = reactive({
             categoryName: undefined,
             brandName: undefined,
@@ -108,7 +107,7 @@ export default {
 
         const isEdit = computed(() => store.state.attribute.detail.isEdit);
 
-        const { getCategory, getBrand, resultBrand, resultCate } = useCreate();
+        const { getCategory, getBrand, resultBrand, result: resultCate } = useCommon();
 
         getCategory();
 
@@ -116,7 +115,6 @@ export default {
             () => resultCate.value,
             () => {
                 if (resultCate.value) {
-                    categorys.value = resultCate.value;
                     getBrand();
                 }
             }
@@ -165,7 +163,7 @@ export default {
         return {
             isEdit,
             modelRef,
-            categorys,
+            resultCate,
             resultBrand,
             onChangeBrand,
             onChangeCategory,

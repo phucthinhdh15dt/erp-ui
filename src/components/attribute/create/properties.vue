@@ -179,19 +179,19 @@ export default {
         const searchKey = ref('');
 
         const {
-            getProperties,
+            getAttribute,
             result: attributeSuggestion,
             resultNature: natureSuggestion,
             loading,
             getNature,
         } = useProperties();
 
-        getProperties(searchKey.value);
+        getAttribute(searchKey.value);
 
         getNature();
         const onCreateProps = () => {};
 
-        const onSearch = debounce(300)(key => getProperties(key));
+        const onSearch = debounce(300)(key => getAttribute(key));
 
         const onChange = e => onSearch(e.target.value);
 
