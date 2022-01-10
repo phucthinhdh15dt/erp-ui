@@ -116,7 +116,7 @@ export default axios => ({
             },
             brand: {
                 id: 2,
-                name: 'Bách hóa xanh',
+                name: 'OEM',
             },
             name: 'Test nè',
             attributes: [
