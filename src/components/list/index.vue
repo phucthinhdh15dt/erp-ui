@@ -7,7 +7,9 @@
                 </template>
             </SearchBar>
             <FilterTags :filter-configs="filterConfigs" />
-            <ResultTable :columns="columns" :search-configs="searchConfigs" />
+            <slot name="ResultTable">
+                <ResultTable :columns="columns" :search-configs="searchConfigs" />
+            </slot>
         </Form>
     </div>
 </template>
