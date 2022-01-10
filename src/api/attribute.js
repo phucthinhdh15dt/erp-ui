@@ -26,7 +26,7 @@ export default axios => ({
             },
             {
                 id: 2,
-                name: 'Bach hóa xanh',
+                name: 'OEM',
             },
         ];
     },
@@ -76,6 +76,30 @@ export default axios => ({
             {
                 id: 3,
                 natureName: 'Yes/No',
+            },
+            {
+                id: 4,
+                natureName: 'Drop down',
+            },
+            {
+                id: 5,
+                natureName: 'Multiple select',
+            },
+            {
+                id: 6,
+                natureName: 'Price',
+            },
+            {
+                id: 7,
+                natureName: 'Media image',
+            },
+            {
+                id: 8,
+                natureName: 'Visual Swatch',
+            },
+            {
+                id: 9,
+                natureName: 'Text Swatch',
             },
         ];
     },
