@@ -11,12 +11,12 @@
                 <template #icon>
                     <FormOutlined />
                 </template>
-                <template #title>Quản lý thuộc tính</template>
+                <template #title>QL nhóm thuộc tính</template>
                 <router-link to="/attribute/create">
-                    <MenuItem key="1.1">Tạo thuộc tính</MenuItem>
+                    <MenuItem key="1.1">Tạo nhóm thuộc tính</MenuItem>
                 </router-link>
                 <router-link to="/attribute/list">
-                    <MenuItem key="1.2">Danh sách Thuộc tính</MenuItem>
+                    <MenuItem key="1.2">Ds nhóm thuộc tính</MenuItem>
                 </router-link>
             </SubMenu>
         </Menu>

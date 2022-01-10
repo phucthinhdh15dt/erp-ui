@@ -17,8 +17,9 @@
 </template>
 <script>
 import { Row, Button, Modal, message } from 'ant-design-vue';
-import { h, inject, watch } from 'vue';
+import { computed, h, inject, watch } from 'vue';
 import { useCreate } from '@/composables/attribute/create';
+import { useStore } from 'vuex';
 
 export default {
     components: {
@@ -26,10 +27,23 @@ export default {
         Row,
     },
     setup() {
+        const store = useStore();
         const modelRef = inject('modelRef');
         const form = inject('form');
         const { validate, resetFields } = form;
         const { result, createAttribute } = useCreate();
+        const isEnableSave = computed(() => {
+            const data = store.state.attribute.create.data;
+            if (!data.category || !data.name || !data.attributes) {
+                if (data.attributes.length > 0) {
+                    const index = data.attributes.findIndex(f => !f.attributeName || !f.nature);
+                    if (index >= 0) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        });
 
         const onCancel = () => {
             Modal.confirm({
@@ -93,7 +107,7 @@ export default {
             },
             { deep: true }
         );
-        return { onCancel, onCreate, modelRef };
+        return { onCancel, onCreate, modelRef, isEnableSave };
     },
 };
 </script>
