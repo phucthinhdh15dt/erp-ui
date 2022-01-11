@@ -1,7 +1,7 @@
 <template>
     <Card style="min-height: 400px">
-        <Row type="flex">
-            <Col :span="8">
+        <Row class="AttributeBody">
+            <Col :span="8" class="AttributeBody__Item">
                 <FormItem label="Ngành hàng" v-bind="validateInfos['category']">
                     <Select
                         v-model:value="modelRef.category"
@@ -13,19 +13,9 @@
                         <Option v-for="item in resultCate" :key="item.id" :value="item.name"> {{ item.name }}</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="Tên nhóm thuộc tính" v-bind="validateInfos['name']">
-                    <Input
-                        v-model:value="modelRef.name"
-                        name="name"
-                        :maxlength="80"
-                        placeholder="Tên nhóm thuộc tính"
-                        size="large"
-                    />
-                </FormItem>
             </Col>
-
-            <Col :span="8">
-                <FormItem label="Thương hiệu" v-bind="validateInfos['brand']" style="margin-left: 24px">
+            <Col :span="8" class="AttributeBody__Item">
+                <FormItem label="Thương hiệu" v-bind="validateInfos['brand']">
                     <Select
                         v-model:value="modelRef.brand"
                         label-in-value
@@ -37,10 +27,9 @@
                         <Option v-for="item in resultBrand" :key="item.id" :value="item.name"> {{ item.name }}</Option>
                     </Select>
                 </FormItem>
-                <FormItem label="Số thứ tự" style="margin-left: 24px">
-                    <InputNumber v-model:value="modelRef.groupOrder" size="large" :min="1" :max="10000"></InputNumber>
-                </FormItem>
-                <FormItem label="Vị trí" v-bind="validateInfos['layoutPosition']" style="margin-left: 24px">
+            </Col>
+            <Col :span="4" class="AttributeBody__Item">
+                <FormItem label="Vị trí" v-bind="validateInfos['layoutPosition']">
                     <Select
                         v-model:value="modelRef.layoutPosition"
                         placeholder="Chọn vị trí"
@@ -52,6 +41,23 @@
                             {{ position.text }}</Option
                         >
                     </Select>
+                </FormItem>
+            </Col>
+
+            <Col :span="8" class="AttributeBody__Item">
+                <FormItem label="Tên nhóm thuộc tính" v-bind="validateInfos['name']">
+                    <Input
+                        v-model:value="modelRef.name"
+                        name="name"
+                        :maxlength="80"
+                        placeholder="Tên nhóm thuộc tính"
+                        size="large"
+                    />
+                </FormItem>
+            </Col>
+            <Col :span="8" class="AttributeBody__Item">
+                <FormItem label="Số thứ tự">
+                    <InputNumber v-model:value="modelRef.groupOrder" size="large" :min="1" :max="10000"></InputNumber>
                 </FormItem>
             </Col>
         </Row>
@@ -119,4 +125,10 @@ export default {
     },
 };
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.AttributeBody {
+    &__Item {
+        padding-right: 24px;
+    }
+}
+</style>

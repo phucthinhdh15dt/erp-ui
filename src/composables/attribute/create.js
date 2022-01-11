@@ -58,11 +58,13 @@ const useProperties = () => {
             },
         };
         const response = await api.attribute.getAttribute(payload);
-        // hardcode
-        if (key) {
-            result.value = response.filter(v => v.attributeName.toLowerCase().indexOf(key.toLowerCase()) >= 0);
-        } else {
-            result.value = response;
+        if (response.data) {
+            // hardcode
+            if (key) {
+                result.value = response.data.filter(v => v.attributeName.toLowerCase().indexOf(key.toLowerCase()) >= 0);
+            } else {
+                result.value = response.data;
+            }
         }
         loading.value = false;
     };

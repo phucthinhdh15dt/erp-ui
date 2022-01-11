@@ -59,7 +59,7 @@ export default {
             });
         };
         const removeAttribute = () => {
-            removeAttributeId(attributeId);
+            removeAttributeId(attributeId.value);
         };
 
         watch(

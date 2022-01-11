@@ -4,6 +4,7 @@ export const API_NAME = {
     GET_CATEGORY: 'GET_CATEGORY',
     GET_ATTRIBUTE_SET: 'GET_ATTRIBUTE_SET',
     GET_ATTRIBUTE: 'GET_ATTRIBUTE',
+    DELETE_ATTRIBUTE_SET: 'GET_ATTRIBUTE_SET',
 };
 
 const MODULE = {
@@ -43,5 +44,11 @@ export default {
         endpoint: 'search',
         version: 'v1',
         method: 'POST',
+    },
+    [API_NAME.DELETE_ATTRIBUTE_SET]: {
+        module: MODULE.AttributeSet,
+        endpoint: '${ id }',
+        version: 'v1',
+        method: 'DELETE',
     },
 };
