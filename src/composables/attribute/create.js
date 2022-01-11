@@ -15,14 +15,21 @@ const useCreate = () => {
         debugger;
 
         const data = store.state.attribute.create.data;
+        let attributeItem = [];
+        debugger;
+        if (data.attributes && data.attributes.length > 0) {
+            attributeItem = data.attributes.map(m => ({
+                attrOrder: m.attributeOrder,
+                group: m.attributeName,
+                layoutPosition: m.attributePosition.key,
+            }));
+        }
         const payload = {
-            attributeIds: [],
+            attributeItems: attributeItem,
             brandCode: data.brand.key,
             categoryCode: data.category.key,
             id: 0,
             name: data.name,
-            groupOrder: data.groupOrder,
-            layoutPosition: data.layoutPosition,
         };
 
         const response = await api.attribute.createAttributeSet(payload);

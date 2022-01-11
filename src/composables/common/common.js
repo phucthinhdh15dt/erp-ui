@@ -22,7 +22,10 @@ const useCommon = () => {
         };
         const response = await api.common.getCategory(query);
         if (response.data) {
-            result.value = response.data.hits;
+            const data = response.data.hits.filter(f => f.code && f.name);
+            if (data) {
+                result.value = data;
+            }
         }
 
         loading.value = false;
@@ -38,7 +41,10 @@ const useCommon = () => {
         };
         const response = await api.common.getBrand(query);
         if (response.data) {
-            resultBrand.value = response.data.hits;
+            const data = response.data.hits.filter(f => f.code && f.name);
+            if (data) {
+                resultBrand.value = data;
+            }
         }
 
         loading.value = false;

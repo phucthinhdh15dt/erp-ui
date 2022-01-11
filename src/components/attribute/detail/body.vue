@@ -1,89 +1,67 @@
 <template>
     <Card style="min-height: 400px">
         <Row class="AttributeDetailBody">
-            <Col :span="8" class="AttributeDetailBody__Item">
-                <FormItem label="Ngành hàng" v-bind="validateInfos.category">
-                    <label v-if="!isEdit && modelRef.category" style="font-weight: bold">{{
-                        modelRef.category.name
-                    }}</label>
-                    <Select
-                        v-else
-                        v-model:value="state.categoryName"
-                        allow-clear
-                        placeholder="Chọn ngành hàng"
-                        size="large"
-                        @change="onChangeCategory"
-                    >
-                        <Option v-for="item in resultCate" :key="item.id" :value="item.name"> {{ item.name }}</Option>
-                    </Select>
-                </FormItem>
-            </Col>
-            <Col :span="8" class="AttributeDetailBody__Item">
-                <FormItem label="Thương hiệu">
-                    <label v-if="!isEdit && modelRef.brand" style="font-weight: bold">{{ modelRef.brand.name }}</label>
-                    <Select
-                        v-else
-                        v-model:value="state.brandName"
-                        allow-clear
-                        placeholder="Chọn thương hiệu"
-                        size="large"
-                        @change="onChangeBrand"
-                    >
-                        <Option v-for="item in resultBrand" :key="item.id" :value="item.name"> {{ item.name }}</Option>
-                    </Select>
-                </FormItem>
-            </Col>
-            <Col :span="8" class="AttributeDetailBody__Item">
-                <FormItem label="Vị trí">
-                    <label v-if="!isEdit && modelRef.layoutPosition" style="font-weight: bold">{{
-                        modelRef.layoutPosition
-                    }}</label>
-                    <Select
-                        v-model:value="modelRef.layoutPosition"
-                        placeholder="Chọn vị trí"
-                        label-in-value
-                        size="large"
-                        style="width: 150px"
-                    >
-                        <Option v-for="position in AttributePosition" :key="position.id" :value="position.text">
-                            {{ position.text }}</Option
+            <Row>
+                <Col :span="8" class="AttributeDetailBody__Item">
+                    <FormItem label="Ngành hàng" v-bind="validateInfos.category">
+                        <label v-if="!isEdit && modelRef.category" style="font-weight: bold">{{
+                            modelRef.category.name
+                        }}</label>
+                        <Select
+                            v-else
+                            v-model:value="state.categoryName"
+                            allow-clear
+                            placeholder="Chọn ngành hàng"
+                            size="large"
+                            @change="onChangeCategory"
                         >
-                    </Select>
-                </FormItem>
-            </Col>
-            <Col :span="8" class="AttributeDetailBody__Item">
-                <FormItem label="Tên nhóm thuộc tính" v-bind="validateInfos.name">
-                    <label v-if="!isEdit" style="font-weight: bold">{{ modelRef.name }}</label>
-                    <Input
-                        v-else
-                        v-model:value="modelRef.name"
-                        name="name"
-                        :maxlength="80"
-                        placeholder="Tên nhóm thuộc tính"
-                        size="large"
-                    />
-                </FormItem>
-            </Col>
-            <Col :span="8" class="AttributeDetailBody__Item">
-                <FormItem label="Số thứ tự">
-                    <label v-if="!isEdit && modelRef.groupOrder" style="font-weight: bold">{{
-                        modelRef.groupOrder
-                    }}</label>
-                    <InputNumber
-                        v-else
-                        v-model:value="modelRef.groupOrder"
-                        size="large"
-                        :min="1"
-                        :max="10000"
-                    ></InputNumber>
-                </FormItem>
-            </Col>
+                            <Option v-for="item in resultCate" :key="item.code" :value="item.name">
+                                {{ item.name }}</Option
+                            >
+                        </Select>
+                    </FormItem>
+                </Col>
+                <Col :span="8" class="AttributeDetailBody__Item">
+                    <FormItem label="Thương hiệu">
+                        <label v-if="!isEdit && modelRef.brand" style="font-weight: bold">{{
+                            modelRef.brand.name
+                        }}</label>
+                        <Select
+                            v-else
+                            v-model:value="state.brandName"
+                            allow-clear
+                            placeholder="Chọn thương hiệu"
+                            size="large"
+                            @change="onChangeBrand"
+                        >
+                            <Option v-for="item in resultBrand" :key="item.code" :value="item.name">
+                                {{ item.name }}</Option
+                            >
+                        </Select>
+                    </FormItem>
+                </Col>
+            </Row>
+            <Row>
+                <Col :span="8" class="AttributeDetailBody__Item">
+                    <FormItem label="Tên nhóm thuộc tính" v-bind="validateInfos.name">
+                        <label v-if="!isEdit" style="font-weight: bold">{{ modelRef.name }}</label>
+                        <Input
+                            v-else
+                            v-model:value="modelRef.name"
+                            name="name"
+                            :maxlength="80"
+                            placeholder="Tên nhóm thuộc tính"
+                            size="large"
+                        />
+                    </FormItem>
+                </Col>
+            </Row>
         </Row>
         <Properties />
     </Card>
 </template>
 <script>
-import { Card, Form, Select, Input, Col, Row, InputNumber } from 'ant-design-vue';
+import { Card, Form, Select, Input, Col, Row } from 'ant-design-vue';
 import { watch, ref, computed, reactive, inject } from 'vue';
 import Properties from '@/components/attribute/detail/properties.vue';
 import { useStore } from 'vuex';
@@ -103,7 +81,6 @@ export default {
         Option,
         Row,
         Properties,
-        InputNumber,
     },
     setup() {
         const store = useStore();

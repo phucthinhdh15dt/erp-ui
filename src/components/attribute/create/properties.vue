@@ -64,14 +64,15 @@
                                 <Select
                                     v-model:value="item.attributePosition"
                                     placeholder="Chọn vị trí"
-                                    label-in-value
                                     size="large"
                                     style="width: 150px"
+                                    label-in-value
+                                    @change="onChangePosition"
                                 >
                                     <Option
                                         v-for="position in AttributePosition"
                                         :key="position.id"
-                                        :value="position.text"
+                                        :value="position.value"
                                     >
                                         {{ position.text }}</Option
                                     >
@@ -271,6 +272,8 @@ export default {
             }
         };
 
+        const onChangePosition = (value, option) => {};
+
         return {
             modelRef,
             validateInfos,
@@ -288,6 +291,7 @@ export default {
             isCheck,
             onSavePropertiesNew,
             AttributePosition,
+            onChangePosition,
         };
     },
 };
