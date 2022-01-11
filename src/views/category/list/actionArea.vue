@@ -86,26 +86,19 @@
                 <Button key="submit" type="primary" :loading="progress.total > 0" @click="onConfirm">Xác nhận</Button>
             </template>
         </Modal>
-        <!-- <ReceiptTemplate :order-data="receiptData" /> -->
     </div>
 </template>
 
-<script setup>
-</script>
 <script>
-import { defineComponent, watch, computed, inject, toRaw, ref, reactive } from 'vue';
-import { Button, message, Modal, Progress, Form, List, Input, Row, Col, Select } from 'ant-design-vue';
+import { defineComponent, watch, computed, inject, toRaw, ref, reactive, createVNode } from 'vue';
+import { Button, message, Modal, Progress, Form, List, Input, Select } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { useCreateCategory, useUpdateCategory } from '@/composables/product/category';
-// import { useGetOperationStatus, useGetCancelReason, useExportExcel } from '@/composables/order/common';
-import { flow, map, getOr, mapKeys } from 'lodash/fp';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons-vue';
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 
 const { Item: FormItem } = Form;
 const { Item: ListItem } = List;
 const { TextArea } = Input;
-
-const useForm = Form.useForm;
 
 export default defineComponent({
     name: 'ActionArea',
@@ -147,7 +140,9 @@ export default defineComponent({
             }))
         );
 
-        const title = computed(() => (processingItem.value ? 'Chỉnh sửa ngành hàng' : 'Tạo ngành hàng mới'));
+        const title = computed(() =>
+            processingItem.value ? `Chỉnh sửa ngành hàng ${processingItem.value.id}` : 'Tạo ngành hàng mới'
+        );
 
         const progress = computed(() => store.state.list.progress);
 
@@ -185,12 +180,26 @@ export default defineComponent({
                         categoryType: 'CAMPAIGN',
                     };
                     if (processingItem.value) {
-                        updateCategory(payload);
+                        Modal.confirm({
+                            content: 'Xác nhận lưu bản chỉnh sửa này',
+                            icon: createVNode(ExclamationCircleOutlined),
+                            onOk() {
+                                updateCategory(payload);
+                                visible.value = false;
+                                formRef.value.resetFields();
+                                processingItem.value = null;
+                            },
+                            cancelText: 'Quay lại',
+                            okText: 'Xác nhận',
+                            onCancel() {},
+                        });
                     } else {
                         createCategory(payload);
+                        visible.value = false;
+                        formRef.value.resetFields();
+                        processingItem.value = null;
                     }
-                    visible.value = false;
-                    formRef.value.resetFields();
+
                     console.log('reset formState: ', toRaw(formState));
                 })
                 .catch(info => {
