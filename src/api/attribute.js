@@ -12,8 +12,8 @@ export default axios => ({
         return api.call();
     },
 
-    getAttribute() {
-        const api = apiGenerator(axios, API_NAME.SEARCH_ORDER_ES, { payload });
+    getAttribute(payload) {
+        const api = apiGenerator(axios, API_NAME.GET_ATTRIBUTE, { payload });
         return api.call();
     },
 

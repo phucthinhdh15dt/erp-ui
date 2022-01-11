@@ -17,10 +17,12 @@ const useCreate = () => {
         const data = store.state.attribute.create.data;
         const payload = {
             attributeIds: [],
-            brandId: data.brand.key,
-            categoryId: data.category.key,
+            brandCode: data.brand.key,
+            categoryCode: data.category.key,
             id: 0,
             name: data.name,
+            groupOrder: data.groupOrder,
+            layoutPosition: data.layoutPosition,
         };
 
         const response = await api.attribute.createAttributeSet(payload);
@@ -49,7 +51,13 @@ const useProperties = () => {
         loading.value = true;
         errorMessage.value = '';
         result.value = '';
-        const response = await api.attribute.getAttribute();
+
+        const payload = {
+            query: {
+                match_all: {},
+            },
+        };
+        const response = await api.attribute.getAttribute(payload);
         // hardcode
         if (key) {
             result.value = response.filter(v => v.attributeName.toLowerCase().indexOf(key.toLowerCase()) >= 0);

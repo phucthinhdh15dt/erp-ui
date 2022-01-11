@@ -40,17 +40,30 @@
                 <FormItem label="Số thứ tự" style="margin-left: 24px">
                     <InputNumber v-model:value="modelRef.groupOrder" size="large" :min="1" :max="10000"></InputNumber>
                 </FormItem>
+                <FormItem label="Vị trí" v-bind="validateInfos['layoutPosition']" style="margin-left: 24px">
+                    <Select
+                        v-model:value="modelRef.layoutPosition"
+                        placeholder="Chọn vị trí"
+                        label-in-value
+                        size="large"
+                        style="width: 150px"
+                    >
+                        <Option v-for="position in AttributePosition" :key="position.id" :value="position.text">
+                            {{ position.text }}</Option
+                        >
+                    </Select>
+                </FormItem>
             </Col>
         </Row>
         <Properties />
     </Card>
 </template>
 <script>
-import { Card, Form, Select, Input, Col, Row, InputNumber } from 'ant-design-vue';
+import { Card, Form, Select, Input, Col, Row, InputNumber, message } from 'ant-design-vue';
 import { inject, ref, watch } from 'vue';
 import Properties from '@/components/attribute/create/properties.vue';
-import { useCreate } from '@/composables/attribute/create';
 import { useCommon } from '@/composables/common/common';
+import { AttributePosition } from '@/constants/attribibute';
 import store from '@/store';
 
 const { Item: FormItem } = Form;
@@ -73,7 +86,7 @@ export default {
         const form = inject('form');
         const { validateInfos } = form;
 
-        const { getCategory, getBrand, resultBrand, result: resultCate } = useCommon();
+        const { getCategory, errorMessage, getBrand, resultBrand, result: resultCate } = useCommon();
 
         getCategory();
 
@@ -101,6 +114,7 @@ export default {
             resultBrand,
             onChangeBrand,
             validateInfos,
+            AttributePosition,
         };
     },
 };

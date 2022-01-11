@@ -12,6 +12,7 @@ export default {
                 name: '',
                 attributes: [],
                 groupOrder: 0,
+                layoutPosition: null,
             },
         },
         detail: {
@@ -21,6 +22,7 @@ export default {
                 name: '',
                 attributes: [],
                 groupOrder: 0,
+                layoutPosition: null,
             },
             isEdit: false,
         },
