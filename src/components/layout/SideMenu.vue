@@ -7,18 +7,15 @@
             </div>
         </router-link>
         <Menu :selected-keys="[menuKey]" :open-keys="openKeys" theme="dark" mode="inline" class="LayoutSider__Menu">
-            <SubMenu key="1">
-                <template #icon>
-                    <FormOutlined />
-                </template>
-                <template #title>Quản lý gì đó</template>
-                <!--  <router-link to="/order/create">
-                    <MenuItem key="1.1">Tạo đơn hàng</MenuItem>
-                </router-link>
-                <router-link to="/order/list">
+            <!-- <template #title>Quản lý ngành hàng</template> -->
+            <router-link to="/category">
+                <MenuItem key="1.1">
+                    <template #icon> <FormOutlined /> </template> Quản lý ngành hàng
+                </MenuItem>
+            </router-link>
+            <!--   <router-link to="/order/list">
                     <MenuItem key="1.2">Danh sách đơn hàng</MenuItem>
                 </router-link> -->
-            </SubMenu>
         </Menu>
     </LayoutSider>
 </template>
@@ -37,8 +34,8 @@ export default defineComponent({
     components: {
         FormOutlined,
         Menu,
-        // MenuItem,
-        SubMenu,
+        MenuItem,
+        // SubMenu,
         LayoutSider,
     },
     props: {

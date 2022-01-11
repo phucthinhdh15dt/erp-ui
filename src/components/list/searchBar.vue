@@ -5,6 +5,7 @@
                 ref="inputRef"
                 v-model:value="localKeyword"
                 class="SearchBar__Input"
+                enter-button
                 :placeholder="searchConfigs.placeholder"
                 allow-clear
                 @search="onSearchEnter"

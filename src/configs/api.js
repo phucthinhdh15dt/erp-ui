@@ -1,18 +1,32 @@
 export const API_NAME = {
-    // MODULE.ORDER
-    GET_ORDER: 'GET_ORDER',
+    // MODULE.PRODUCT_CATEGORY
+    SEARCH_PRODUCT_CATEGORY: 'SEARCH_PRODUCT_CATEGORY',
+    CREATE_CATEGORY: 'CREATE_CATEGORY',
+    UPDATE_CATEGORY: 'UPDATE_CATEGORY',
 };
 
 const MODULE = {
-    ORDER: 'order',
+    PRODUCT_CATEGORY: 'product-category',
 };
 
 export default {
-    // MODULE.ORDER_INDEX
-    [API_NAME.SEARCH_ORDER]: {
-        module: MODULE.ORDER_INDEX,
+    // MODULE.PRODUCT_CATEGORY
+    [API_NAME.SEARCH_CATEGORY]: {
+        module: MODULE.PRODUCT_CATEGORY,
         endpoint: 'search',
         version: 'v1',
-        method: 'GET',
+        method: 'POST',
+    },
+    [API_NAME.CREATE_CATEGORY]: {
+        module: MODULE.PRODUCT_CATEGORY,
+        endpoint: '',
+        version: 'v1',
+        method: 'POST',
+    },
+    [API_NAME.UPDATE_CATEGORY]: {
+        module: MODULE.PRODUCT_CATEGORY,
+        endpoint: '',
+        version: 'v1',
+        method: 'PUT',
     },
 };

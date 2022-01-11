@@ -4,6 +4,7 @@ import { useAuth } from '@/composables/auth/index';
 import { nextTick } from 'vue';
 
 const Login = () => import('@/views/auth/login.vue');
+const CategoryList = () => import('@/views/category/list.vue');
 
 const routes = [
     {
@@ -24,58 +25,58 @@ const routes = [
             layout: 'blank',
         },
     },
-    // {
-    //     path: '/order',
-    //     name: 'Order',
-    //     component: Order,
-    //     meta: {
-    //         title: 'Đơn hàng',
-    //         breadCrumb: 'Đơn hàng',
-    //         authRequired: true,
-    //         layout: 'default',
-    //     },
-    //     children: [
-    //         {
-    //             name: 'OrderDetail',
-    //             path: ':id',
-    //             component: OrderDetail,
-    //             meta: {
-    //                 title: 'Đơn hàng',
-    //                 breadCrumb: 'Chi tiết đơn hàng',
-    //                 authRequired: true,
-    //                 layout: 'default',
-    //                 subMenuKey: '1',
-    //                 menuKey: '1.3',
-    //             },
-    //         },
-    //         {
-    //             name: 'OrderList',
-    //             path: 'list',
-    //             component: OrderList,
-    //             meta: {
-    //                 title: 'Đơn hàng',
-    //                 breadCrumb: 'Danh sách đơn hàng',
-    //                 authRequired: true,
-    //                 layout: 'default',
-    //                 subMenuKey: '1',
-    //                 menuKey: '1.2',
-    //             },
-    //         },
-    //         {
-    //             name: 'OrderCreate',
-    //             path: 'create',
-    //             component: OrderCreate,
-    //             meta: {
-    //                 title: 'Đơn hàng',
-    //                 breadCrumb: 'Tạo đơn hàng',
-    //                 authRequired: true,
-    //                 layout: 'default',
-    //                 subMenuKey: '1',
-    //                 menuKey: '1.1',
-    //             },
-    //         },
-    //     ],
-    // },
+    {
+        path: '/category',
+        name: 'CategoryList',
+        component: CategoryList,
+        meta: {
+            title: 'Ngành hàng',
+            breadCrumb: 'Ngành hàng',
+            authRequired: true,
+            layout: 'default',
+        },
+        children: [
+            // {
+            //     name: 'OrderDetail',
+            //     path: ':id',
+            //     component: OrderDetail,
+            //     meta: {
+            //         title: 'Đơn hàng',
+            //         breadCrumb: 'Chi tiết đơn hàng',
+            //         authRequired: true,
+            //         layout: 'default',
+            //         subMenuKey: '1',
+            //         menuKey: '1.3',
+            //     },
+            // },
+            {
+                name: 'OrderList',
+                path: 'list',
+                component: CategoryList,
+                meta: {
+                    title: 'Đơn hàng',
+                    breadCrumb: 'Danh sách ngành hàng',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '1',
+                    menuKey: '1.2',
+                },
+            },
+            // {
+            //     name: 'OrderCreate',
+            //     path: 'create',
+            //     component: OrderCreate,
+            //     meta: {
+            //         title: 'Đơn hàng',
+            //         breadCrumb: 'Tạo đơn hàng',
+            //         authRequired: true,
+            //         layout: 'default',
+            //         subMenuKey: '1',
+            //         menuKey: '1.1',
+            //     },
+            // },
+        ],
+    },
 ];
 
 const router = createRouter({
