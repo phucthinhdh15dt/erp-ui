@@ -79,7 +79,6 @@ export default {
             () => result,
             () => {
                 if (result.value) {
-                    debugger;
                     Modal.info({
                         title: 'Tạo nhóm thuộc tính thành công',
                         content: () =>

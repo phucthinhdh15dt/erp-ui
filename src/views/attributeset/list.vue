@@ -44,13 +44,6 @@ export const columns = [
         width: 200,
         align: 'center',
     },
-    {
-        title: 'Loại',
-        dataIndex: 'type',
-        key: 'type',
-        width: 150,
-        align: 'center',
-    },
 ];
 
 const searchConfigs = {
@@ -64,24 +57,17 @@ const filters = [
     {
         type: 'Text',
         label: 'Danh mục',
-        name: 'items.category.name',
+        name: 'items.categoryName',
     },
     {
         type: 'Text',
         label: 'Thương hiệu',
-        name: 'items.name.name',
-    },
-    {
-        type: 'Type',
-        label: 'Loại',
-        name: 'items.type',
+        name: 'items.brandName',
     },
 ];
 
 const sortConfigs = [
-    {
-        createdAt: { id: 'desc', format: 'strict_date_optional_time_nanos' },
-    },
+
 ];
 
 export default defineComponent({

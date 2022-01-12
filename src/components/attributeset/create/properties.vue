@@ -87,6 +87,12 @@
                                 </Select>
                             </Row>
                         </Col>
+                        <Col :span="2" style="padding-right: 20px">
+                            <label style="font-weight: bold; text-align: center; display: block">Biến thể</label>
+                            <Row align="center" style="margin-top: 20px">
+                                <Checkbox v-model:checked="item.isVariant"></Checkbox>
+                            </Row>
+                        </Col>
                         <Col :span="2">
                             <Row>&nbsp;</Row>
                             <Row align="bottom" style="margin-top: 20px">
@@ -207,6 +213,7 @@ export default {
                 attributeOrder: 1,
                 groupOrder: 1,
                 groupName: '',
+                isVariant: false,
             };
             store.dispatch('attributeSet/addAttributeSet', data);
             searchKey.value = '';

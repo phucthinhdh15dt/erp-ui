@@ -21,4 +21,9 @@ export default axios => ({
         const api = apiGenerator(axios, API_NAME.DELETE_ATTRIBUTE_SET, { params: { id } });
         return api.call();
     },
+
+    getUpdateAttributeSet(payload) {
+        const api = apiGenerator(axios, API_NAME.PUT_ATTRIBUTE_SET, { payload });
+        return api.call();
+    },
 });

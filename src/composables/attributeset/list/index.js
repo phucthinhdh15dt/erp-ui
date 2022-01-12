@@ -45,16 +45,16 @@ const useSearch = () => {
         }
 
         const payload = {
-            // sort: sortConfigs,
+            sort: sortConfigs,
             // from: offset,
             from: 0,
             // size: limit,
             size: 5,
         };
 
-        // if (sortConfigs) {
-        //     payload.sort = sortConfigs;
-        // }
+        if (sortConfigs) {
+            payload.sort = sortConfigs;
+        }
 
         if (!isEmpty(bool)) {
             payload.query = {

@@ -36,7 +36,7 @@ export default defineComponent({
             });
         };
         const onCreate = () => {
-            router.push('/attribute/create');
+            router.push('/attributeSet/create');
         };
 
         const removeAttributeList = () => {

@@ -107,10 +107,32 @@ const useGetAttributeSet = () => {
         loading.value = true;
         errorMessage.value = '';
         result.value = '';
-        const data = store.state.attribute.detail.data;
-        const response = await api.attributeSet.getUpdateAttributeSet(data);
+        const data = store.state.attributeSet.detail.data;
+
+        let attributeItem = [];
+        if (data.attributes && data.attributes.length > 0) {
+            attributeItem = data.attributes.map(m => ({
+                attrOrder: m.attrOrder,
+                attributeCode: m.attributeCode,
+                group: m.group,
+                groupOrder: m.groupOrder,
+                layoutPosition: m.layoutPosition,
+            }));
+        }
+        const payload = {
+            attributeItems: attributeItem,
+            brandCode: data.brand.code,
+            categoryCode: data.category.code,
+            name: data.name,
+            id: data.id,
+        };
+        debugger;
+        const response = await api.attributeSet.getUpdateAttributeSet(payload);
         if (response.data) {
-            store.dispatch('attributeSet/setAttributeSetDetail', response.data);
+            const detailResponse = await api.attributeSet.getAttributeSetId(response.data);
+            if (detailResponse.data) {
+                store.dispatch('attributeSet/setAttributeSetDetail', detailResponse.data);
+            }
         }
         result.value = response;
         loading.value = false;

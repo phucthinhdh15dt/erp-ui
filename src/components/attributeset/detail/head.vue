@@ -44,13 +44,13 @@ export default {
                 // if (index < 0) {
                 //     return true;
                 // }
-                return false;
+                return true;
             }
-            return true;
+            return false;
         });
 
         const { result, removeAttributeSetId } = useRemoveAttributeSet();
-        const { getUpdateAttributeSet } = useGetAttributeSet();
+        const { getUpdateAttributeSet, result: resultUpdate, loading: loadingUpdate } = useGetAttributeSet();
 
         const onRemove = () => {
             Modal.confirm({
@@ -94,17 +94,11 @@ export default {
         };
 
         const onSave = () => {
-            debugger;
             if (modelRef.value.attributes.length >= 0) {
-                const exits = modelRef.value.attributes.filter(_ => !_.id || _.id <= 0);
-                if (exits) {
-                    const index = modelRef.value.attributes.findIndex(
-                        _ => !_.id || !_.attributeName || !_.nature || (!_.nature.key && !_.nature.id)
-                    );
-                    if (index >= 0) {
-                        message.warning('Vui lòng kiểm tra lại danh sách thuộc tính');
-                        return;
-                    }
+                var index = modelRef.value.attributes.findIndex(_ => !_.id || !_.layoutPosition || _.attrOrder <= 0);
+                if (index >= 0) {
+                    message.warning('Vui lòng kiểm tra lại danh sách thuộc tính');
+                    return;
                 }
             }
             validate().then(() => {
@@ -118,6 +112,18 @@ export default {
                 });
             });
         };
+
+        watch(
+            () => resultUpdate.value,
+            () => {
+                if (resultUpdate.value && !loadingUpdate.value) {
+                    message.success('Cập nhật thông tin thành công');
+                    setTimeout(() => {
+                        window.location.reload(true);
+                    }, 500);
+                }
+            }
+        );
 
         return {
             onRemove,

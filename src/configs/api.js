@@ -6,6 +6,7 @@ export const API_NAME = {
     GET_ATTRIBUTE: 'GET_ATTRIBUTE',
     DELETE_ATTRIBUTE_SET: 'DELETE_ATTRIBUTE_SET',
     SEARCH_ATTRIBUTE_SET: 'SEARCH_ATTRIBUTE_SET',
+    PUT_ATTRIBUTE_SET: 'PUT_ATTRIBUTE_SET',
 };
 
 const MODULE = {
@@ -57,5 +58,11 @@ export default {
         endpoint: 'search',
         version: 'v1',
         method: 'POST',
+    },
+    [API_NAME.PUT_ATTRIBUTE_SET]: {
+        module: MODULE.AttributeSet,
+        endpoint: '',
+        version: 'v1',
+        method: 'PUT',
     },
 };

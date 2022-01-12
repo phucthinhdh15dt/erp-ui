@@ -128,8 +128,9 @@ export default {
 
         const onChangeCategory = (value, option) => {
             if (option !== undefined) {
-                const object = resultCate.value.find(f => f.id === option.key);
+                const object = resultCate.value.find(f => f.code === option.key);
                 if (object) {
+                    state.categoryName = object.label;
                     store.commit('attributeSet/setDetailAttributeCategory', object);
                     return;
                 }
@@ -139,7 +140,7 @@ export default {
 
         const onChangeBrand = (value, option) => {
             if (option !== undefined) {
-                const object = resultBrand.value.find(f => f.id === option.key);
+                const object = resultBrand.value.find(f => f.code === option.key);
                 if (object) {
                     store.commit('attributeSet/setDetailAttributeBrand', object);
                     return;
