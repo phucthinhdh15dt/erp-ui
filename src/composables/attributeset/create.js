@@ -149,4 +149,28 @@ const useRemoveAttributeSet = () => {
     };
 };
 
-export { useCreate, useProperties, useGetAttributeSet, useRemoveAttributeSet };
+const useRemoveAttributeSetList = () => {
+    const api = inject('api');
+    const store = useStore();
+    const loading = ref(false);
+    const errorMessage = ref('');
+    const result = ref({});
+
+    const removeAttributeSetIds = async ids => {
+        loading.value = true;
+        errorMessage.value = '';
+        result.value = '';
+        const response = await api.attributeSet.removeAttributeSetIds(ids);
+        result.value = response;
+        loading.value = false;
+    };
+
+    return {
+        loading,
+        result,
+        errorMessage,
+        removeAttributeSetIds,
+    };
+};
+
+export { useCreate, useProperties, useGetAttributeSet, useRemoveAttributeSet, useRemoveAttributeSetList };

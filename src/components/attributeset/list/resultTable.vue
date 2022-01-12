@@ -32,6 +32,8 @@ import { defineComponent, computed, inject, watch } from 'vue';
 import { Table, Radio } from 'ant-design-vue';
 import { useStore } from 'vuex';
 
+const { Group } = Radio;
+
 export default defineComponent({
     name: 'AttributeSetResult',
     components: { Table, Radio },

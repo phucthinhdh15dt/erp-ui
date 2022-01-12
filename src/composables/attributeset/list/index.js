@@ -72,13 +72,26 @@ const useSearch = () => {
         const payload = collectSearchPayload(searchQuery);
         const response = await api.search[`search${name}`](payload);
         const data = cloneDeep(response.data);
-
         if (data) {
+            const list = data.hits.map(m => ({
+                id: m.id,
+                name: m.name,
+                categoryId: m.category ? m.category.id : 0,
+                categoryCode: m.category ? m.category.code : 0,
+                categoryName: m.category ? m.category.name : '',
+                categoryType: m.category ? m.category.type : undefined,
+                categoryDescription: m.category ? m.category.description : '',
+                brandId: m.brand ? m.brand.id : 0,
+                brandCode: m.brand ? m.brand.code : 0,
+                brandName: m.brand ? m.brand.name : '',
+            }));
+
+            const dataList = list.slice(offset, offset + limit);
             store.commit('attributeSet/setSearchResults', {
-                data: data.hits.slice(offset, offset + limit),
+                data: dataList,
                 total: data.total,
             });
-            store.commit('attributeSet/setAllResults', { data: data.hits, total: data.total });
+            store.commit('attributeSet/setAllResults', { data: list, total: data.total });
         }
 
         store.commit('attributeSet/setSearchLoading', false);

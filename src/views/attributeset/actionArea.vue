@@ -1,26 +1,63 @@
 <template>
     <div class="ActionArea">
         <Button type="primary" class="mr-12" @click="onCreate"><PlusOutlined /> Tạo mới </Button>
-        <Button type="primary" danger @click="onDelete"><EditOutlined />Xóa</Button>
+        <Button type="primary" danger :disabled="!selectedRowKeys || selectedRowKeys.length <= 0" @click="onDelete"
+            ><EditOutlined />Xóa</Button
+        >
     </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue';
-import { Button } from 'ant-design-vue';
+import { defineComponent, computed, watch, inject } from 'vue';
+import { Button, Modal, message } from 'ant-design-vue';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import { useRemoveAttributeSetList } from '@/composables/attributeset/create';
 
 export default defineComponent({
     name: 'ActionArea',
     components: { Button, EditOutlined, PlusOutlined },
     setup() {
         const router = useRouter();
-        const onDelete = () => {};
+        const store = useStore();
+        const selectedRowKeys = computed(() => store.state.attributeSet.list.data.selectedRow);
+        const { result, removeAttributeSetIds } = useRemoveAttributeSetList();
+        const onSearch = inject('onSearch');
+
+        const onDelete = () => {
+            Modal.confirm({
+                title: 'Bạn chắc chắn muốn xóa các nhóm thuộc tính đã chọn?',
+                content: 'Lưu ý khi xoá sẽ không khôi phục lại được.',
+                okText: 'Xác nhận',
+                cancelText: 'Đóng',
+                centered: true,
+                onOk: removeAttributeList,
+            });
+        };
         const onCreate = () => {
             router.push('/attribute/create');
         };
-        return { onDelete, onCreate };
+
+        const removeAttributeList = () => {
+            removeAttributeSetIds(selectedRowKeys);
+        };
+
+        watch(
+            () => result.value,
+            () => {
+                if (result.value) {
+                    message.success('Xóa thông tin thành công');
+                    onSearch();
+                }
+            }
+        );
+
+        return {
+            onDelete,
+            onCreate,
+            selectedRowKeys,
+        };
     },
 });
 </script>
