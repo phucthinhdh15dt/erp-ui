@@ -17,9 +17,14 @@
                             <Row>
                                 <label style="font-weight: bold">Thuộc tính {{ idx + 1 }}</label>
                             </Row>
-                            <Row style="margin-top: 20px">
-                                <label v-if="!item.isAdd" style="margin-left: 20px">{{ item.label }}</label>
-                                <Input v-else v-model:value="item.label" placeholder="Nhập tên thuộc tính" size="large">
+                            <Row v-if="item.attribute" align="bottom" style="margin-top: 20px">
+                                <label v-if="!item.isAdd" style="margin-left: 20px">{{ item.attribute.label }}</label>
+                                <Input
+                                    v-else
+                                    v-model:value="item.attribute.label"
+                                    placeholder="Nhập tên thuộc tính"
+                                    size="large"
+                                >
                                 </Input>
                             </Row>
                         </Col>
@@ -27,7 +32,7 @@
                             <Row>
                                 <label style="font-weight: bold">Tính chất {{ idx + 1 }}</label>
                             </Row>
-                            <Row style="margin-top: 20px">
+                            <Row align="bottom" style="margin-top: 20px">
                                 <label>{{ getAttributeItemType(item) }}</label>
                             </Row>
                         </Col>
@@ -36,7 +41,7 @@
                                 <label style="font-weight: bold">Tên nhóm</label>
                             </Row>
                             <Row align="bottom" style="margin-top: 20px">
-                                <label v-if="!item.isAdd">{{ item.group || 'Không rõ' }}</label>
+                                <label v-if="!isEdit">{{ item.group || 'Không rõ' }}</label>
                                 <Input v-else v-model:value="item.group" placeholder="Nhập tên nhóm" size="large">
                                 </Input>
                             </Row>
@@ -44,7 +49,7 @@
                         <Col :span="2" style="padding-right: 20px">
                             <label style="font-weight: bold">Thứ tự nhóm</label>
                             <Row align="bottom" style="margin-top: 20px">
-                                <label v-if="!item.isAdd">{{ item.groupOrder || 0 }}</label>
+                                <label v-if="!isEdit">{{ item.groupOrder || 0 }}</label>
                                 <InputNumber
                                     v-else
                                     v-model:value="item.groupOrder"
@@ -63,7 +68,7 @@
                         <Col :span="2">
                             <label style="font-weight: bold">Số thứ tự</label>
                             <Row align="bottom" style="margin-top: 20px">
-                                <label v-if="!item.isAdd">{{ item.attrOrder || 0 }}</label>
+                                <label v-if="!isEdit">{{ item.attrOrder || 0 }}</label>
                                 <InputNumber
                                     v-else
                                     v-model:value="item.attrOrder"
@@ -81,7 +86,7 @@
                         <Col :span="3">
                             <label style="font-weight: bold">Vị trí</label>
                             <Row align="bottom" style="margin-top: 20px">
-                                <label v-if="!item.isAdd">{{ getPositionAttributeItem(item) }}</label>
+                                <label v-if="!isEdit">{{ getPositionAttributeItem(item).text }}</label>
                                 <Select
                                     v-else
                                     v-model:value="item.layoutPosition"
@@ -93,7 +98,7 @@
                                     <Option
                                         v-for="position in AttributeItemPosition"
                                         :key="position.id"
-                                        :value="position.text"
+                                        :value="position.value"
                                     >
                                         {{ position.text }}</Option
                                     >
@@ -103,7 +108,8 @@
                         <Col :span="2" style="padding-right: 20px">
                             <label style="font-weight: bold; text-align: center; display: block">Biến thể</label>
                             <Row align="center" style="margin-top: 20px">
-                                <Checkbox v-model:checked="item.isVariant"></Checkbox>
+                                <label v-if="!isEdit">{{ item.isVariant ? 'Có' : 'Không' }}</label>
+                                <Checkbox v-else v-model:checked="item.isVariant"></Checkbox>
                             </Row>
                         </Col>
                         <Col v-if="isEdit" :span="2">
@@ -221,7 +227,7 @@ export default {
             debugger;
             const foundAttribute = attributeSuggestion.value.find(_ => _.id === value.id);
             if (foundAttribute) {
-                store.dispatch('attributeSet/addDetailAttribute', toRaw(foundAttribute));
+                store.dispatch('attributeSet/addDetailAttributeSet', toRaw(foundAttribute));
             }
             searchKey.value = '';
         };
@@ -274,8 +280,8 @@ export default {
         };
 
         const getAttributeItemType = item => {
-            if (item && item.type) {
-                const data = AttributeItemType.find(f => f.value === item.type);
+            if (item && item.attribute && item.attribute.uiComponentType) {
+                const data = AttributeItemType.find(f => f.value === item.attribute.uiComponentType);
                 if (data) {
                     return data.text;
                 }
@@ -286,7 +292,7 @@ export default {
             if (item && item.layoutPosition) {
                 const data = AttributeItemPosition.find(f => f.value === item.layoutPosition);
                 if (data) {
-                    return data.text;
+                    return data;
                 }
             }
             return 'Không rõ';

@@ -113,10 +113,10 @@ const useGetAttributeSet = () => {
         if (data.attributes && data.attributes.length > 0) {
             attributeItem = data.attributes.map(m => ({
                 attrOrder: m.attrOrder,
-                attributeCode: m.attributeCode,
+                attributeCode: m.attribute.code,
                 group: m.group,
                 groupOrder: m.groupOrder,
-                layoutPosition: m.layoutPosition,
+                layoutPosition: m.layoutPosition.key,
             }));
         }
         const payload = {
