@@ -24,7 +24,7 @@ const useCommon = () => {
         if (response.data) {
             const data = response.data.hits.filter(f => f.code && f.name);
             if (data) {
-                result.value = data;
+                result.value = data.map(m => ({ id: m.id, code: m.code, label: m.name, type: m.categoryType }));
             }
         }
 
@@ -43,7 +43,7 @@ const useCommon = () => {
         if (response.data) {
             const data = response.data.hits.filter(f => f.code && f.name);
             if (data) {
-                resultBrand.value = data;
+                resultBrand.value = data.map(m => ({ id: m.id, code: m.code, label: m.name }));
             }
         }
 

@@ -3,15 +3,7 @@
         <div class="card-head-title font-18 font-bold">Nhóm thuộc tính</div>
         <div class="mt-12">
             <Button type="primary" danger class="mr-12" @click="onCancel">Hủy bỏ</Button>
-            <Button
-                type="primary"
-                class="confirm"
-                :disabled="
-                    !modelRef.category || !modelRef.name || !modelRef.attributes || modelRef.attributes.length <= 0
-                "
-                @click="onCreate"
-                >Xác nhận</Button
-            >
+            <Button type="primary" class="confirm" :disabled="!isEnableSave" @click="onCreate">Xác nhận</Button>
         </div>
     </Row>
 </template>
@@ -33,14 +25,13 @@ export default {
         const { validate, resetFields } = form;
         const { result, createAttributeSet } = useCreate();
         const isEnableSave = computed(() => {
-            const data = store.state.attribute.create.data;
-            if (!data.category || !data.name || !data.attributes) {
-                if (data.attributes.length > 0) {
-                    const index = data.attributes.findIndex(f => !f.attributeName || !f.nature);
-                    if (index >= 0) {
-                        return true;
-                    }
-                }
+            const data = store.state.attributeSet.create.data;
+            if (data.category && data.name && data.attributes && data.attributes.length > 0) {
+                // const index = data.attributes.findIndex(f => f.id && f.type);
+                // if (index < 0) {
+                //     return true;
+                // }
+                return true;
             }
             return false;
         });
@@ -60,13 +51,12 @@ export default {
         };
         const onCreate = () => {
             if (modelRef.value.attributes.length >= 0) {
-                var exits = modelRef.value.attributes.filter(_ => !_.id || _.id <= 0);
-                if (exits) {
-                    var index = modelRef.value.attributes.findIndex(_ => !_.id || !_.nature || !_.nature.key);
-                    if (index >= 0) {
-                        message.warning('Vui lòng kiểm tra lại danh sách thuộc tính');
-                        return;
-                    }
+                var index = modelRef.value.attributes.findIndex(
+                    _ => !_.id || !_.attributePosition || _.attributeOrder <= 0
+                );
+                if (index >= 0) {
+                    message.warning('Vui lòng kiểm tra lại danh sách thuộc tính');
+                    return;
                 }
             }
             validate()
@@ -95,7 +85,7 @@ export default {
                         content: () =>
                             h('div', {}, [
                                 'Mã nhóm thuộc tính ',
-                                h('a', { href: `/attribute/${result.value}` }, `#${result.value}`),
+                                h('a', { href: `/attributeSet/${result.value}` }, `#${result.value}`),
                             ]),
                         okText: 'Đóng',
                         centered: true,

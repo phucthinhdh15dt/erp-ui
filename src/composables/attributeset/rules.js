@@ -5,6 +5,11 @@ export default {
             message: 'Vui lòng chọn ngành hàng',
         },
     ],
+    brand: [
+        {
+            required: false,
+        },
+    ],
     name: [
         {
             required: true,

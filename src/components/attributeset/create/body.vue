@@ -11,8 +11,8 @@
                             size="large"
                             @change="onChangeCategory"
                         >
-                            <Option v-for="item in resultCate" :key="item.code" :value="item.name">
-                                {{ item.name }}</Option
+                            <Option v-for="item in resultCate" :key="item.code" :value="item.code">
+                                {{ item.label }}</Option
                             >
                         </Select>
                     </FormItem>
@@ -22,13 +22,12 @@
                         <Select
                             v-model:value="modelRef.brand"
                             label-in-value
-                            allow-clear
                             placeholder="Chọn thương hiệu"
                             size="large"
                             @change="onChangeBrand"
                         >
-                            <Option v-for="item in resultBrand" :key="item.code" :value="item.name">
-                                {{ item.name }}</Option
+                            <Option v-for="item in resultBrand" :key="item.code" :value="item.code">
+                                {{ item.label }}</Option
                             >
                         </Select>
                     </FormItem>
@@ -56,7 +55,7 @@ import { Card, Form, Select, Input, Col, Row } from 'ant-design-vue';
 import { inject, ref, watch } from 'vue';
 import Properties from '@/components/attributeset/create/properties.vue';
 import { useCommon } from '@/composables/common/common';
-import store from '@/store';
+import { useStore } from 'vuex';
 
 const { Item: FormItem } = Form;
 const { Option } = Select;
@@ -73,6 +72,7 @@ export default {
         Properties,
     },
     setup() {
+        const store = useStore();
         const modelRef = inject('modelRef');
         const form = inject('form');
         const { validateInfos } = form;
@@ -91,11 +91,11 @@ export default {
         );
 
         const onChangeCategory = (value, option) => {
-            store.commit('attributeset/setAttributeCreateCategory', option);
+            store.commit('attributeSet/setAttributeSetCreateCategory', option);
         };
 
         const onChangeBrand = (value, option) => {
-            store.commit('attributeset/setAttributeCreateBrand', option);
+            store.commit('attributeSet/setAttributeSetCreateBrand', option);
         };
         return {
             modelRef,

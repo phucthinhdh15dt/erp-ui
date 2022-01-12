@@ -1,36 +1,35 @@
 import { cloneDeep } from 'lodash';
 
-const addAttribute = (context, data) => {
+const addAttributeSet = (context, data) => {
     const { state } = context;
     const attributes = state.create.data.attributes;
     const foundAttribute = attributes.findIndex(_ => _.id === data.id);
     if (foundAttribute < 0) {
-        context.commit('setAttributeCreateListAttribute', [...attributes, data]);
+        context.commit('setAttributeSetCreateListAttribute', [...attributes, data]);
     } else {
         attributes.splice(foundAttribute, 1);
-        context.commit('setAttributeCreateListAttribute', cloneDeep(attributes));
+        context.commit('setAttributeSetCreateListAttribute', cloneDeep(attributes));
     }
 };
 
-const updateAttribute = (context, data) => {
-    debugger;
+const updateAttributeSet = (context, data) => {
     const { state } = context;
     const attributes = state.create.data.attributes;
     const foundAttribute = attributes.findIndex(_ => _.id === data.id);
     if (foundAttribute >= 0) {
         attributes[foundAttribute] = data;
-        context.commit('setAttributeCreateListAttribute', cloneDeep(attributes));
+        context.commit('setAttributeSetCreateListAttribute', cloneDeep(attributes));
     }
 };
 
-const removeAttribute = (context, data) => {
+const removeAttributeSet = (context, data) => {
     const { state } = context;
     const attributes = state.create.data.attributes;
 
     const index = attributes.findIndex(_ => _.id === data.id);
     if (index >= 0) {
         attributes.splice(index, 1);
-        context.commit('setAttributeCreateListAttribute', cloneDeep(attributes));
+        context.commit('setAttributeSetCreateListAttribute', cloneDeep(attributes));
     }
 };
 
@@ -38,14 +37,14 @@ const setAttributeDetail = (context, data) => {
     context.commit('setAttributeDetail', data);
 };
 
-const removeDetailAttribute = (context, data) => {
+const removeDetailAttributeSet = (context, data) => {
     const { state } = context;
     const attributes = state.detail.data.attributes;
 
     const index = attributes.findIndex(_ => _.id === data.id);
     if (index >= 0) {
         attributes.splice(index, 1);
-        context.commit('setDetailAttributeProperties', cloneDeep(attributes));
+        context.commit('setDetailAttributeSetProperties', cloneDeep(attributes));
     }
 };
 
@@ -54,18 +53,18 @@ const addDetailAttribute = (context, data) => {
     const attributes = state.detail.data.attributes;
     const foundAttribute = attributes.findIndex(_ => _.id === data.id);
     if (foundAttribute < 0) {
-        context.commit('setDetailAttributeProperties', [...attributes, data]);
+        context.commit('setDetailAttributeSetProperties', [...attributes, data]);
     } else {
         attributes.splice(foundAttribute, 1);
-        context.commit('setDetailAttributeProperties', cloneDeep(attributes));
+        context.commit('setDetailAttributeSetProperties', cloneDeep(attributes));
     }
 };
 
 export default {
-    addAttribute,
-    removeAttribute,
+    addAttributeSet,
+    removeAttributeSet,
     setAttributeDetail,
-    removeDetailAttribute,
+    removeDetailAttributeSet,
     addDetailAttribute,
-    updateAttribute,
+    updateAttributeSet,
 };

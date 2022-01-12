@@ -14,13 +14,15 @@ const useCreate = () => {
         result.value = '';
         debugger;
 
-        const data = store.state.attribute.create.data;
+        const data = store.state.attributeSet.create.data;
         let attributeItem = [];
         debugger;
         if (data.attributes && data.attributes.length > 0) {
             attributeItem = data.attributes.map(m => ({
                 attrOrder: m.attributeOrder,
-                group: m.attributeName,
+                attributeCode: m.code,
+                group: m.groupName,
+                groupOrder: m.groupOrder,
                 layoutPosition: m.attributePosition.key,
             }));
         }
@@ -28,11 +30,10 @@ const useCreate = () => {
             attributeItems: attributeItem,
             brandCode: data.brand.key,
             categoryCode: data.category.key,
-            id: 0,
             name: data.name,
         };
 
-        const response = await api.attribute.createAttributeSet(payload);
+        const response = await api.attributeSet.createAttributeSet(payload);
 
         result.value = response.data;
         loading.value = false;
@@ -50,7 +51,6 @@ const useProperties = () => {
     const api = inject('api');
     const store = useStore();
     const result = ref({});
-    const resultNature = ref({});
     const errorMessage = ref('');
     const loading = ref(false);
 
@@ -64,25 +64,16 @@ const useProperties = () => {
                 match_all: {},
             },
         };
-        const response = await api.attribute.getAttribute(payload);
+        const response = await api.attributeSet.getAttribute(payload);
         if (response.data) {
             // hardcode
             if (key) {
-                result.value = response.data.filter(v => v.attributeName.toLowerCase().indexOf(key.toLowerCase()) >= 0);
+                result.value = response.data.hits.filter(v => v.label.toLowerCase().indexOf(key.toLowerCase()) >= 0);
             } else {
-                result.value = response.data;
+                result.value = response.data.hits;
             }
+            result.value = result.value.map(m => ({ id: m.id, code: m.code, label: m.label, type: m.uiComponentType }));
         }
-        loading.value = false;
-    };
-
-    const getNature = async () => {
-        loading.value = true;
-        errorMessage.value = '';
-        resultNature.value = '';
-        const response = await api.attribute.getNature();
-
-        resultNature.value = response;
         loading.value = false;
     };
 
@@ -91,8 +82,6 @@ const useProperties = () => {
         result,
         loading,
         errorMessage,
-        getNature,
-        resultNature,
     };
 };
 

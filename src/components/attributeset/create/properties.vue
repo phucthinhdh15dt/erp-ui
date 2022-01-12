@@ -4,50 +4,52 @@
         <Row>
             <Col
                 v-if="modelRef.attributes && modelRef.attributes.length > 0"
-                :span="15"
                 style="margin-bottom: 0; width: 100%; margin-top: 24px"
                 class="AttributeSetChoose"
             >
                 <ul class="AttributeSetChoose__List">
                     <Row v-for="(item, idx) in modelRef.attributes" :key="idx" class="AttributeSetChoose__List__Item">
-                        <Col :span="8" style="padding-right: 20px">
+                        <Col :span="5" style="padding-right: 20px">
                             <Row>
                                 <label style="font-weight: bold">Thuộc tính {{ idx + 1 }}</label>
                             </Row>
                             <Row style="margin-top: 20px">
-                                <label v-if="!item.isAdd" style="margin-left: 20px">{{ item.attributeName }}</label>
-                                <Input
-                                    v-else
-                                    v-model:value="item.attributeName"
-                                    placeholder="Nhập tên thuộc tính"
-                                    size="large"
-                                >
-                                </Input>
+                                <label style="margin-left: 20px">{{ item.label }}</label>
                             </Row>
                         </Col>
-                        <Col :span="6">
+                        <Col :span="3" style="padding-right: 20px">
                             <Row>
                                 <label style="font-weight: bold">Tính chất {{ idx + 1 }}</label>
                             </Row>
                             <Row style="margin-top: 20px">
-                                <Select
-                                    v-model:value="item.nature"
-                                    placeholder="Chọn tính chất"
-                                    label-in-value
-                                    size="large"
-                                    style="width: 200px"
-                                >
-                                    <Option
-                                        v-for="nature in natureSuggestion"
-                                        :key="nature.id"
-                                        :value="nature.natureName"
-                                    >
-                                        {{ nature.natureName }}</Option
-                                    >
-                                </Select>
+                                <label>{{ getAttributeItemType(item) }}</label>
                             </Row>
                         </Col>
-                        <Col :span="3">
+                        <Col :span="4" style="padding-right: 20px">
+                            <label style="font-weight: bold">Tên nhóm</label>
+                            <Row align="bottom" style="margin-top: 20px">
+                                <Input v-model:value="item.groupName" placeholder="Nhập tên nhóm" size="large"> </Input>
+                            </Row>
+                        </Col>
+
+                        <Col :span="2" style="padding-right: 20px">
+                            <label style="font-weight: bold">Thứ tự nhóm</label>
+                            <Row align="bottom" style="margin-top: 20px">
+                                <InputNumber
+                                    v-model:value="item.groupOrder"
+                                    size="large"
+                                    :min="1"
+                                    :max="10000"
+                                    style="width: 100%"
+                                    :formatter="
+                                        value => `${value}`.replace('.', '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                    "
+                                    :parser="value => value.replace('.', '').replace(/\$\s?|(,*)/g, '')"
+                                    :step="1"
+                                ></InputNumber>
+                            </Row>
+                        </Col>
+                        <Col :span="2" style="padding-right: 20px">
                             <label style="font-weight: bold">Số thứ tự</label>
                             <Row align="bottom" style="margin-top: 20px">
                                 <InputNumber
@@ -55,17 +57,23 @@
                                     size="large"
                                     :min="1"
                                     :max="10000"
+                                    style="width: 100%"
+                                    :formatter="
+                                        value => `${value}`.replace('.', '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                    "
+                                    :parser="value => value.replace('.', '').replace(/\$\s?|(,*)/g, '')"
+                                    :step="1"
                                 ></InputNumber>
                             </Row>
                         </Col>
-                        <Col :span="4">
+                        <Col :span="3" style="padding-right: 20px">
                             <label style="font-weight: bold">Vị trí</label>
                             <Row align="bottom" style="margin-top: 20px">
                                 <Select
                                     v-model:value="item.attributePosition"
                                     placeholder="Chọn vị trí"
                                     size="large"
-                                    style="width: 150px"
+                                    style="width: 100%"
                                     label-in-value
                                     @change="onChangePosition"
                                 >
@@ -79,7 +87,7 @@
                                 </Select>
                             </Row>
                         </Col>
-                        <Col :span="3">
+                        <Col :span="2">
                             <Row>&nbsp;</Row>
                             <Row align="bottom" style="margin-top: 20px">
                                 <Button type="primary" danger size="large" @click="onRemove(item)"
@@ -129,7 +137,7 @@
                                             :checked="isCheck(item)"
                                             :disabled="false"
                                             @change="() => onSelect(item)"
-                                            >{{ item.attributeName }}</Checkbox
+                                            >{{ item.label }}</Checkbox
                                         >
                                     </Row>
                                 </li>
@@ -148,7 +156,7 @@ import { useStore } from 'vuex';
 import { inject, ref, toRaw } from 'vue';
 import { useProperties } from '@/composables/attributeset/create';
 import { debounce } from 'lodash/fp';
-import { AttributeItemPosition } from '@/constants/attributeItem';
+import { AttributeItemPosition, AttributeItemType } from '@/constants/attributeItem';
 
 const { Item: FormItem } = Form;
 const { Option } = Select;
@@ -179,17 +187,10 @@ export default {
         const lstProperties = ref([]);
         const searchKey = ref('');
 
-        const {
-            getAttribute,
-            result: attributeSuggestion,
-            resultNature: natureSuggestion,
-            loading,
-            getNature,
-        } = useProperties();
+        const { getAttribute, result: attributeSuggestion, loading } = useProperties();
 
         getAttribute(searchKey.value);
 
-        getNature();
         const onCreateProps = () => {};
 
         const onSearch = debounce(300)(key => getAttribute(key));
@@ -197,10 +198,18 @@ export default {
         const onChange = e => onSearch(e.target.value);
 
         const onSelect = value => {
-            const foundAttribute = attributeSuggestion.value.find(_ => _.id === value.id);
-            if (foundAttribute) {
-                store.dispatch('attribute/addAttribute', toRaw(foundAttribute));
-            }
+            debugger;
+            const data = {
+                code: value.code,
+                id: value.id,
+                label: value.label,
+                type: value.type,
+                attributePosition: AttributeItemPosition[0],
+                attributeOrder: 1,
+                groupOrder: 1,
+                groupName: '',
+            };
+            store.dispatch('attributeSet/addAttributeSet', data);
             searchKey.value = '';
         };
 
@@ -218,7 +227,7 @@ export default {
         };
 
         const removeProperties = item => {
-            store.dispatch('attribute/removeAttribute', item);
+            store.dispatch('attributeSet/removeAttribute', item);
         };
 
         const onChangeNature = (value, e) => {};
@@ -246,7 +255,7 @@ export default {
                     isAdd: true,
                 };
             }
-            store.dispatch('attribute/addAttribute', properties);
+            store.dispatch('attributeSet/addAttribute', properties);
         };
 
         const isCheck = item => {
@@ -257,23 +266,16 @@ export default {
             return true;
         };
 
-        const onSavePropertiesNew = item => {
-            debugger;
-            var index = modelRef.value.attributes.findIndex(_ => _.id == item.id);
-            if (index >= 0) {
-                const nature = natureSuggestion.value.find(f => f.natureName === item.nature.key);
-                if (nature) {
-                    let value = modelRef.value.attributes[index];
-
-                    value.nature = nature;
-                    // update lại
-                    store.dispatch('attribute/updateAttribute', value);
+        const onChangePosition = (value, option) => {};
+        const getAttributeItemType = item => {
+            if (item && item.type) {
+                const data = AttributeItemType.find(f => f.value === item.type);
+                if (data) {
+                    return data.text;
                 }
             }
+            return 'Không rõ';
         };
-
-        const onChangePosition = (value, option) => {};
-
         return {
             modelRef,
             validateInfos,
@@ -285,13 +287,13 @@ export default {
             loading,
             onSelect,
             onRemove,
-            natureSuggestion,
             onChangeNature,
             onNewProperties,
             isCheck,
-            onSavePropertiesNew,
             AttributeItemPosition,
             onChangePosition,
+            AttributeItemType,
+            getAttributeItemType,
         };
     },
 };

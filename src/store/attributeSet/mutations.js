@@ -1,16 +1,16 @@
 const setAttributeCreate = (state, data) => {
     state.create.data = data;
 };
-const setAttributeCreateCategory = (state, data) => {
+const setAttributeSetCreateCategory = (state, data) => {
     state.create.data.category = data;
 };
-const setAttributeCreateBrand = (state, data) => {
+const setAttributeSetCreateBrand = (state, data) => {
     state.create.data.brand = data;
 };
 const setAttributeCreateName = (state, data) => {
     state.create.data.name = data;
 };
-const setAttributeCreateListAttribute = (state, data) => {
+const setAttributeSetCreateListAttribute = (state, data) => {
     state.create.data.attributes = data;
 };
 
@@ -27,7 +27,7 @@ const setDetailAttributeCategory = (state, data) => {
 const setDetailAttributeBrand = (state, data) => {
     state.detail.data.brand = data;
 };
-const setDetailAttributeProperties = (state, data) => {
+const setDetailAttributeSetProperties = (state, data) => {
     state.detail.data.attributes = data;
 };
 
@@ -101,15 +101,15 @@ const resetProgress = state => {
 
 export default {
     setAttributeCreate,
-    setAttributeCreateCategory,
-    setAttributeCreateBrand,
+    setAttributeSetCreateCategory,
+    setAttributeSetCreateBrand,
     setAttributeCreateName,
-    setAttributeCreateListAttribute,
+    setAttributeSetCreateListAttribute,
     setAttributeDetail,
     setDetailIsEdit,
     setDetailAttributeCategory,
     setDetailAttributeBrand,
-    setDetailAttributeProperties,
+    setDetailAttributeSetProperties,
     setSearchFilters,
     setFilters,
     setFilterCollected,
