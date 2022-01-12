@@ -49,7 +49,7 @@ const useSearch = () => {
             // from: offset,
             from: 0,
             // size: limit,
-            size: 5,
+            size: 10000,
         };
 
         if (sortConfigs) {

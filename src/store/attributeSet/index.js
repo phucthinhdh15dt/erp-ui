@@ -29,10 +29,10 @@ export default {
                 filters: {},
                 filterCollected: {},
                 pagination: {
-                    defaultPageSize: 30,
+                    defaultPageSize: 5,
                     current: 1,
                     offset: 0,
-                    limit: 30,
+                    limit: 5,
                 },
                 progress: {
                     completed: 0,
