@@ -33,8 +33,8 @@ const removeAttributeSet = (context, data) => {
     }
 };
 
-const setAttributeDetail = (context, data) => {
-    context.commit('setAttributeDetail', data);
+const setAttributeSetDetail = (context, data) => {
+    context.commit('setAttributeSetDetail', data);
 };
 
 const removeDetailAttributeSet = (context, data) => {
@@ -48,7 +48,7 @@ const removeDetailAttributeSet = (context, data) => {
     }
 };
 
-const addDetailAttribute = (context, data) => {
+const addDetailAttributeSet = (context, data) => {
     const { state } = context;
     const attributes = state.detail.data.attributes;
     const foundAttribute = attributes.findIndex(_ => _.id === data.id);
@@ -63,8 +63,8 @@ const addDetailAttribute = (context, data) => {
 export default {
     addAttributeSet,
     removeAttributeSet,
-    setAttributeDetail,
+    setAttributeSetDetail,
     removeDetailAttributeSet,
-    addDetailAttribute,
+    addDetailAttributeSet,
     updateAttributeSet,
 };

@@ -14,7 +14,7 @@ const setAttributeSetCreateListAttribute = (state, data) => {
     state.create.data.attributes = data;
 };
 
-const setAttributeDetail = (state, data) => {
+const setAttributeSetDetail = (state, data) => {
     state.detail.data = data;
 };
 
@@ -105,7 +105,7 @@ export default {
     setAttributeSetCreateBrand,
     setAttributeCreateName,
     setAttributeSetCreateListAttribute,
-    setAttributeDetail,
+    setAttributeSetDetail,
     setDetailIsEdit,
     setDetailAttributeCategory,
     setDetailAttributeBrand,

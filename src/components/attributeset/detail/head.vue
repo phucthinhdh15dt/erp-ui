@@ -6,7 +6,7 @@
             <Button v-if="!isEdit" type="primary" danger @click="onRemove"><DeleteOutlined />Xóa</Button>
 
             <Button v-if="isEdit" type="primary" danger class="mr-12" @click="onCancel"><EditOutlined />Hủy bỏ</Button>
-            <Button v-if="isEdit" :disabled="!isShowSave" type="primary" @click="onSave"
+            <Button v-if="isEdit" :disabled="!isEnableSave" type="primary" @click="onSave"
                 ><CheckCircleOutlined />Xác nhận</Button
             >
         </div>
@@ -16,7 +16,7 @@
 import { Row, Button, Modal, message } from 'ant-design-vue';
 import { DeleteOutlined, EditOutlined, CheckCircleOutlined } from '@ant-design/icons-vue';
 import { inject, computed, watch } from 'vue';
-import { useRemoveAttribute, useGetAttribute } from '@/composables/attributeset/create';
+import { useRemoveAttributeSet, useGetAttributeSet } from '@/composables/attributeset/create';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
@@ -31,22 +31,26 @@ export default {
     setup() {
         const router = useRouter();
         const store = useStore();
-        const attributeId = inject('attributeId');
+        const attributeSetId = inject('attributeSetId');
         const form = inject('form');
         const { validate } = form;
 
-        const isEdit = computed(() => store.state.attribute.detail.isEdit);
-        const modelRef = computed(() => store.state.attribute.detail.data);
-        const isShowSave = computed(() => {
-            const index = modelRef.value.attributes.findIndex(
-                _ => !_.id || !_.attributeName || !_.nature || (!_.nature.key && !_.nature.id)
-            );
-            if (index < 0) return true;
-            return false;
+        const isEdit = computed(() => store.state.attributeSet.detail.isEdit);
+        const modelRef = computed(() => store.state.attributeSet.detail.data);
+        const isEnableSave = computed(() => {
+            const data = store.state.attributeSet.detail.data;
+            if (data.category && data.name && data.attributes && data.attributes.length > 0) {
+                // const index = data.attributes.findIndex(f => f.id && f.type);
+                // if (index < 0) {
+                //     return true;
+                // }
+                return false;
+            }
+            return true;
         });
 
-        const { result, removeAttributeId } = useRemoveAttribute();
-        const { getUpdateAttribute } = useGetAttribute();
+        const { result, removeAttributeSetId } = useRemoveAttributeSet();
+        const { getUpdateAttributeSet } = useGetAttributeSet();
 
         const onRemove = () => {
             Modal.confirm({
@@ -59,20 +63,20 @@ export default {
             });
         };
         const removeAttribute = () => {
-            removeAttributeId(attributeId.value);
+            removeAttributeSetId(attributeSetId.value);
         };
 
         watch(
             () => result.value,
             () => {
                 if (result.value) {
-                    router.push({ path: 'attribute' });
+                    router.push({ path: '/attributeSet/list' });
                 }
             }
         );
 
         const onEdit = () => {
-            store.commit('attribute/setDetailIsEdit', !isEdit.value);
+            store.commit('attributeSet/setDetailIsEdit', !isEdit.value);
         };
 
         const onCancel = () => {
@@ -110,7 +114,7 @@ export default {
                     okText: 'Xác nhận',
                     cancelText: 'Đóng',
                     centered: true,
-                    onOk: getUpdateAttribute,
+                    onOk: getUpdateAttributeSet,
                 });
             });
         };
@@ -122,7 +126,7 @@ export default {
             onCancel,
             onSave,
             modelRef,
-            isShowSave,
+            isEnableSave,
         };
     },
 };

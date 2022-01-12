@@ -20,7 +20,7 @@ import { useRoute } from 'vue-router';
 import { Row, Col, Form } from 'ant-design-vue';
 import Head from '@/components/attributeset/detail/head.vue';
 import Body from '@/components/attributeset/detail/body.vue';
-import { useGetAttribute } from '@/composables/attributeset/create';
+import { useGetAttributeSet } from '@/composables/attributeset/create';
 import { rulesDetail } from '@/composables/attributeset/rules';
 
 import { useStore } from 'vuex';
@@ -39,10 +39,10 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const route = useRoute();
-        const { getAttributeSetId } = useGetAttribute();
+        const { getAttributeSetId } = useGetAttributeSet();
         const attributeSetId = computed(() => route.params.id);
         const modelRef = computed(() => store.state.attributeSet.detail.data);
-        provide('attributeId', attributeSetId);
+        provide('attributeSetId', attributeSetId);
 
         watch(
             attributeSetId,

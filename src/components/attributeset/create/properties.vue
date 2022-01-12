@@ -198,7 +198,6 @@ export default {
         const onChange = e => onSearch(e.target.value);
 
         const onSelect = value => {
-            debugger;
             const data = {
                 code: value.code,
                 id: value.id,
@@ -229,8 +228,6 @@ export default {
         const removeProperties = item => {
             store.dispatch('attributeSet/removeAttribute', item);
         };
-
-        const onChangeNature = (value, e) => {};
 
         const onNewProperties = () => {
             var index = modelRef.value.attributes.findIndex(_ => _.id < 0);
@@ -287,7 +284,6 @@ export default {
             loading,
             onSelect,
             onRemove,
-            onChangeNature,
             onNewProperties,
             isCheck,
             AttributeItemPosition,

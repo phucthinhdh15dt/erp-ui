@@ -12,11 +12,9 @@ const useCreate = () => {
         loading.value = true;
         errorMessage.value = '';
         result.value = '';
-        debugger;
 
         const data = store.state.attributeSet.create.data;
         let attributeItem = [];
-        debugger;
         if (data.attributes && data.attributes.length > 0) {
             attributeItem = data.attributes.map(m => ({
                 attrOrder: m.attributeOrder,
@@ -85,7 +83,7 @@ const useProperties = () => {
     };
 };
 
-const useGetAttribute = () => {
+const useGetAttributeSet = () => {
     const api = inject('api');
     const store = useStore();
     const loading = ref(false);
@@ -96,22 +94,24 @@ const useGetAttribute = () => {
         loading.value = true;
         errorMessage.value = '';
         result.value = '';
-        const response = await api.attribute.getAttributeSetId(id);
+        const response = await api.attributeSet.getAttributeSetId(id);
 
-        store.dispatch('attribute/setAttributeDetail', response.data);
+        if (response.data) {
+            store.dispatch('attributeSet/setAttributeSetDetail', response.data);
+        }
         result.value = response.data;
         loading.value = false;
     };
 
-    const getUpdateAttribute = async () => {
+    const getUpdateAttributeSet = async () => {
         loading.value = true;
         errorMessage.value = '';
         result.value = '';
         const data = store.state.attribute.detail.data;
-        debugger;
-        const response = await api.attribute.getUpdateAttribute(data);
-        debugger;
-        store.dispatch('attribute/setAttributeDetail', response);
+        const response = await api.attributeSet.getUpdateAttributeSet(data);
+        if (response.data) {
+            store.dispatch('attributeSet/setAttributeSetDetail', response.data);
+        }
         result.value = response;
         loading.value = false;
     };
@@ -121,25 +121,23 @@ const useGetAttribute = () => {
         result,
         errorMessage,
         getAttributeSetId,
-        getUpdateAttribute,
+        getUpdateAttributeSet,
     };
 };
 
-const useRemoveAttribute = () => {
+const useRemoveAttributeSet = () => {
     const api = inject('api');
     const store = useStore();
     const loading = ref(false);
     const errorMessage = ref('');
     const result = ref({});
 
-    const removeAttributeId = async id => {
+    const removeAttributeSetId = async id => {
         loading.value = true;
         errorMessage.value = '';
         result.value = '';
-        const response = await api.attribute.removeAttributeGroupId(id);
-        debugger;
+        const response = await api.attributeSet.removeAttributeSetId(id);
         result.value = response;
-
         loading.value = false;
     };
 
@@ -147,8 +145,8 @@ const useRemoveAttribute = () => {
         loading,
         result,
         errorMessage,
-        removeAttributeId,
+        removeAttributeSetId,
     };
 };
 
-export { useCreate, useProperties, useGetAttribute, useRemoveAttribute };
+export { useCreate, useProperties, useGetAttributeSet, useRemoveAttributeSet };

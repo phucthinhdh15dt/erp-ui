@@ -4,7 +4,6 @@
         <Row>
             <Col
                 v-if="modelRef.attributes && modelRef.attributes.length > 0"
-                :span="15"
                 style="margin-bottom: 0; width: 100%; margin-top: 24px"
                 class="AttributeSetDetailChoose"
             >
@@ -14,70 +13,78 @@
                         :key="idx"
                         class="AttributeSetDetailChoose__List__Item"
                     >
-                        <Col :span="8" style="padding-right: 20px">
+                        <Col :span="5" style="padding-right: 20px">
                             <Row>
                                 <label style="font-weight: bold">Thuộc tính {{ idx + 1 }}</label>
                             </Row>
                             <Row style="margin-top: 20px">
-                                <label v-if="!item.isAdd" style="margin-left: 20px">{{ item.attributeName }}</label>
-                                <Input
-                                    v-else
-                                    v-model:value="item.attributeName"
-                                    placeholder="Nhập tên thuộc tính"
-                                    size="large"
-                                >
+                                <label v-if="!item.isAdd" style="margin-left: 20px">{{ item.label }}</label>
+                                <Input v-else v-model:value="item.label" placeholder="Nhập tên thuộc tính" size="large">
                                 </Input>
                             </Row>
                         </Col>
-                        <Col :span="6">
+                        <Col :span="3">
                             <Row>
                                 <label style="font-weight: bold">Tính chất {{ idx + 1 }}</label>
                             </Row>
                             <Row style="margin-top: 20px">
-                                <label v-if="!item.isAdd && item.nature">{{ item.nature.natureName }}</label>
-
-                                <Select
-                                    v-else
-                                    v-model:value="item.nature"
-                                    label-in-value
-                                    placeholder="Chọn tính chất"
-                                    size="large"
-                                    style="width: 200px"
-                                >
-                                    <Option
-                                        v-for="nature in natureSuggestion"
-                                        :key="nature.id"
-                                        :value="nature.natureName"
-                                    >
-                                        {{ nature.natureName }}</Option
-                                    >
-                                </Select>
+                                <label>{{ getAttributeItemType(item) }}</label>
                             </Row>
                         </Col>
-                        <Col :span="3">
-                            <label style="font-weight: bold">Số thứ tự</label>
+                        <Col :span="4" style="padding-right: 20px">
+                            <Row>
+                                <label style="font-weight: bold">Tên nhóm</label>
+                            </Row>
                             <Row align="bottom" style="margin-top: 20px">
-                                <label v-if="!item.isAdd">{{ item.attributeOrder || 0 }}</label>
+                                <label v-if="!item.isAdd">{{ item.group || 'Không rõ' }}</label>
+                                <Input v-else v-model:value="item.group" placeholder="Nhập tên nhóm" size="large">
+                                </Input>
+                            </Row>
+                        </Col>
+                        <Col :span="2" style="padding-right: 20px">
+                            <label style="font-weight: bold">Thứ tự nhóm</label>
+                            <Row align="bottom" style="margin-top: 20px">
+                                <label v-if="!item.isAdd">{{ item.groupOrder || 0 }}</label>
                                 <InputNumber
                                     v-else
-                                    v-model:value="item.attributeOrder"
+                                    v-model:value="item.groupOrder"
                                     size="large"
                                     :min="1"
                                     :max="10000"
+                                    style="width: 100%"
+                                    :formatter="
+                                        value => `${value}`.replace('.', '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                    "
+                                    :parser="value => value.replace('.', '').replace(/\$\s?|(,*)/g, '')"
+                                    :step="1"
                                 ></InputNumber>
                             </Row>
                         </Col>
-                        <Col :span="4">
+                        <Col :span="2">
+                            <label style="font-weight: bold">Số thứ tự</label>
+                            <Row align="bottom" style="margin-top: 20px">
+                                <label v-if="!item.isAdd">{{ item.attrOrder || 0 }}</label>
+                                <InputNumber
+                                    v-else
+                                    v-model:value="item.attrOrder"
+                                    size="large"
+                                    :min="1"
+                                    :max="10000"
+                                    :formatter="
+                                        value => `${value}`.replace('.', '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                                    "
+                                    :parser="value => value.replace('.', '').replace(/\$\s?|(,*)/g, '')"
+                                    :step="1"
+                                ></InputNumber>
+                            </Row>
+                        </Col>
+                        <Col :span="3">
                             <label style="font-weight: bold">Vị trí</label>
                             <Row align="bottom" style="margin-top: 20px">
-                                <label v-if="!item.isAdd">{{
-                                    item.attributePosition
-                                        ? AttributeItemPosition[item.attributePosition].text
-                                        : 'Không rõ'
-                                }}</label>
+                                <label v-if="!item.isAdd">{{ getPositionAttributeItem(item) }}</label>
                                 <Select
                                     v-else
-                                    v-model:value="item.attributePosition"
+                                    v-model:value="item.layoutPosition"
                                     placeholder="Chọn vị trí"
                                     label-in-value
                                     size="large"
@@ -93,7 +100,7 @@
                                 </Select>
                             </Row>
                         </Col>
-                        <Col v-if="isEdit" :span="3">
+                        <Col v-if="isEdit" :span="2">
                             <Row>&nbsp;</Row>
                             <Row align="bottom" style="margin-top: 20px">
                                 <Button type="primary" danger size="large" @click="onRemove(item)"
@@ -142,7 +149,7 @@
                                             :checked="isCheck(item)"
                                             :disabled="false"
                                             @change="() => onSelect(item)"
-                                            >{{ item.attributeName }}</Checkbox
+                                            >{{ item.label }}</Checkbox
                                         >
                                     </Row>
                                 </li>
@@ -155,13 +162,13 @@
     </div>
 </template>
 <script>
-import { Input, Form, Dropdown, Col, Spin, Checkbox, Button, Row, Modal, Select } from 'ant-design-vue';
+import { Input, Form, Dropdown, Col, Spin, Checkbox, Button, Row, Modal, Select, InputNumber } from 'ant-design-vue';
 import { SearchOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons-vue';
 import { useStore } from 'vuex';
 import { computed, inject, ref, toRaw } from 'vue';
 import { useProperties } from '@/composables/attributeset/create';
 import { debounce } from 'lodash/fp';
-import { AttributeItemPosition } from '@/constants/attributeItem';
+import { AttributeItemPosition, AttributeItemType } from '@/constants/attributeItem';
 
 const { Item: FormItem } = Form;
 const { Option } = Select;
@@ -181,11 +188,12 @@ export default {
         Select,
         Option,
         PlusOutlined,
+        InputNumber,
     },
     setup() {
         const store = useStore();
-        const modelRef = computed(() => store.state.attribute.detail.data);
-        const isEdit = computed(() => store.state.attribute.detail.isEdit);
+        const modelRef = computed(() => store.state.attributeSet.detail.data);
+        const isEdit = computed(() => store.state.attributeSet.detail.isEdit);
 
         const lstProperties = ref([]);
         const searchKey = ref('');
@@ -193,17 +201,10 @@ export default {
         const form = inject('form');
         const { validateInfos } = form;
 
-        const {
-            getAttribute,
-            result: attributeSuggestion,
-            resultNature: natureSuggestion,
-            loading,
-            getNature,
-        } = useProperties();
+        const { getAttribute, result: attributeSuggestion, loading } = useProperties();
 
         getAttribute(searchKey.value);
 
-        getNature();
         const onCreateProps = () => {};
 
         const onSearch = debounce(300)(key => getAttribute(key));
@@ -214,7 +215,7 @@ export default {
             debugger;
             const foundAttribute = attributeSuggestion.value.find(_ => _.id === value.id);
             if (foundAttribute) {
-                store.dispatch('attribute/addDetailAttribute', toRaw(foundAttribute));
+                store.dispatch('attributeSet/addDetailAttribute', toRaw(foundAttribute));
             }
             searchKey.value = '';
         };
@@ -233,11 +234,7 @@ export default {
         };
 
         const removeProperties = item => {
-            store.dispatch('attribute/removeDetailAttribute', item);
-        };
-
-        const onChangeNature = (value, e) => {
-            debugger;
+            store.dispatch('attributeSet/removeDetailAttributeSet', item);
         };
 
         const onNewProperties = () => {
@@ -259,7 +256,7 @@ export default {
                     isAdd: true,
                 };
             }
-            store.dispatch('attribute/addDetailAttribute', properties);
+            store.dispatch('attributeSet/addDetailAttributeSet', properties);
         };
 
         const isCheck = item => {
@@ -268,6 +265,25 @@ export default {
                 return false;
             }
             return true;
+        };
+
+        const getAttributeItemType = item => {
+            if (item && item.type) {
+                const data = AttributeItemType.find(f => f.value === item.type);
+                if (data) {
+                    return data.text;
+                }
+            }
+            return 'Không rõ';
+        };
+        const getPositionAttributeItem = item => {
+            if (item && item.layoutPosition) {
+                const data = AttributeItemPosition.find(f => f.value === item.layoutPosition);
+                if (data) {
+                    return data.text;
+                }
+            }
+            return 'Không rõ';
         };
         return {
             modelRef,
@@ -279,13 +295,13 @@ export default {
             loading,
             onSelect,
             onRemove,
-            natureSuggestion,
-            onChangeNature,
             onNewProperties,
             isCheck,
             validateInfos,
             isEdit,
             AttributeItemPosition,
+            getAttributeItemType,
+            getPositionAttributeItem,
         };
     },
 };

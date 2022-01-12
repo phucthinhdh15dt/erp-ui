@@ -15,8 +15,8 @@
                             size="large"
                             @change="onChangeCategory"
                         >
-                            <Option v-for="item in resultCate" :key="item.code" :value="item.name">
-                                {{ item.name }}</Option
+                            <Option v-for="item in resultCate" :key="item.code" :value="item.label">
+                                {{ item.label }}</Option
                             >
                         </Select>
                     </FormItem>
@@ -34,8 +34,8 @@
                             size="large"
                             @change="onChangeBrand"
                         >
-                            <Option v-for="item in resultBrand" :key="item.code" :value="item.name">
-                                {{ item.name }}</Option
+                            <Option v-for="item in resultBrand" :key="item.code" :value="item.label">
+                                {{ item.label }}</Option
                             >
                         </Select>
                     </FormItem>
@@ -62,7 +62,7 @@
 </template>
 <script>
 import { Card, Form, Select, Input, Col, Row } from 'ant-design-vue';
-import { watch, ref, computed, reactive, inject } from 'vue';
+import { watch, computed, reactive, inject } from 'vue';
 import Properties from '@/components/attributeset/detail/properties.vue';
 import { useStore } from 'vuex';
 import { useCommon } from '@/composables/common/common';
@@ -91,9 +91,9 @@ export default {
         const form = inject('form');
         const { validateInfos } = form;
 
-        const modelRef = computed(() => store.state.attribute.detail.data);
+        const modelRef = computed(() => store.state.attributeSet.detail.data);
 
-        const isEdit = computed(() => store.state.attribute.detail.isEdit);
+        const isEdit = computed(() => store.state.attributeSet.detail.isEdit);
 
         const { getCategory, getBrand, resultBrand, result: resultCate } = useCommon();
 
@@ -115,11 +115,11 @@ export default {
                     if (modelRef.value.category) {
                         const cate = resultCate.value.find(f => f.id === modelRef.value.category.id);
                         if (cate) {
-                            state.categoryName = cate.name;
+                            state.categoryName = cate.label;
                         }
                         const brand = resultBrand.value.find(f => f.id === modelRef.value.brand.id);
                         if (brand) {
-                            state.brandName = brand.name;
+                            state.brandName = brand.label;
                         }
                     }
                 }
@@ -130,22 +130,22 @@ export default {
             if (option !== undefined) {
                 const object = resultCate.value.find(f => f.id === option.key);
                 if (object) {
-                    store.commit('attribute/setDetailAttributeCategory', object);
+                    store.commit('attributeSet/setDetailAttributeCategory', object);
                     return;
                 }
             }
-            store.commit('attribute/setDetailAttributeCategory', undefined);
+            store.commit('attributeSet/setDetailAttributeCategory', undefined);
         };
 
         const onChangeBrand = (value, option) => {
             if (option !== undefined) {
                 const object = resultBrand.value.find(f => f.id === option.key);
                 if (object) {
-                    store.commit('attribute/setDetailAttributeBrand', object);
+                    store.commit('attributeSet/setDetailAttributeBrand', object);
                     return;
                 }
             }
-            store.commit('attribute/setDetailAttributeBrand', undefined);
+            store.commit('attributeSet/setDetailAttributeBrand', undefined);
         };
 
         return {
