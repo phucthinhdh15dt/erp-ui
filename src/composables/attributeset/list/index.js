@@ -45,16 +45,16 @@ const useSearch = () => {
         }
 
         const payload = {
-            sort: sortConfigs,
+            // sort: sortConfigs,
             // from: offset,
             from: 0,
             // size: limit,
-            size: 10000,
+            size: 5,
         };
 
-        if (sortConfigs) {
-            payload.sort = sortConfigs;
-        }
+        // if (sortConfigs) {
+        //     payload.sort = sortConfigs;
+        // }
 
         if (!isEmpty(bool)) {
             payload.query = {
@@ -66,7 +66,7 @@ const useSearch = () => {
     };
 
     const search = async (name, searchQuery) => {
-        store.commit('attribute/setSearchLoading', true);
+        store.commit('attributeSet/setSearchLoading', true);
         const { offset, limit } = searchQuery;
 
         const payload = collectSearchPayload(searchQuery);
@@ -74,14 +74,14 @@ const useSearch = () => {
         const data = cloneDeep(response.data);
 
         if (data) {
-            store.commit('attribute/setSearchResults', {
+            store.commit('attributeSet/setSearchResults', {
                 data: data.hits.slice(offset, offset + limit),
                 total: data.total,
             });
-            store.commit('attribute/setAllResults', { data: data.hits, total: data.total });
+            store.commit('attributeSet/setAllResults', { data: data.hits, total: data.total });
         }
 
-        store.commit('attribute/setSearchLoading', false);
+        store.commit('attributeSet/setSearchLoading', false);
     };
 
     return {

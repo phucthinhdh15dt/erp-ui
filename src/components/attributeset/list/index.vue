@@ -15,7 +15,7 @@
 import { defineComponent, computed, provide, onMounted, toRefs, toRaw } from 'vue';
 import { Form } from 'ant-design-vue';
 import { useStore } from 'vuex';
-import { useSearch } from '@/composables/list/index';
+import { useSearch } from '@/composables/attributeset/list/index';
 import { omitBy, isNil } from 'lodash/fp';
 import ResultTable from './resultTable.vue';
 import SearchBar from './searchBar.vue';
@@ -58,27 +58,15 @@ export default defineComponent({
         const { filterConfigs, filterDefault, searchConfigs, sortConfigs, name } = toRefs(props);
         const store = useStore();
         const { search } = useSearch();
-        const filters = computed(() => store.state.attribute.list.data.filters);
-        const keyword = computed(() => store.state.attribute.list.data.keyword);
-        const pagination = computed(() => store.state.attribute.list.data.pagination);
+        const filters = computed(() => store.state.attributeSet.list.data.filters);
+        const keyword = computed(() => store.state.attributeSet.list.data.keyword);
+        const pagination = computed(() => store.state.attributeSet.list.data.pagination);
         const searchQuery = computed(() => {
             const filtersCollected = Object.keys(filters.value).reduce((acc, filter) => {
                 if (filters.value[filter]) {
                     const config = filterConfigs.value.find(_ => _.name === filter);
                     const rawValue = toRaw(filters.value[filter]);
                     switch (config.type) {
-                        case 'NumberRange':
-                            if (Number.isInteger(rawValue[0]) && Number.isInteger(rawValue[1])) {
-                                acc.push({
-                                    range: {
-                                        [filter]: {
-                                            gte: rawValue[0],
-                                            lte: rawValue[1],
-                                        },
-                                    },
-                                });
-                            }
-                            break;
                         default:
                             acc.push({
                                 match: { [filter]: rawValue },
@@ -104,8 +92,7 @@ export default defineComponent({
             return omitBy(isNil)(searchData);
         });
         const onSearch = () => {
-            debugger;
-            store.commit('attribute/setSearchSelectedRow', []);
+            store.commit('attributeSet/setSearchSelectedRow', []);
             search(name.value, searchQuery.value);
         };
         onMounted(onSearch);
@@ -116,6 +103,4 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

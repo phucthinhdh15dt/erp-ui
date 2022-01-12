@@ -25,7 +25,7 @@ export default defineComponent({
     setup(props) {
         const store = useStore();
         const { filterConfigs } = toRefs(props);
-        const filters = computed(() => store.state.attribute.list.data.filterCollected);
+        const filters = computed(() => store.state.attributeSet.list.data.filterCollected);
         const onSearch = inject('onSearch');
         const formatFilter = (filter, input) => {
             switch (filter.type) {
@@ -51,13 +51,13 @@ export default defineComponent({
         const onRemoveTag = tag => {
             const cloneFilter = cloneDeep(filters.value);
             delete cloneFilter[tag];
-            store.commit('attribute/setFilterCollected', cloneDeep(cloneFilter));
-            store.commit('attribute/setFilters', cloneDeep(cloneFilter));
+            store.commit('attributeSet/setFilterCollected', cloneDeep(cloneFilter));
+            store.commit('attributeSet/setFilters', cloneDeep(cloneFilter));
             onSearch();
         };
         const onClearTags = () => {
-            store.commit('attribute/setFilterCollected', {});
-            store.commit('attribute/setFilters', {});
+            store.commit('attributeSet/setFilterCollected', {});
+            store.commit('attributeSet/setFilters', {});
             onSearch();
         };
         return {

@@ -1,7 +1,7 @@
 <template>
     <div class="AttributeSetResult">
         <Table
-            :data-source="searchAttributeSetResult.data"
+            :data-source="searchResult.data"
             :columns="columns"
             :loading="isLoading"
             :pagination="pagination"
@@ -28,11 +28,10 @@
 </template>
 
 <script>
-import { defineComponent, computed, inject, watch, ref } from 'vue';
+import { defineComponent, computed, inject, watch } from 'vue';
 import { Table, Radio } from 'ant-design-vue';
 import { useStore } from 'vuex';
-import { getOr } from 'lodash/fp';
-import moment from 'moment';
+
 export default defineComponent({
     name: 'AttributeSetResult',
     components: { Table, Radio },
@@ -49,21 +48,22 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const onSearch = inject('onSearch');
-        const searchAttributeSetResult = computed(() => store.state.attribute.list.data.AttributeSetResults);
-        const isLoading = computed(() => store.state.attribute.list.data.isLoading);
-        const paginationStored = computed(() => store.state.attribute.list.data.pagination);
-        const selectedRowKeys = computed(() => store.state.attribute.list.data.selectedRow);
-        const progress = computed(() => store.state.attribute.list.data.progress);
+        const searchResult = computed(() => store.state.attributeSet.list.data.results);
+        const isLoading = computed(() => store.state.attributeSet.list.data.isLoading);
+        const paginationStored = computed(() => store.state.attributeSet.list.data.pagination);
+        const selectedRowKeys = computed(() => store.state.attributeSet.list.data.selectedRow);
+        const progress = computed(() => store.state.attributeSet.list.data.progress);
+
         const onChange = pagination => {
             const { current } = pagination;
-            store.commit('attribute/setSearchSelectedRow', []);
-            store.commit('attribute/setSearchPagination', {
+            store.commit('attributeSet/setSearchSelectedRow', []);
+            store.commit('attributeSet/setSearchPagination', {
                 ...paginationStored.value,
                 current,
             });
         };
         const pagination = computed(() => ({
-            total: searchAttributeSetResult.value.total,
+            total: searchResult.value.total,
             current: paginationStored.value.current,
             defaultPageSize: paginationStored.value.defaultPageSize,
             hideOnSinglePage: true,
@@ -71,25 +71,25 @@ export default defineComponent({
         watch(
             paginationStored,
             () => {
-                store.commit('attribute/setSearchSelectedAll', false);
+                store.commit('attributeSet/setSearchSelectedAll', false);
                 onSearch();
             },
             { deep: true }
         );
         const onChangeSelected = e => {
             const value = e.target.value;
-            store.commit('attribute/setSearchSelectedRow', value);
+            store.commit('attributeSet/setSearchSelectedRow', value);
         };
 
         const onSelectChange = selectedRowKeys => {
-            store.commit('attribute/setSearchSelectedRow', selectedRowKeys);
-            store.commit('attribute/setSearchSelectedAll', false);
+            store.commit('attributeSet/setSearchSelectedRow', selectedRowKeys);
+            store.commit('attributeSet/setSearchSelectedAll', false);
         };
         const onSelectAll = selected => {
-            store.commit('attribute/setSearchSelectedAll', selected);
+            store.commit('attributeSet/setSearchSelectedAll', selected);
         };
         return {
-            searchAttributeSetResult,
+            searchResult,
             pagination,
             isLoading,
             onChange,

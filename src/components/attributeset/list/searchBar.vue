@@ -10,7 +10,9 @@
                 @search="onSearchEnter"
                 @blur="onBlurSearch"
             />
-            <Button class="AttributeSetSearchBar__Filter__Btn" type="primary" @click="onOpen"><FilterOutlined />Lọc</Button>
+            <Button class="AttributeSetSearchBar__Filter__Btn" type="primary" @click="onOpen"
+                ><FilterOutlined />Lọc</Button
+            >
             <slot name="ActionArea" />
             <Drawer title="Bộ lọc" placement="bottom" :height="300" closable :visible="visible" @close="onClose">
                 <Form>
@@ -75,47 +77,47 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const onSearch = inject('onSearch');
-        const filters = computed(() => store.state.attribute.list.data.filters);
-        const filterCollected = computed(() => store.state.attribute.list.data.filterCollected);
+        const filters = computed(() => store.state.attributeSet.list.data.filters);
+        const filterCollected = computed(() => store.state.attributeSet.list.data.filterCollected);
         const localKeyword = ref('');
         const visible = ref(false);
         const inputRef = ref(null);
-        const keyword = computed(() => store.state.attribute.list.data.keyword);
-        const selectedRow = computed(() => store.state.attribute.list.data.selectedRow);
+        const keyword = computed(() => store.state.attributeSet.list.data.keyword);
+        const selectedRow = computed(() => store.state.attributeSet.list.data.selectedRow);
         const onOpen = () => {
-            store.commit('attribute/setFilters', cloneDeep(filterCollected.value));
+            store.commit('attributeSet/setFilters', cloneDeep(filterCollected.value));
             visible.value = true;
         };
         const onClose = () => {
             visible.value = false;
         };
         const onResetFilters = () => {
-            store.commit('attribute/setFilterCollected', {});
-            store.commit('attribute/setFilters', {});
+            store.commit('attributeSet/setFilterCollected', {});
+            store.commit('attributeSet/setFilters', {});
             onSearch();
             onClose();
         };
         const onBlurSearch = e => {
             const value = trim(e.target.value);
             localKeyword.value = value;
-            store.commit('attribute/setSearchKeyword', value);
-            store.commit('attribute/setSearchPaginationCurrent', 1);
+            store.commit('attributeSet/setSearchKeyword', value);
+            store.commit('attributeSet/setSearchPaginationCurrent', 1);
             onSearch();
         };
         const onSearchEnter = val => {
             const value = trim(val);
             localKeyword.value = value;
-            store.commit('attribute/setSearchKeyword', value);
-            store.commit('attribute/setSearchPaginationCurrent', 1);
+            store.commit('attributeSet/setSearchKeyword', value);
+            store.commit('attributeSet/setSearchPaginationCurrent', 1);
             onSearch();
         };
         const onChange = data => {
-            store.commit('attribute/setSearchFilters', cloneDeep(data));
+            store.commit('attributeSet/setSearchFilters', cloneDeep(data));
         };
         provide('onChange', onChange);
         const search = () => {
-            store.commit('attribute/setFilterCollected', cloneDeep(filters.value));
-            store.commit('attribute/setSearchPaginationCurrent', 1);
+            store.commit('attributeSet/setFilterCollected', cloneDeep(filters.value));
+            store.commit('attributeSet/setSearchPaginationCurrent', 1);
             onSearch();
             onClose();
         };

@@ -16,7 +16,7 @@
 import { defineComponent, computed, provide, onMounted, toRefs, toRaw } from 'vue';
 import { Form } from 'ant-design-vue';
 import { useStore } from 'vuex';
-import { useSearch } from '@/composables/attribute/list/index';
+import { useSearch } from '@/composables/attributeset/list/index';
 import { omitBy, isNil } from 'lodash/fp';
 
 import ResultTable from './resultTable.vue';

@@ -4,7 +4,7 @@
         :filter-configs="filters"
         :search-configs="searchConfigs"
         :sort-configs="sortConfigs"
-        name="Attribute"
+        name="AttributeSet"
     >
         <template #ActionArea><ActionArea /></template>
     </List>
@@ -17,30 +17,30 @@ import List from '@/components/attributeset/list/index.vue';
 export const columns = [
     {
         title: 'Mã nhóm thuộc tính',
-        dataIndex: 'attributeId',
-        key: 'attributeId',
+        dataIndex: 'id',
+        key: 'id',
         slots: { customRender: 'id' },
-        width: 150,
+        width: 100,
         align: 'center',
     },
     {
         title: 'Tên nhóm thuộc tính',
-        dataIndex: 'attributeName',
-        key: 'attributeName',
+        dataIndex: 'name',
+        key: 'name',
         width: 200,
-        align: 'center',
+        align: 'left',
     },
     {
         title: 'Ngành hàng con',
         dataIndex: 'category',
         key: 'category',
-        width: 150,
-        align: 'center',
+        width: 200,
+        align: 'left',
     },
     {
         title: 'Thương hiệu',
-        dataIndex: 'brand',
-        key: 'brand',
+        dataIndex: 'brand.name',
+        key: 'brand.name',
         width: 200,
         align: 'center',
     },
@@ -54,22 +54,22 @@ export const columns = [
 ];
 
 const searchConfigs = {
-    fields: ['id', 'attributeName'],
+    fields: ['id', 'name'],
     placeholder: 'Nhập mã hoặc tên nhóm thuộc tính',
-    rowKey: 'attributeId',
-    urlParam: 'attribute',
+    rowKey: 'id',
+    urlParam: 'attributeSet',
 };
 
 const filters = [
     {
         type: 'Text',
         label: 'Danh mục',
-        name: 'categoryId',
+        name: 'items.category.name',
     },
     {
         type: 'Text',
         label: 'Thương hiệu',
-        name: 'items.brandId',
+        name: 'items.name.name',
     },
     {
         type: 'Type',
@@ -80,12 +80,12 @@ const filters = [
 
 const sortConfigs = [
     {
-        createdAt: { attribute: 'desc', format: 'strict_date_optional_time_nanos' },
+        createdAt: { id: 'desc', format: 'strict_date_optional_time_nanos' },
     },
 ];
 
 export default defineComponent({
-    name: 'AttributeList',
+    name: 'AttributeSetList',
     components: {
         List,
         ActionArea,
