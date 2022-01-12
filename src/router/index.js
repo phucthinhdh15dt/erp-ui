@@ -4,10 +4,10 @@ import { useAuth } from '@/composables/auth/index';
 import { nextTick } from 'vue';
 
 const Login = () => import('@/views/auth/login.vue');
-const Attribute = () => import('@/views/attribute/index.vue');
-const AttributeCreate = () => import('@/views/attribute/create.vue');
-const AttributeDetail = () => import('@/views/attribute/detail.vue');
-const AttributeList = () => import('@/views/attribute/list.vue');
+const AttributeSet = () => import('@/views/attributeset/index.vue');
+const AttributeSetCreate = () => import('@/views/attributeset/create.vue');
+const AttributeSetDetail = () => import('@/views/attributeset/detail.vue');
+const AttributeSetList = () => import('@/views/attributeset/list.vue');
 
 const routes = [
     {
@@ -29,20 +29,20 @@ const routes = [
         },
     },
     {
-        path: '/attribute',
-        name: 'Attribute',
-        component: Attribute,
+        path: '/attributeset',
+        name: 'AttributeSet',
+        component: AttributeSet,
         meta: {
-            title: 'Thuộc tính',
-            breadCrumb: 'Thuộc tính',
+            title: 'Nhóm thuộc tính',
+            breadCrumb: 'Nhóm huộc tính',
             authRequired: true,
             layout: 'default',
         },
         children: [
             {
-                name: 'AttributeDetail',
+                name: 'AttributeSetDetail',
                 path: ':id',
-                component: AttributeDetail,
+                component: AttributeSetDetail,
                 meta: {
                     title: 'Chi tiết nhóm thuộc tính',
                     breadCrumb: 'Chi tiết nhóm thuộc tính',
@@ -53,12 +53,12 @@ const routes = [
                 },
             },
             {
-                name: 'AttributeList',
+                name: 'AttributeSetList',
                 path: 'list',
-                component: AttributeList,
+                component: AttributeSetList,
                 meta: {
-                    title: 'Danh sách thuộc tính',
-                    breadCrumb: 'Danh sách thuộc tính',
+                    title: 'Danh sách nhóm thuộc tính',
+                    breadCrumb: 'Danh sách nhóm thuộc tính',
                     authRequired: true,
                     layout: 'default',
                     subMenuKey: '1',
@@ -66,9 +66,9 @@ const routes = [
                 },
             },
             {
-                name: 'AttributeCreate',
+                name: 'AttributeSetCreate',
                 path: 'create',
-                component: AttributeCreate,
+                component: AttributeSetCreate,
                 meta: {
                     title: 'Tạo nhóm thuộc tính',
                     breadCrumb: 'Tạo nhóm thuộc tính',

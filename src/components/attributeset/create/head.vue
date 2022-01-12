@@ -18,7 +18,7 @@
 <script>
 import { Row, Button, Modal, message } from 'ant-design-vue';
 import { computed, h, inject, watch } from 'vue';
-import { useCreate } from '@/composables/attribute/create';
+import { useCreate } from '@/composables/attributeset/create';
 import { useStore } from 'vuex';
 
 export default {

@@ -1,8 +1,8 @@
 <template>
     <Card style="min-height: 400px">
-        <Row class="AttributeDetailBody">
+        <Row class="AttributeSetDetailBody">
             <Row>
-                <Col :span="8" class="AttributeDetailBody__Item">
+                <Col :span="8" class="AttributeSetDetailBody__Item">
                     <FormItem label="Ngành hàng" v-bind="validateInfos.category">
                         <label v-if="!isEdit && modelRef.category" style="font-weight: bold">{{
                             modelRef.category.name
@@ -21,7 +21,7 @@
                         </Select>
                     </FormItem>
                 </Col>
-                <Col :span="8" class="AttributeDetailBody__Item">
+                <Col :span="8" class="AttributeSetDetailBody__Item">
                     <FormItem label="Thương hiệu">
                         <label v-if="!isEdit && modelRef.brand" style="font-weight: bold">{{
                             modelRef.brand.name
@@ -42,7 +42,7 @@
                 </Col>
             </Row>
             <Row>
-                <Col :span="8" class="AttributeDetailBody__Item">
+                <Col :span="8" class="AttributeSetDetailBody__Item">
                     <FormItem label="Tên nhóm thuộc tính" v-bind="validateInfos.name">
                         <label v-if="!isEdit" style="font-weight: bold">{{ modelRef.name }}</label>
                         <Input
@@ -63,9 +63,8 @@
 <script>
 import { Card, Form, Select, Input, Col, Row } from 'ant-design-vue';
 import { watch, ref, computed, reactive, inject } from 'vue';
-import Properties from '@/components/attribute/detail/properties.vue';
+import Properties from '@/components/attributeset/detail/properties.vue';
 import { useStore } from 'vuex';
-
 import { useCommon } from '@/composables/common/common';
 
 const { Item: FormItem } = Form;
@@ -163,7 +162,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.AttributeDetailBody {
+.AttributeSetDetailBody {
     &__Item {
         padding-right: 24px;
     }

@@ -1,7 +1,7 @@
 <template>
-    <div class="Result">
+    <div class="AttributeSetResult">
         <Table
-            :data-source="searchResult.data"
+            :data-source="searchAttributeSetResult.data"
             :columns="columns"
             :loading="isLoading"
             :pagination="pagination"
@@ -34,7 +34,7 @@ import { useStore } from 'vuex';
 import { getOr } from 'lodash/fp';
 import moment from 'moment';
 export default defineComponent({
-    name: 'Result',
+    name: 'AttributeSetResult',
     components: { Table, Radio },
     props: {
         columns: {
@@ -49,7 +49,7 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const onSearch = inject('onSearch');
-        const searchResult = computed(() => store.state.attribute.list.data.results);
+        const searchAttributeSetResult = computed(() => store.state.attribute.list.data.AttributeSetResults);
         const isLoading = computed(() => store.state.attribute.list.data.isLoading);
         const paginationStored = computed(() => store.state.attribute.list.data.pagination);
         const selectedRowKeys = computed(() => store.state.attribute.list.data.selectedRow);
@@ -63,7 +63,7 @@ export default defineComponent({
             });
         };
         const pagination = computed(() => ({
-            total: searchResult.value.total,
+            total: searchAttributeSetResult.value.total,
             current: paginationStored.value.current,
             defaultPageSize: paginationStored.value.defaultPageSize,
             hideOnSinglePage: true,
@@ -89,7 +89,7 @@ export default defineComponent({
             store.commit('attribute/setSearchSelectedAll', selected);
         };
         return {
-            searchResult,
+            searchAttributeSetResult,
             pagination,
             isLoading,
             onChange,
@@ -104,7 +104,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.Result {
+.AttributeSetResult {
     margin-top: $primary-margin;
 
     .ant-table-thead {

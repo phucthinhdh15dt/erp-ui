@@ -12,7 +12,7 @@
 <script>
 import { defineComponent } from 'vue';
 import ActionArea from './actionArea.vue';
-import List from '@/components/attribute/list/index.vue';
+import List from '@/components/attributeset/list/index.vue';
 
 export const columns = [
     {

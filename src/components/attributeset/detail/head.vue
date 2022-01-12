@@ -1,5 +1,5 @@
 <template>
-    <Row justify="space-between" class="AttributeEditDead">
+    <Row justify="space-between" class="AttributeSetEditHead">
         <div class="font-18 font-bold">Tên nhóm thuộc tính: {{ modelRef.name }}</div>
         <div class="mb-12">
             <Button v-if="!isEdit" type="primary" class="mr-12 edit" @click="onEdit"><EditOutlined />Chỉnh sửa</Button>
@@ -16,7 +16,7 @@
 import { Row, Button, Modal, message } from 'ant-design-vue';
 import { DeleteOutlined, EditOutlined, CheckCircleOutlined } from '@ant-design/icons-vue';
 import { inject, computed, watch } from 'vue';
-import { useRemoveAttribute, useGetAttribute } from '@/composables/attribute/create';
+import { useRemoveAttribute, useGetAttribute } from '@/composables/attributeset/create';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
@@ -128,7 +128,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.AttributeEditDead {
+.AttributeSetEditHead {
     .edit {
         background: $active-color;
         border: 1px solid $active-color;

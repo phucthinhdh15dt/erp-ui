@@ -1,8 +1,8 @@
 <template>
     <Card style="min-height: 400px">
-        <Row class="AttributeBody">
+        <Row class="AttributeSetBody">
             <Row>
-                <Col :span="8" class="AttributeBody__Item">
+                <Col :span="8" class="AttributeSetBody__Item">
                     <FormItem label="Ngành hàng" v-bind="validateInfos['category']">
                         <Select
                             v-model:value="modelRef.category"
@@ -17,7 +17,7 @@
                         </Select>
                     </FormItem>
                 </Col>
-                <Col :span="8" class="AttributeBody__Item">
+                <Col :span="8" class="AttributeSetBody__Item">
                     <FormItem label="Thương hiệu" v-bind="validateInfos['brand']">
                         <Select
                             v-model:value="modelRef.brand"
@@ -35,7 +35,7 @@
                 </Col>
             </Row>
             <Row>
-                <Col :span="8" class="AttributeBody__Item">
+                <Col :span="8" class="AttributeSetBody__Item">
                     <FormItem label="Tên nhóm thuộc tính" v-bind="validateInfos['name']">
                         <Input
                             v-model:value="modelRef.name"
@@ -54,9 +54,8 @@
 <script>
 import { Card, Form, Select, Input, Col, Row } from 'ant-design-vue';
 import { inject, ref, watch } from 'vue';
-import Properties from '@/components/attribute/create/properties.vue';
+import Properties from '@/components/attributeset/create/properties.vue';
 import { useCommon } from '@/composables/common/common';
-import { AttributePosition } from '@/constants/attribibute';
 import store from '@/store';
 
 const { Item: FormItem } = Form;
@@ -78,7 +77,7 @@ export default {
         const form = inject('form');
         const { validateInfos } = form;
 
-        const { getCategory, errorMessage, getBrand, resultBrand, result: resultCate } = useCommon();
+        const { getCategory, getBrand, resultBrand, result: resultCate } = useCommon();
 
         getCategory();
 
@@ -92,11 +91,11 @@ export default {
         );
 
         const onChangeCategory = (value, option) => {
-            store.commit('attribute/setAttributeCreateCategory', option);
+            store.commit('attributeset/setAttributeCreateCategory', option);
         };
 
         const onChangeBrand = (value, option) => {
-            store.commit('attribute/setAttributeCreateBrand', option);
+            store.commit('attributeset/setAttributeCreateBrand', option);
         };
         return {
             modelRef,
@@ -105,13 +104,12 @@ export default {
             resultBrand,
             onChangeBrand,
             validateInfos,
-            AttributePosition,
         };
     },
 };
 </script>
 <style scoped lang="scss">
-.AttributeBody {
+.AttributeSetBody {
     &__Item {
         padding-right: 24px;
     }

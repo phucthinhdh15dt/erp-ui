@@ -6,10 +6,10 @@
                 v-if="modelRef.attributes && modelRef.attributes.length > 0"
                 :span="15"
                 style="margin-bottom: 0; width: 100%; margin-top: 24px"
-                class="AttributeChoose"
+                class="AttributeSetChoose"
             >
-                <ul class="AttributeChoose__List">
-                    <Row v-for="(item, idx) in modelRef.attributes" :key="idx" class="AttributeChoose__List__Item">
+                <ul class="AttributeSetChoose__List">
+                    <Row v-for="(item, idx) in modelRef.attributes" :key="idx" class="AttributeSetChoose__List__Item">
                         <Col :span="8" style="padding-right: 20px">
                             <Row>
                                 <label style="font-weight: bold">Thuộc tính {{ idx + 1 }}</label>
@@ -70,7 +70,7 @@
                                     @change="onChangePosition"
                                 >
                                     <Option
-                                        v-for="position in AttributePosition"
+                                        v-for="position in AttributeItemPosition"
                                         :key="position.id"
                                         :value="position.value"
                                     >
@@ -98,7 +98,7 @@
                     <Dropdown
                         :trigger="['click']"
                         :overlay-style="{ maxHeight: '500px', overflowY: 'auto', boxShadow: '0 2px 8px #00000026' }"
-                        class="AttributeChoose__Dropdown"
+                        class="AttributeSetChoose__Dropdown"
                     >
                         <Input
                             v-model:value="searchKey"
@@ -111,12 +111,12 @@
                             </template>
                         </Input>
                         <template v-if="attributeSuggestion || loading" #overlay>
-                            <ul v-if="loading" class="AttributeChoose__Dropdown__Menu">
+                            <ul v-if="loading" class="AttributeSetChoose__Dropdown__Menu">
                                 <li class="item">
                                     <Spin />
                                 </li>
                             </ul>
-                            <ul v-else class="AttributeChoose__Dropdown__Menu">
+                            <ul v-else class="AttributeSetChoose__Dropdown__Menu">
                                 <Row style="padding: 5px 12px">
                                     <Button type="primary" @click="onNewProperties">
                                         <PlusOutlined />
@@ -146,9 +146,9 @@ import { Input, Form, Dropdown, Col, Spin, Checkbox, Button, Row, Modal, Select,
 import { SearchOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons-vue';
 import { useStore } from 'vuex';
 import { inject, ref, toRaw } from 'vue';
-import { useProperties } from '@/composables/attribute/create';
+import { useProperties } from '@/composables/attributeset/create';
 import { debounce } from 'lodash/fp';
-import { AttributePosition } from '@/constants/attribibute';
+import { AttributeItemPosition } from '@/constants/attributeItem';
 
 const { Item: FormItem } = Form;
 const { Option } = Select;
@@ -290,14 +290,14 @@ export default {
             onNewProperties,
             isCheck,
             onSavePropertiesNew,
-            AttributePosition,
+            AttributeItemPosition,
             onChangePosition,
         };
     },
 };
 </script>
 <style lang="scss">
-.AttributeChoose {
+.AttributeSetChoose {
     &__Dropdown {
         &__Menu {
             background: #fff;

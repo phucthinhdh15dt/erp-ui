@@ -1,5 +1,5 @@
 <template>
-    <div class="AttributeList">
+    <div class="AttributeSetList">
         <Form label-align="left">
             <SearchBar :filter-configs="filterConfigs" :search-configs="searchConfigs">
                 <template #ActionArea>
@@ -117,18 +117,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.PostList {
-    margin-right: $primary-margin;
 
-    &__Summary {
-        margin-bottom: 0 !important;
-        border: none;
-    }
-}
-
-.PostContent {
-    margin-top: $primary-margin;
-    min-height: calc(100vh - 538px);
-    margin-bottom: 0 !important;
-}
 </style>

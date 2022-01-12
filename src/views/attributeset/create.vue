@@ -1,5 +1,5 @@
 <template>
-    <div class="AttributeCreate">
+    <div class="AttributeSetCreate">
         <Form :label-col="labelCol" :wrapper-col="wrapperCol" label-align="left">
             <Row :gutter="16">
                 <Col :span="24">
@@ -17,15 +17,15 @@
 <script>
 import { defineComponent, computed, reactive, provide } from 'vue';
 import { Form, Row, Col } from 'ant-design-vue';
-import Head from '@/components/attribute/create/head.vue';
-import Body from '@/components/attribute/create/body.vue';
+import Head from '@/components/attributeset/create/head.vue';
+import Body from '@/components/attributeset/create/body.vue';
 import { useStore } from 'vuex';
-import formRules from '@/composables/attribute/rules';
+import formRules from '@/composables/attributeset/rules';
 
 const useForm = Form.useForm;
 
 export default defineComponent({
-    name: 'AttributeCreate',
+    name: 'AttributeSetCreate',
     components: {
         Form,
         Row,
@@ -35,7 +35,7 @@ export default defineComponent({
     },
     setup() {
         const store = useStore();
-        const modelRef = computed(() => store.state.attribute.create.data);
+        const modelRef = computed(() => store.state.attributeSet.create.data);
         provide('modelRef', modelRef);
 
         const rulesRef = reactive(formRules);

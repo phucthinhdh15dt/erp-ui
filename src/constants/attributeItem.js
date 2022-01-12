@@ -1,4 +1,4 @@
-export const AttributePosition = [
+export const AttributeItemPosition = [
     {
         id: 1,
         value: 'LEFT',
