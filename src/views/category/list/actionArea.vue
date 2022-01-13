@@ -40,7 +40,12 @@
                     <TextArea v-model:value="formState.description" :rows="4" :disabled="progress.total > 0"></TextArea>
                 </FormItem>
                 <FormItem label="Ngành hàng cha" name="parent">
-                    <Select v-model:value="formState.parent" :options="parentOptions" />
+                    <Select
+                        v-model:value="formState.parent"
+                        :options="parentOptions"
+                        show-search
+                        :filter-option="filterOption"
+                    />
                 </FormItem>
 
                 <!-- <h3>Ngành hàng con</h3>
@@ -91,13 +96,13 @@
 
 <script>
 import { defineComponent, watch, computed, inject, toRaw, ref, reactive, createVNode } from 'vue';
-import { Button, message, Modal, Progress, Form, List, Input, Select } from 'ant-design-vue';
+import { Button, message, Modal, Progress, Form, Input, Select } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { useCreateCategory, useUpdateCategory } from '@/composables/product/category';
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { filterOption } from '@/utils/common';
 
 const { Item: FormItem } = Form;
-const { Item: ListItem } = List;
 const { TextArea } = Input;
 
 export default defineComponent({
@@ -180,6 +185,7 @@ export default defineComponent({
                         categoryType: 'CAMPAIGN',
                     };
                     if (processingItem.value) {
+                        payload.id = processingItem.value.id;
                         Modal.confirm({
                             content: 'Xác nhận lưu bản chỉnh sửa này',
                             icon: createVNode(ExclamationCircleOutlined),
@@ -264,6 +270,7 @@ export default defineComponent({
             formRef,
             parentOptions,
             title,
+            filterOption,
         };
     },
 });

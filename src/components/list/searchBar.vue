@@ -102,11 +102,11 @@ export default defineComponent({
         };
 
         const onBlurSearch = e => {
-            const value = trim(e.target.value);
-            localKeyword.value = value;
-            store.commit('list/setSearchKeyword', value);
-            store.commit('list/setSearchPaginationCurrent', 1);
-            onSearch();
+            // const value = trim(e.target.value);
+            // localKeyword.value = value;
+            // store.commit('list/setSearchKeyword', value);
+            // store.commit('list/setSearchPaginationCurrent', 1);
+            // onSearch();
         };
 
         const onSearchEnter = val => {

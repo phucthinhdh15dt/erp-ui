@@ -1,30 +1,21 @@
 import { ref, inject, onMounted } from 'vue';
-import { useStore } from 'vuex';
-import { getOr } from 'lodash/fp';
 
 export const useCreateCategory = () => {
     const api = inject('api');
-    const store = useStore();
     const loading = ref(false);
     const result = ref('');
     const errorMessage = ref('');
 
     const createCategory = async payload => {
-        // store.commit('layout/setLoading', true);
-        // const response = await api.order.getOrder(id);
         loading.value = true;
+
         const response = await api.productCategory.createCategory(payload);
-        console.log(response);
         if (response.data) {
             result.value = 'Tạo ngành hàng mới thành công';
         }
 
         loading.value = false;
-        // store.commit('layout/setLoading', false);
     };
-
-    // onMounted(getWard);
-    // watch(id, getPost);
 
     return {
         createCategory,
@@ -36,30 +27,50 @@ export const useCreateCategory = () => {
 
 export const useUpdateCategory = () => {
     const api = inject('api');
-    const store = useStore();
     const loading = ref(false);
     const result = ref('');
     const errorMessage = ref('');
 
     const updateCategory = async payload => {
-        // store.commit('layout/setLoading', true);
-        // const response = await api.order.getOrder(id);
         loading.value = true;
+
         const response = await api.productCategory.updateCategory(payload);
-        console.log(response);
-        if (response.data) {
+        if (response.success) {
             result.value = 'Chỉnh sửa ngành hàng thành công';
         }
 
         loading.value = false;
-        // store.commit('layout/setLoading', false);
     };
-
-    // onMounted(getWard);
-    // watch(id, getPost);
 
     return {
         updateCategory,
+        loading,
+        result,
+        errorMessage,
+    };
+};
+
+export const useGetAllCategory = () => {
+    const api = inject('api');
+    const loading = ref(false);
+    const result = ref([]);
+    const errorMessage = ref('');
+
+    const getAllCategory = async () => {
+        loading.value = true;
+
+        const response = await api.search.searchProductCategory({ from: 0, size: 10000 });
+        if (response.data) {
+            result.value = response.data.hits.map(_ => ({ value: _.id, label: _.name }));
+        }
+
+        loading.value = false;
+    };
+
+    onMounted(getAllCategory);
+
+    return {
+        getAllCategory,
         loading,
         result,
         errorMessage,

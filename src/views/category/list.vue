@@ -55,8 +55,8 @@ const filters = [
 ];
 
 const searchConfigs = {
-    fields: ['id'],
-    placeholder: 'Nhập mã ngành hàng',
+    fields: ['id', 'name'],
+    placeholder: 'Nhập mã hoặc tên ngành hàng',
     rowKey: 'categoryId',
     urlParam: 'category',
 };

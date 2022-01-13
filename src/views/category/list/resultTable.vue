@@ -41,14 +41,12 @@
 </template>
 
 <script>
-import { defineComponent, computed, inject, watch, ref } from 'vue';
-import { Table, Radio } from 'ant-design-vue';
+import { defineComponent, computed, inject, watch } from 'vue';
+import { Table } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { STATUS } from '@/constants';
 import { getOr } from 'lodash/fp';
 import moment from 'moment';
-import Status from '@/components/common/status.vue';
-import Datetime from '@/components/common/datetime.vue';
 
 export default defineComponent({
     name: 'Result',

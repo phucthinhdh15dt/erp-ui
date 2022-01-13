@@ -13,6 +13,18 @@
                     <template #icon> <FormOutlined /> </template> Quản lý ngành hàng
                 </MenuItem>
             </router-link>
+            <!-- <SubMenu key="sub1">
+                <template #icon>
+                    <FormOutlined />
+                </template>
+                <template #title>Quản lý sản phẩm</template>
+                <router-link to="/product/create">
+                    <MenuItem key="1.1">Khai báo sản phẩm</MenuItem>
+                </router-link>
+                <router-link to="/product/list">
+                    <MenuItem key="1.2">Danh sách sản phẩm</MenuItem>
+                </router-link>
+            </SubMenu> -->
             <!--   <router-link to="/order/list">
                     <MenuItem key="1.2">Danh sách đơn hàng</MenuItem>
                 </router-link> -->
@@ -154,10 +166,10 @@ export default defineComponent({
             }
         }
 
-        .ant-menu-submenu-title,
-        .ant-menu-item-only-child {
-            padding-left: $primary-padding !important;
-        }
+        // .ant-menu-submenu-title,
+        // .ant-menu-item-only-child {
+        //     padding-left: $primary-padding !important;
+        // }
 
         .ant-menu-submenu-arrow::before,
         .ant-menu-submenu-arrow::after {

@@ -16,7 +16,7 @@ body {
 
 .card-head-title {
     padding: 1.6rem 0;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1.6rem;
 }
 
@@ -38,6 +38,12 @@ body {
 .label-width-15 {
     .ant-descriptions-item-label {
         width: 150px;
+    }
+}
+
+.form-label-w-18 {
+    .ant-form-item-label {
+        width: 180px;
     }
 }
 

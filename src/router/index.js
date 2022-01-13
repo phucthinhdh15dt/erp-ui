@@ -5,6 +5,8 @@ import { nextTick } from 'vue';
 
 const Login = () => import('@/views/auth/login.vue');
 const CategoryList = () => import('@/views/category/list.vue');
+const Product = () => import('@/views/product/index.vue');
+const ProductCreate = () => import('@/views/product/create.vue');
 
 const routes = [
     {
@@ -75,6 +77,32 @@ const routes = [
             //         menuKey: '1.1',
             //     },
             // },
+        ],
+    },
+    {
+        path: '/product',
+        name: 'Product',
+        component: Product,
+        meta: {
+            title: 'Sản phẩm',
+            breadCrumb: 'Sản phẩm',
+            authRequired: true,
+            layout: 'default',
+        },
+        children: [
+            {
+                name: 'ProductCreate',
+                path: 'create',
+                component: ProductCreate,
+                meta: {
+                    title: 'Sản phẩm',
+                    breadCrumb: 'Khai báo sản phẩm',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '2',
+                    menuKey: '2.1',
+                },
+            },
         ],
     },
 ];
