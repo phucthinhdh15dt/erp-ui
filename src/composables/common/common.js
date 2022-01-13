@@ -25,6 +25,8 @@ const useCommon = () => {
             const data = response.data.hits.filter(f => f.code && f.name);
             if (data) {
                 result.value = data.map(m => ({ id: m.id, code: m.code, label: m.name, type: m.categoryType }));
+                store.commit('attributeSet/setCommonCategory', result.value);
+                await getBrand();
             }
         }
 
@@ -44,11 +46,14 @@ const useCommon = () => {
             const data = response.data.hits.filter(f => f.code && f.name);
             if (data) {
                 resultBrand.value = data.map(m => ({ id: m.id, code: m.code, label: m.name }));
+                store.commit('attributeSet/setCommonBrand', resultBrand.value);
             }
         }
 
         loading.value = false;
     };
+
+    onMounted(getCategory());
 
     return {
         getCategory,

@@ -99,6 +99,14 @@ const resetProgress = state => {
     };
 };
 
+const setCommonCategory = (state, data) => {
+    state.common.data.optionCategory = data;
+};
+
+const setCommonBrand = (state, data) => {
+    state.common.data.optionBrand = data;
+};
+
 export default {
     setAttributeCreate,
     setAttributeSetCreateCategory,
@@ -124,4 +132,6 @@ export default {
     setProgressCompleted,
     resetProgress,
     setSearchSelectedAll,
+    setCommonCategory,
+    setCommonBrand,
 };

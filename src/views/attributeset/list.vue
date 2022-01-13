@@ -31,7 +31,7 @@ export const columns = [
         align: 'left',
     },
     {
-        title: 'Ngành hàng con',
+        title: 'Ngành hàng',
         dataIndex: 'categoryName',
         key: 'categoryName',
         width: 200,
@@ -55,20 +55,26 @@ const searchConfigs = {
 
 const filters = [
     {
-        type: 'Text',
+        type: 'Selection',
         label: 'Danh mục',
-        name: 'items.categoryName',
+        key: 'category',
+        name: 'category.id',
+        configs: {
+            dataMapping: true,
+        },
     },
     {
-        type: 'Text',
+        type: 'Selection',
         label: 'Thương hiệu',
-        name: 'items.brandName',
+        key: 'brand',
+        name: 'brand.id',
+        configs: {
+            dataMapping: true,
+        },
     },
 ];
 
-const sortConfigs = [
-
-];
+const sortConfigs = [];
 
 export default defineComponent({
     name: 'AttributeSetList',

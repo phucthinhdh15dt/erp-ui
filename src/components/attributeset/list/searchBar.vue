@@ -17,7 +17,7 @@
             <Drawer title="Bộ lọc" placement="bottom" :height="300" closable :visible="visible" @close="onClose">
                 <Form>
                     <Row :gutter="24">
-                        <Col v-for="(filter, idx) in filterConfigs" :key="idx" :span="filter.span">
+                        <Col v-for="(filter, idx) in filterConfigsRef" :key="idx" :span="filter.span">
                             <FormItem :label="filter.label">
                                 <component
                                     :is="filter.type"
@@ -40,11 +40,13 @@
 </template>
 
 <script>
-import { defineComponent, defineAsyncComponent, watch, computed, inject, ref, provide } from 'vue';
+import { defineComponent, defineAsyncComponent, watch, computed, inject, ref, provide, toRefs } from 'vue';
 import { Card, Input, Select, message, Button, Drawer, Form, Row, Col } from 'ant-design-vue';
 import { FilterOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { useStore } from 'vuex';
 import { trim, cloneDeep } from 'lodash/fp';
+import { useCommon } from '@/composables/common/common';
+
 const { Search } = Input;
 const { Item: FormItem } = Form;
 
@@ -74,7 +76,10 @@ export default defineComponent({
             default: () => {},
         },
     },
-    setup() {
+    setup(props) {
+        const { filterConfigs: filterConfigsRef } = toRefs(props);
+        const { resultBrand } = useCommon();
+
         const store = useStore();
         const onSearch = inject('onSearch');
         const filters = computed(() => store.state.attributeSet.list.data.filters);
@@ -137,6 +142,28 @@ export default defineComponent({
         const filterOption = (input, option) => {
             return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
         };
+        watch(
+            () => resultBrand.value,
+            () => {
+                if (resultBrand.value) {
+                    filterConfigsRef.value.forEach(element => {
+                        if (element.key === 'category') {
+                            element.configs.options = store.state.attributeSet.common.data.optionCategory.map(_ => ({
+                                value: _.id,
+                                label: _.label,
+                            }));
+                        }
+                        if (element.key === 'brand') {
+                            element.configs.options = store.state.attributeSet.common.data.optionBrand.map(_ => ({
+                                value: _.id,
+                                label: _.label,
+                            }));
+                        }
+                    });
+                }
+            }
+        );
+
         return {
             inputRef,
             onSearchEnter,
@@ -154,6 +181,7 @@ export default defineComponent({
             search,
             filterCollected,
             onResetFilters,
+            filterConfigsRef,
         };
     },
 });

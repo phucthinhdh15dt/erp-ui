@@ -36,6 +36,7 @@ export default defineComponent({
     },
     setup(props) {
         const { name, value: valueProps } = toRefs(props);
+
         const onChange = inject('onChange');
         const change = input => {
             onChange({ name: name.value, value: input });

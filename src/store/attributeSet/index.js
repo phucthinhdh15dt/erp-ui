@@ -29,10 +29,10 @@ export default {
                 filters: {},
                 filterCollected: {},
                 pagination: {
-                    defaultPageSize: 5,
+                    defaultPageSize: 10,
                     current: 1,
                     offset: 0,
-                    limit: 5,
+                    limit: 10,
                 },
                 progress: {
                     completed: 0,
@@ -43,6 +43,12 @@ export default {
                 isLoading: false,
                 results: [],
                 allResults: {},
+            },
+        },
+        common: {
+            data: {
+                optionCategory: [],
+                optionBrand: [],
             },
         },
     }),

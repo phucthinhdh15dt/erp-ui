@@ -29,8 +29,15 @@ export default defineComponent({
         const onSearch = inject('onSearch');
         const formatFilter = (filter, input) => {
             switch (filter.type) {
-                case 'NumberRange':
-                    return input.join(' - ');
+                case 'Selection':
+                    const { dataMapping, options } = filter.configs;
+                    if (dataMapping) {
+                        const foundOption = options.find(_ => _.value === input);
+
+                        return foundOption?.label || input;
+                    }
+                    return input;
+
                 case 'Text':
                     return input;
             }
@@ -80,6 +87,8 @@ export default defineComponent({
         color: $primary-color;
         line-height: 2.5rem;
         margin-bottom: 1rem;
+        padding: 0.5rem 1rem;
+        margin-right: 0.5rem;
 
         div {
             display: inline-block;
