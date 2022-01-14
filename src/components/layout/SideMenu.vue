@@ -19,6 +19,15 @@
                     <MenuItem key="1.2">Ds nhóm thuộc tính</MenuItem>
                 </router-link>
             </SubMenu>
+            <SubMenu key="2">
+                <template #icon>
+                    <FormOutlined />
+                </template>
+                <template #title>Ql thương hiệu</template>
+                <router-link to="/brand/list">
+                    <MenuItem key="2.2">Ds thương hiệu</MenuItem>
+                </router-link>
+            </SubMenu>
         </Menu>
     </LayoutSider>
 </template>
@@ -26,9 +35,8 @@
 <script>
 import { defineComponent, reactive, toRefs, watch, computed } from 'vue';
 import store from '@/store';
-import { FormOutlined, TeamOutlined } from '@ant-design/icons-vue';
+import { FormOutlined } from '@ant-design/icons-vue';
 import { Menu, Layout } from 'ant-design-vue';
-import { isEmpty } from 'lodash/fp';
 
 const { SubMenu, Item: MenuItem } = Menu;
 const { Sider: LayoutSider } = Layout;

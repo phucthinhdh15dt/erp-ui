@@ -72,7 +72,6 @@ const useSearch = () => {
         const payload = collectSearchPayload(searchQuery);
         const response = await api.search[`search${name}`](payload);
         const data = cloneDeep(response.data);
-
         if (data) {
             store.commit('list/setSearchResults', { data: data.hits.slice(offset, offset + limit), total: data.total });
             store.commit('list/setAllResults', { data: data.hits, total: data.total });

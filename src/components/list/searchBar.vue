@@ -10,8 +10,16 @@
                 @search="onSearchEnter"
                 @blur="onBlurSearch"
             />
-            <Button class="SearchBar__Filter__Btn" type="primary" @click="onOpen">Lọc</Button>
+            <Button
+                v-if="filterConfigs && filterConfigs.length > 0"
+                class="SearchBar__Filter__Btn"
+                type="primary"
+                @click="onOpen"
+                >Lọc</Button
+            >
+            <slot name="CustomButtonModal" />
             <slot name="ActionArea" />
+            <slot name="CustomModal" />
             <Drawer title="Bộ lọc" placement="bottom" :height="300" closable :visible="visible" @close="onClose">
                 <Form>
                     <Row :gutter="24">

@@ -5,6 +5,12 @@
                 <template #ActionArea>
                     <slot name="ActionArea" />
                 </template>
+                <template #CustomButtonModal>
+                    <slot name="CustomButtonModal" />
+                </template>
+                <template #CustomModal>
+                    <slot name="CustomModal" />
+                </template>
             </SearchBar>
             <FilterTags :filter-configs="filterConfigs" />
             <slot name="ResultTable">
@@ -18,7 +24,7 @@
 import { defineComponent, computed, provide, onMounted, toRefs, toRaw } from 'vue';
 import { Form } from 'ant-design-vue';
 import { useStore } from 'vuex';
-import { useSearch } from '@/composables/attributeset/list/index';
+import { useSearch } from '@/composables/list/index';
 import { omitBy, isNil } from 'lodash/fp';
 
 import ResultTable from './resultTable.vue';

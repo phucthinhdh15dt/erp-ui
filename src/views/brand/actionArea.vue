@@ -2,7 +2,7 @@
     <div class="ActionArea">
         <Button type="primary" class="mr-12" @click="onCreate"><PlusOutlined /> Tạo mới </Button>
         <Button type="primary" danger :disabled="!selectedRowKeys || selectedRowKeys.length <= 0" @click="onDelete"
-            ><DeleteOutlined />Xóa</Button
+            ><EditOutlined />Ngưng hoạt động</Button
         >
     </div>
 </template>
@@ -10,18 +10,18 @@
 <script>
 import { defineComponent, computed, watch, inject } from 'vue';
 import { Button, Modal, message } from 'ant-design-vue';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue';
+import { EditOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { useRemoveAttributeSet } from '@/composables/attributeset/create';
 
 export default defineComponent({
     name: 'ActionArea',
-    components: { Button, DeleteOutlined, PlusOutlined },
+    components: { Button, EditOutlined, PlusOutlined },
     setup() {
         const router = useRouter();
         const store = useStore();
-        const selectedRowKeys = computed(() => store.state.attributeSet.list.data.selectedRow);
+        const selectedRowKeys = computed(() => store.state.list.selectedRow);
         const { result, removeAttributeSetIds } = useRemoveAttributeSet();
         const onSearch = inject('onSearch');
 
