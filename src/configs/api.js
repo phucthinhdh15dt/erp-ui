@@ -1,5 +1,4 @@
 export const API_NAME = {
-    GET_BRAND: 'GET_BRAND',
     POST_ATTRIBUTE_SET: 'POST_ATTRIBUTE_SET',
     GET_CATEGORY: 'GET_CATEGORY',
     GET_ATTRIBUTE_SET: 'GET_ATTRIBUTE_SET',
@@ -9,6 +8,8 @@ export const API_NAME = {
     PUT_ATTRIBUTE_SET: 'PUT_ATTRIBUTE_SET',
     SEARCH_BRAND: 'SEARCH_BRAND',
     POST_BRAND: 'POST_BRAND',
+    GET_BRAND: 'GET_BRAND',
+    PUT_BRAND: 'PUT_BRAND',
 };
 
 const MODULE = {
@@ -31,7 +32,7 @@ export default {
         version: 'v1',
         method: 'POST',
     },
-    [API_NAME.GET_BRAND]: {
+    [API_NAME.SEARCH_BRAND]: {
         module: MODULE.Brand,
         endpoint: 'search',
         version: 'v1',
@@ -67,16 +68,23 @@ export default {
         version: 'v1',
         method: 'PUT',
     },
-    [API_NAME.SEARCH_BRAND]: {
-        module: MODULE.Brand,
-        endpoint: 'search',
-        version: 'v1',
-        method: 'POST',
-    },
+
     [API_NAME.POST_BRAND]: {
         module: MODULE.Brand,
         endpoint: '',
         version: 'v1',
         method: 'POST',
+    },
+    [API_NAME.GET_BRAND]: {
+        module: MODULE.Brand,
+        endpoint: '${ id }',
+        version: 'v1',
+        method: 'GET',
+    },
+    [API_NAME.PUT_BRAND]: {
+        module: MODULE.Brand,
+        endpoint: '',
+        version: 'v1',
+        method: 'PUT',
     },
 };

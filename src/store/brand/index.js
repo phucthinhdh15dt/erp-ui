@@ -1,29 +1,24 @@
 import getters from './getters';
 import actions from './actions';
 import mutations from './mutations';
+import { cloneDeep } from 'lodash/fp';
+
+export const defaultState = {
+    data: {
+        id: undefined,
+        name: '',
+        code: '',
+        description: '',
+        status: undefined,
+    },
+
+    isOpen: false,
+    isEdit: false,
+};
 
 export default {
     namespaced: true,
-    state: () => ({
-        create: {
-            data: {
-                name: '',
-                code: '',
-                description: '',
-            },
-        },
-        detail: {
-            data: {
-                id: undefined,
-                name: '',
-                code: '',
-                description: '',
-                status,
-            },
-        },
-        isOpen: false,
-        isEdit: false,
-    }),
+    state: () => cloneDeep(defaultState),
     getters,
     actions,
     mutations,

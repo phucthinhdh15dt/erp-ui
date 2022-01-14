@@ -26,6 +26,9 @@
             <template #status="{ text: status }">
                 <Status v-if="status" :code="status.code" />
             </template>
+            <template #event="{ record }">
+                <Button type="primary" @click="openPopup(record.code)"><EditOutlined /></Button>
+            </template>
             <template #datetime="{ text: status }">
                 <Datetime :value="status" />
             </template>
@@ -34,18 +37,19 @@
 </template>
 
 <script>
-import { defineComponent, computed, inject, watch, ref } from 'vue';
-import { Table, Radio } from 'ant-design-vue';
+import { defineComponent, computed, inject, watch } from 'vue';
+import { Table, Radio, Button } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { STATUS } from '@/constants';
 import { getOr } from 'lodash/fp';
 import moment from 'moment';
 import Status from '@/components/common/status.vue';
 import Datetime from '@/components/common/datetime.vue';
+import { EditOutlined } from '@ant-design/icons-vue';
 
 export default defineComponent({
     name: 'Result',
-    components: { Table, Radio, Status, Datetime },
+    components: { Table, Radio, Status, Datetime, Button, EditOutlined },
     props: {
         columns: {
             type: Array,
@@ -59,6 +63,7 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const onSearch = inject('onSearch');
+        const onGetDetail = inject('onGetDetail');
         const searchResult = computed(() => store.state.list.results);
         const isLoading = computed(() => store.state.list.isLoading);
         const paginationStored = computed(() => store.state.list.pagination);
@@ -112,6 +117,9 @@ export default defineComponent({
             store.commit('list/setSearchSelectedAll', selected);
         };
 
+        const openPopup = id => {
+            onGetDetail(id);
+        };
         return {
             STATUS,
             searchResult,
@@ -124,6 +132,7 @@ export default defineComponent({
             onSelectChange,
             progress,
             onSelectAll,
+            openPopup,
         };
     },
 });

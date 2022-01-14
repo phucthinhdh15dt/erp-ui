@@ -1,19 +1,23 @@
 <template>
-    <List
-        :columns="columns"
-        :filter-configs="filters"
-        :search-configs="searchConfigs"
-        :sort-configs="sortConfigs"
-        name="Brand"
-    >
-        <template #ActionArea><ActionArea /></template>
-    </List>
+    <Spin tip="Đang tải..." :spinning="loading">
+        <List
+            :columns="columns"
+            :filter-configs="filters"
+            :search-configs="searchConfigs"
+            :sort-configs="sortConfigs"
+            name="Brand"
+        >
+            <template #ActionArea><ActionArea /></template>
+        </List>
+    </Spin>
 </template>
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, provide, watch } from 'vue';
+import { Spin } from 'ant-design-vue';
 import List from '@/components/list/index.vue';
 import ActionArea from './actionArea.vue';
-import { STATUS_BRAND } from '@/constants';
+import { useBrand } from '@/composables/brand/index';
+import { useStore } from 'vuex';
 
 export const columns = [
     {
@@ -53,6 +57,14 @@ export const columns = [
         width: 200,
         align: 'center',
     },
+    {
+        title: 'Thao tác',
+        dataIndex: 'event',
+        slots: { customRender: 'event' },
+        key: 'event',
+        width: 200,
+        align: 'center',
+    },
 ];
 
 const searchConfigs = {
@@ -64,16 +76,38 @@ const searchConfigs = {
 
 const filters = [];
 
-const sortConfigs = [];
+const sortConfigs = [
+    // {
+    //     createdAt: { order: 'desc', format: 'strict_date_optional_time_nanos' },
+    // },
+];
 
 export default defineComponent({
     name: 'BrandList',
     components: {
         List,
         ActionArea,
+        Spin,
     },
     setup() {
-        return { columns, filters, searchConfigs, sortConfigs };
+        const store = useStore();
+        const { getBrandId, result, loading } = useBrand();
+        const getDetail = id => {
+            getBrandId(id);
+        };
+        provide('onGetDetail', getDetail);
+
+        watch(
+            () => result.value,
+            () => {
+                if (result.value && !loading.value) {
+                    store.commit('brand/setIsOpen', true);
+                    store.commit('brand/setIsEdit', true);
+                }
+            }
+        );
+
+        return { columns, filters, searchConfigs, sortConfigs, loading };
     },
 });
 </script>

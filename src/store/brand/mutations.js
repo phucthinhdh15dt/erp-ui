@@ -1,10 +1,6 @@
-const setBrandCreate = (state, data) => {
-    state.create.data = data;
+const setBrandData = (state, data) => {
+    state.data = data;
 };
-const setBrandDetail = (state, data) => {
-    state.detail.data = data;
-};
-
 const setIsOpen = (state, data) => {
     state.isOpen = data;
 };
@@ -13,8 +9,7 @@ const setIsEdit = (state, data) => {
 };
 
 export default {
-    setBrandCreate,
-    setBrandDetail,
+    setBrandData,
     setIsOpen,
     setIsEdit,
 };

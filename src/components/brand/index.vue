@@ -1,8 +1,16 @@
 <template>
-    <Modal class="BrandModal" :visible="isOpen" title="Tạo mới thương hiệu" @ok="onCreate" @cancel="onClose">
+    <Modal
+        v-if="modelRef"
+        class="BrandModal"
+        :visible="isOpen"
+        :title="isEdit ? `Chỉnh sửa thương hiệu: ${modelRef.name}` : 'Tạo mới thương hiệu'"
+        @ok="onCreate"
+        @cancel="onClose"
+    >
         <template #footer>
             <Button type="primary" danger @click="handleCancel">Hủy</Button>
-            <Button type="primary" :loading="loading" @click="onSubmit"><CheckOutlined />Thêm mới</Button>
+            <Button v-if="isEdit" type="primary" :loading="loading" @click="onSubmit"><CheckOutlined />Cập nhật</Button>
+            <Button v-else type="primary" :loading="loading" @click="onSubmit"><CheckOutlined />Thêm mới</Button>
         </template>
         <Form label-align="left">
             <Row>
@@ -56,22 +64,27 @@ export default defineComponent({
     },
     setup() {
         const store = useStore();
-        const modelRef = computed(() => store.state.brand.create.data);
+        const modelRef = computed(() => store.state.brand.data);
         const isOpen = computed(() => store.state.brand.isOpen);
+        const isEdit = computed(() => store.state.brand.isEdit);
 
         const onSearch = inject('onSearch');
 
         const rulesRef = reactive(formRules);
         const form = useForm(modelRef, rulesRef);
 
-        const { loading, result, createBrand } = useCreateBrand();
+        const { loading, result, createBrand, updateBrand } = useCreateBrand();
 
         const { resetFields, validate, validateInfos } = form;
 
         const onSubmit = () => {
             validate()
                 .then(() => {
-                    createBrand(modelRef.value);
+                    if (modelRef.value.id) {
+                        updateBrand(modelRef.value);
+                    } else {
+                        createBrand(modelRef.value);
+                    }
                 })
                 .catch(err => {
                     console.log('error', err);
@@ -90,7 +103,12 @@ export default defineComponent({
             () => result.value,
             () => {
                 if (result.value && !loading.value) {
-                    message.success('Tạo mới thương hiệu thành công!');
+                    if (modelRef.value.id) {
+                        message.success('Cập nhật thương hiệu thành công!');
+                    } else {
+                        message.success('Tạo mới thương hiệu thành công!');
+                    }
+
                     onSearch();
                     handleCancel();
                 }
@@ -104,6 +122,7 @@ export default defineComponent({
             onClose,
             handleCancel,
             loading,
+            isEdit,
         };
     },
 });

@@ -14,9 +14,9 @@ const useBrand = () => {
         errorMessage.value = '';
         result.value = '';
 
-        const response = await api.brand.createAttributeSet(payload);
+        const response = await api.brand.getBrandId(id);
         if (response && response.data) {
-            store.commit('brand/setBrandCreate', response.data);
+            store.commit('brand/setBrandData', response.data);
             result.value = response.data;
         }
         loading.value = false;
@@ -55,11 +55,30 @@ const useCreateBrand = () => {
         loading.value = false;
     };
 
+    const updateBrand = async data => {
+        loading.value = true;
+        errorMessage.value = '';
+        result.value = '';
+
+        const payload = {
+            code: data.code,
+            name: data.name,
+            // description: data.description,
+        };
+
+        const response = await api.brand.updateBrand(payload);
+        if (response && response.success) {
+            result.value = response.success;
+        }
+        loading.value = false;
+    };
+
     return {
         errorMessage,
         createBrand,
         result,
         loading,
+        updateBrand,
     };
 };
 
