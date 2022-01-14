@@ -17,8 +17,8 @@ export default axios => ({
         return api.call();
     },
 
-    removeAttributeSetId(id) {
-        const api = apiGenerator(axios, API_NAME.DELETE_ATTRIBUTE_SET, { params: { id } });
+    removeAttributeSetIds(payload) {
+        const api = apiGenerator(axios, API_NAME.DELETE_ATTRIBUTE_SET, { payload });
         return api.call();
     },
 

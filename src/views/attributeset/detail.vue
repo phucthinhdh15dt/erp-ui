@@ -1,23 +1,25 @@
 <template>
     <div class="AttributeSetDetail">
-        <Form :label-col="labelCol" :wrapper-col="wrapperCol" label-align="left">
-            <Row :gutter="16">
-                <Col :span="24">
-                    <Head />
-                </Col>
-            </Row>
-            <Row :gutter="16">
-                <Col :span="24">
-                    <Body />
-                </Col>
-            </Row>
-        </Form>
+        <Spin tip="Đang tải..." :spinning="loading">
+            <Form :label-col="labelCol" :wrapper-col="wrapperCol" label-align="left">
+                <Row :gutter="16">
+                    <Col :span="24">
+                        <Head />
+                    </Col>
+                </Row>
+                <Row :gutter="16">
+                    <Col :span="24">
+                        <Body />
+                    </Col>
+                </Row>
+            </Form>
+        </Spin>
     </div>
 </template>
 <script>
 import { defineComponent, watch, computed, provide, reactive } from 'vue';
 import { useRoute } from 'vue-router';
-import { Row, Col, Form } from 'ant-design-vue';
+import { Row, Col, Form, Spin } from 'ant-design-vue';
 import Head from '@/components/attributeset/detail/head.vue';
 import Body from '@/components/attributeset/detail/body.vue';
 import { useGetAttributeSet } from '@/composables/attributeset/create';
@@ -35,11 +37,12 @@ export default defineComponent({
         Col,
         Head,
         Body,
+        Spin,
     },
     setup() {
         const store = useStore();
         const route = useRoute();
-        const { getAttributeSetId } = useGetAttributeSet();
+        const { getAttributeSetId, loading } = useGetAttributeSet();
         const attributeSetId = computed(() => route.params.id);
         const modelRef = computed(() => store.state.attributeSet.detail.data);
         provide('attributeSetId', attributeSetId);
@@ -61,6 +64,7 @@ export default defineComponent({
         return {
             labelCol: { span: 8 },
             wrapperCol: { span: 16 },
+            loading,
         };
     },
 });

@@ -90,7 +90,7 @@
 
                                 <Select
                                     v-else
-                                    v-model:value="item.layoutPosition"
+                                    v-model:value="item.position"
                                     placeholder="Chọn vị trí"
                                     label-in-value
                                     size="large"

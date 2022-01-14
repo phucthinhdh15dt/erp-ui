@@ -49,7 +49,7 @@ export default {
     },
     [API_NAME.DELETE_ATTRIBUTE_SET]: {
         module: MODULE.AttributeSet,
-        endpoint: '${ id }',
+        endpoint: '',
         version: 'v1',
         method: 'DELETE',
     },

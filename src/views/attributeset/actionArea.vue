@@ -13,7 +13,7 @@ import { Button, Modal, message } from 'ant-design-vue';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { useRemoveAttributeSetList } from '@/composables/attributeset/create';
+import { useRemoveAttributeSet } from '@/composables/attributeset/create';
 
 export default defineComponent({
     name: 'ActionArea',
@@ -22,7 +22,7 @@ export default defineComponent({
         const router = useRouter();
         const store = useStore();
         const selectedRowKeys = computed(() => store.state.attributeSet.list.data.selectedRow);
-        const { result, removeAttributeSetIds } = useRemoveAttributeSetList();
+        const { result, removeAttributeSetIds } = useRemoveAttributeSet();
         const onSearch = inject('onSearch');
 
         const onDelete = () => {
@@ -40,7 +40,8 @@ export default defineComponent({
         };
 
         const removeAttributeList = () => {
-            removeAttributeSetIds(selectedRowKeys);
+            debugger;
+            removeAttributeSetIds(selectedRowKeys.value);
         };
 
         watch(

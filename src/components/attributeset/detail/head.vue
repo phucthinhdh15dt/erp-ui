@@ -49,7 +49,7 @@ export default {
             return false;
         });
 
-        const { result, removeAttributeSetId } = useRemoveAttributeSet();
+        const { result, removeAttributeSetIds } = useRemoveAttributeSet();
         const { getUpdateAttributeSet, result: resultUpdate, loading: loadingUpdate } = useGetAttributeSet();
 
         const onRemove = () => {
@@ -63,14 +63,17 @@ export default {
             });
         };
         const removeAttribute = () => {
-            removeAttributeSetId(attributeSetId.value);
+            removeAttributeSetIds([attributeSetId.value]);
         };
 
         watch(
             () => result.value,
             () => {
                 if (result.value) {
-                    router.push({ path: '/attributeSet/list' });
+                    message.success('Xóa nhóm thuộc tính thành công');
+                    setTimeout(() => {
+                        router.push({ path: '/attributeSet/list' });
+                    }, 500);
                 }
             }
         );

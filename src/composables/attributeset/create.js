@@ -1,5 +1,7 @@
 import { ref, onMounted, watch, inject } from 'vue';
 import { useStore } from 'vuex';
+import { AttributeItemPosition } from '@/constants/attributeItem';
+import { cloneDeep } from 'lodash';
 
 const useCreate = () => {
     const api = inject('api');
@@ -97,9 +99,19 @@ const useGetAttributeSet = () => {
         errorMessage.value = '';
         result.value = '';
         const response = await api.attributeSet.getAttributeSetId(id);
-
         if (response.data) {
-            store.dispatch('attributeSet/setAttributeSetDetail', response.data);
+            let data = cloneDeep(response.data);
+            if (data.attributes && data.attributes.length > 0) {
+                data.attributes.forEach((element, index) => {
+                    if (element.layoutPosition) {
+                        const position = AttributeItemPosition.find(m => m.value === element.layoutPosition);
+                        if (position) {
+                            element.position = position;
+                        }
+                    }
+                });
+            }
+            store.dispatch('attributeSet/setAttributeSetDetail', data);
         }
         result.value = response.data;
         loading.value = false;
@@ -119,7 +131,7 @@ const useGetAttributeSet = () => {
                 attributeCode: m.attribute.code,
                 group: m.group,
                 groupOrder: m.groupOrder,
-                layoutPosition: m.layoutPosition.key,
+                layoutPosition: m.position.key,
                 isVariant: m.isVariant,
             }));
         }
@@ -130,7 +142,6 @@ const useGetAttributeSet = () => {
             name: data.name,
             id: data.id,
         };
-        debugger;
         const response = await api.attributeSet.getUpdateAttributeSet(payload);
         if (response.data) {
             const detailResponse = await api.attributeSet.getAttributeSetId(response.data);
@@ -158,35 +169,12 @@ const useRemoveAttributeSet = () => {
     const errorMessage = ref('');
     const result = ref({});
 
-    const removeAttributeSetId = async id => {
-        loading.value = true;
-        errorMessage.value = '';
-        result.value = '';
-        const response = await api.attributeSet.removeAttributeSetId(id);
-        result.value = response;
-        loading.value = false;
-    };
-
-    return {
-        loading,
-        result,
-        errorMessage,
-        removeAttributeSetId,
-    };
-};
-
-const useRemoveAttributeSetList = () => {
-    const api = inject('api');
-    const store = useStore();
-    const loading = ref(false);
-    const errorMessage = ref('');
-    const result = ref({});
-
     const removeAttributeSetIds = async ids => {
         loading.value = true;
         errorMessage.value = '';
         result.value = '';
-        const response = await api.attributeSet.removeAttributeSetIds(ids);
+        const payload = ids;
+        const response = await api.attributeSet.removeAttributeSetIds(payload);
         result.value = response;
         loading.value = false;
     };
@@ -199,4 +187,4 @@ const useRemoveAttributeSetList = () => {
     };
 };
 
-export { useCreate, useProperties, useGetAttributeSet, useRemoveAttributeSet, useRemoveAttributeSetList };
+export { useCreate, useProperties, useGetAttributeSet, useRemoveAttributeSet };
