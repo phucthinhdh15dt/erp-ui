@@ -87,6 +87,7 @@
                             <label style="font-weight: bold">Vị trí</label>
                             <Row align="bottom" style="margin-top: 20px">
                                 <label v-if="!isEdit">{{ getPositionAttributeItem(item).text }}</label>
+
                                 <Select
                                     v-else
                                     v-model:value="item.layoutPosition"
@@ -149,14 +150,14 @@
                                 </li>
                             </ul>
                             <ul v-else class="AttributeSetDetailChoose__Dropdown__Menu">
-                                <Row style="padding: 5px 12px">
+                                <Row align="bottom" style="padding: 5px 12px">
                                     <Button type="primary" @click="onNewProperties">
                                         <PlusOutlined />
                                         Thêm thuộc tính mới
                                     </Button>
                                 </Row>
                                 <li v-for="(item, idx) in attributeSuggestion" :key="idx" class="item">
-                                    <Row>
+                                    <Row align="bottom">
                                         <Checkbox
                                             :checked="isCheck(item)"
                                             :disabled="false"

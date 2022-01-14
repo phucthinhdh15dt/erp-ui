@@ -16,12 +16,14 @@ const useCreate = () => {
         const data = store.state.attributeSet.create.data;
         let attributeItem = [];
         if (data.attributes && data.attributes.length > 0) {
+            debugger;
             attributeItem = data.attributes.map(m => ({
                 attrOrder: m.attributeOrder,
                 attributeCode: m.code,
                 group: m.groupName,
                 groupOrder: m.groupOrder,
-                layoutPosition: m.attributePosition.key,
+                layoutPosition: m.attributePosition.value,
+                isVariant: m.isVariant,
             }));
         }
         const payload = {
@@ -111,12 +113,14 @@ const useGetAttributeSet = () => {
 
         let attributeItem = [];
         if (data.attributes && data.attributes.length > 0) {
+            debugger;
             attributeItem = data.attributes.map(m => ({
                 attrOrder: m.attrOrder,
                 attributeCode: m.attribute.code,
                 group: m.group,
                 groupOrder: m.groupOrder,
                 layoutPosition: m.layoutPosition.key,
+                isVariant: m.isVariant,
             }));
         }
         const payload = {
