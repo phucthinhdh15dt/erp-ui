@@ -8,6 +8,7 @@ export const API_NAME = {
     SEARCH_ATTRIBUTE_SET: 'SEARCH_ATTRIBUTE_SET',
     PUT_ATTRIBUTE_SET: 'PUT_ATTRIBUTE_SET',
     SEARCH_BRAND: 'SEARCH_BRAND',
+    POST_BRAND: 'POST_BRAND',
 };
 
 const MODULE = {
@@ -69,6 +70,12 @@ export default {
     [API_NAME.SEARCH_BRAND]: {
         module: MODULE.Brand,
         endpoint: 'search',
+        version: 'v1',
+        method: 'POST',
+    },
+    [API_NAME.POST_BRAND]: {
+        module: MODULE.Brand,
+        endpoint: '',
         version: 'v1',
         method: 'POST',
     },

@@ -7,50 +7,22 @@ export default {
     state: () => ({
         create: {
             data: {
-                category: undefined,
-                brand: undefined,
                 name: '',
-                attributes: [],
+                code: '',
+                description: '',
             },
         },
         detail: {
             data: {
-                category: undefined,
-                brand: undefined,
+                id: undefined,
                 name: '',
-                attributes: [],
-            },
-            isEdit: false,
-        },
-        list: {
-            data: {
-                name: '',
-                keyword: '',
-                filters: {},
-                filterCollected: {},
-                pagination: {
-                    defaultPageSize: 10,
-                    current: 1,
-                    offset: 0,
-                    limit: 10,
-                },
-                progress: {
-                    completed: 0,
-                    total: 0,
-                },
-                selectedRow: [],
-                isSelectedAll: false,
-                isLoading: false,
-                results: [],
-                allResults: {},
+                code: '',
+                description: '',
+                status,
             },
         },
-        common: {
-            data: {
-                optionCategory: [],
-                optionBrand: [],
-            },
-        },
+        isOpen: false,
+        isEdit: false,
     }),
     getters,
     actions,
