@@ -78,7 +78,7 @@ const filters = [];
 
 const sortConfigs = [
     // {
-    //     createdAt: { order: 'desc', format: 'strict_date_optional_time_nanos' },
+    //     id: { order: 'desc', format: 'strict_date_optional_time_nanos' },
     // },
 ];
 

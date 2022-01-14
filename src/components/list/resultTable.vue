@@ -15,7 +15,10 @@
             </template>
             <template #id="{ text: id }">
                 <span>
-                    <a class="id-style" :href="`/${searchConfigs.urlParam}/${id}`">#{{ id }}</a>
+                    <a v-if="searchConfigs.urlParam" class="id-style" :href="`/${searchConfigs.urlParam}/${id}`"
+                        >#{{ id }}</a
+                    >
+                    <a v-else class="id-style">#{{ id }}</a>
                 </span>
             </template>
             <template #clampline="{ text: text }">
@@ -27,7 +30,9 @@
                 <Status v-if="status" :code="status.code" />
             </template>
             <template #event="{ record }">
-                <Button type="primary" @click="openPopup(record.code)"><EditOutlined /></Button>
+                <Button type="primary" class="btnEdit" shape="circle" @click="openPopup(record.code)"
+                    ><EditOutlined
+                /></Button>
             </template>
             <template #datetime="{ text: status }">
                 <Datetime :value="status" />
@@ -160,6 +165,11 @@ export default defineComponent({
 
     .ant-radio-group {
         width: 100%;
+    }
+
+    .btnEdit {
+        background: $active-color;
+        border-color: $active-color;
     }
 }
 </style>

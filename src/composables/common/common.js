@@ -18,6 +18,7 @@ const useCommon = () => {
             query: {
                 match_all: {},
             },
+            size: 1000,
         };
         const response = await api.common.getCategory(query);
         if (response.data) {
@@ -39,6 +40,7 @@ const useCommon = () => {
             query: {
                 match_all: {},
             },
+            size: 1000,
         };
         const response = await api.common.getBrand(query);
         if (response.data) {

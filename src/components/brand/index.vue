@@ -15,7 +15,10 @@
         <Form label-align="left">
             <Row>
                 <FormItem label="Mã thương hiệu" v-bind="validateInfos['code']">
-                    <Input v-model:value="modelRef.code" />
+                    <label v-if="isEdit"
+                        ><b>{{ modelRef.code }}</b></label
+                    >
+                    <Input v-else v-model:value="modelRef.code" />
                 </FormItem>
             </Row>
             <Row>
