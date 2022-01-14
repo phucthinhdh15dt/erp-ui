@@ -78,8 +78,8 @@ export default defineComponent({
     },
     setup(props) {
         const { filterConfigs: filterConfigsRef } = toRefs(props);
-        const { resultBrand } = useCommon();
-
+        const { resultBrand, getCategory } = useCommon();
+        getCategory();
         const store = useStore();
         const onSearch = inject('onSearch');
         const filters = computed(() => store.state.attributeSet.list.data.filters);

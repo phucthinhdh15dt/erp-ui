@@ -77,18 +77,9 @@ export default {
         const form = inject('form');
         const { validateInfos } = form;
 
-        const { getCategory, getBrand, resultBrand, result: resultCate } = useCommon();
+        const { getCategory, resultBrand, result: resultCate } = useCommon();
 
         getCategory();
-
-        watch(
-            () => resultCate.value,
-            () => {
-                if (resultCate.value) {
-                    getBrand();
-                }
-            }
-        );
 
         const onChangeCategory = (value, option) => {
             store.commit('attributeSet/setAttributeSetCreateCategory', option);

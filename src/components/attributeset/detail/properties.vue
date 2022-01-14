@@ -1,6 +1,7 @@
 <template>
     <div>
         <div class="font-14 font-bold">Thông tin thuộc tính</div>
+        {{ modelRef.attributes }}
         <Row>
             <Col
                 v-if="modelRef.attributes && modelRef.attributes.length > 0"
@@ -228,7 +229,17 @@ export default {
             debugger;
             const foundAttribute = attributeSuggestion.value.find(_ => _.id === value.id);
             if (foundAttribute) {
-                store.dispatch('attributeSet/addDetailAttributeSet', toRaw(foundAttribute));
+                const data = {
+                    id: value.id,
+                    layoutPosition: AttributeItemPosition[0].key,
+                    attribute: { ...foundAttribute, uiComponentType: foundAttribute.type },
+                    group: '',
+                    groupOrder: 1,
+                    isVariant: false,
+                    layoutPosition: AttributeItemPosition[0].key,
+                    attrOrder: 1,
+                };
+                store.dispatch('attributeSet/addDetailAttributeSet', data);
             }
             searchKey.value = '';
         };

@@ -1,4 +1,4 @@
-import { ref, onMounted, watch, inject } from 'vue';
+import { ref, inject } from 'vue';
 import { useStore } from 'vuex';
 import { AttributeItemPosition } from '@/constants/attributeItem';
 import { cloneDeep } from 'lodash';
@@ -51,7 +51,6 @@ const useCreate = () => {
 
 const useProperties = () => {
     const api = inject('api');
-    const store = useStore();
     const result = ref({});
     const errorMessage = ref('');
     const loading = ref(false);
@@ -102,7 +101,7 @@ const useGetAttributeSet = () => {
         if (response.data) {
             let data = cloneDeep(response.data);
             if (data.attributes && data.attributes.length > 0) {
-                data.attributes.forEach((element, index) => {
+                data.attributes.forEach(element => {
                     if (element.layoutPosition) {
                         const position = AttributeItemPosition.find(m => m.value === element.layoutPosition);
                         if (position) {
@@ -125,7 +124,6 @@ const useGetAttributeSet = () => {
 
         let attributeItem = [];
         if (data.attributes && data.attributes.length > 0) {
-            debugger;
             attributeItem = data.attributes.map(m => ({
                 attrOrder: m.attrOrder,
                 attributeCode: m.attribute.code,
@@ -164,7 +162,6 @@ const useGetAttributeSet = () => {
 
 const useRemoveAttributeSet = () => {
     const api = inject('api');
-    const store = useStore();
     const loading = ref(false);
     const errorMessage = ref('');
     const result = ref({});

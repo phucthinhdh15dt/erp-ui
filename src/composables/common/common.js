@@ -1,6 +1,5 @@
-import { ref, inject, onMounted } from 'vue';
+import { ref, inject } from 'vue';
 import { useStore } from 'vuex';
-import { getOr } from 'lodash/fp';
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -52,8 +51,6 @@ const useCommon = () => {
 
         loading.value = false;
     };
-
-    onMounted(getCategory());
 
     return {
         getCategory,
