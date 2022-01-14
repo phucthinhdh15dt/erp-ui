@@ -17,4 +17,10 @@ export default {
             message: 'Nhập mã code cho thương hiệu',
         },
     ],
+    status: [
+        {
+            required: true,
+            message: 'Chọn trạng thái',
+        },
+    ],
 };

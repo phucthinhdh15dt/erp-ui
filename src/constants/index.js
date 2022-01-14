@@ -5,11 +5,11 @@ export const STATUS_BRAND = {
     ACTIVE: {
         code: 'ACTIVE',
         label: 'Hoạt động',
-        color: '#C4C4C4',
+        color: '#52c41a',
     },
     DEACTIVE: {
         code: 'DEACTIVE',
-        label: 'Ngưng hoặt động',
-        color: '#d9d9d9',
+        label: 'Ngưng hoạt động',
+        color: '#ff4d4f',
     },
 };

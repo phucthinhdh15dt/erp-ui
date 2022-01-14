@@ -2,6 +2,7 @@ import getters from './getters';
 import actions from './actions';
 import mutations from './mutations';
 import { cloneDeep } from 'lodash/fp';
+import { STATUS_BRAND } from '@/constants';
 
 export const defaultState = {
     data: {
@@ -9,7 +10,7 @@ export const defaultState = {
         name: '',
         code: '',
         description: '',
-        status: undefined,
+        status: Object.values(STATUS_BRAND).map(_ => ({ value: _.code, label: _.label }))[0],
     },
 
     isOpen: false,

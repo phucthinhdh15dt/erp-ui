@@ -27,7 +27,7 @@
                 </span>
             </template>
             <template #status="{ text: status }">
-                <Status v-if="status" :code="status.code" />
+                <Status :code="status ? status : 'DEACTIVE'" />
             </template>
             <template #event="{ record }">
                 <Button type="primary" class="btnEdit" shape="circle" @click="openPopup(record.code)"

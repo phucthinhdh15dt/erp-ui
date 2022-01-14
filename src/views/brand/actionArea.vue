@@ -1,9 +1,9 @@
 <template>
     <div class="ActionArea">
         <Button type="primary" class="mr-12" @click="onCreateNew"><PlusOutlined /> Tạo mới </Button>
-        <Button type="primary" danger :disabled="!selectedRowKeys || selectedRowKeys.length <= 0" @click="onDelete"
+        <!-- <Button type="primary" danger :disabled="!selectedRowKeys || selectedRowKeys.length <= 0" @click="onDelete"
             ><EditOutlined />Ngưng hoạt động</Button
-        >
+        > -->
         <Brand />
     </div>
 </template>
@@ -21,7 +21,6 @@ export default defineComponent({
     name: 'ActionArea',
     components: {
         Button,
-        EditOutlined,
         PlusOutlined,
         Brand,
     },
@@ -44,6 +43,7 @@ export default defineComponent({
             });
         };
         const onCreateNew = () => {
+            store.commit('brand/resetBrandData');
             store.commit('brand/setIsOpen', !isOpen.value);
         };
 

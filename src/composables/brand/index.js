@@ -1,6 +1,7 @@
 import { ref, inject } from 'vue';
 import { useStore } from 'vuex';
 import { cloneDeep } from 'lodash';
+import { STATUS_BRAND } from '@/constants';
 
 const useBrand = () => {
     const api = inject('api');
@@ -16,8 +17,20 @@ const useBrand = () => {
 
         const response = await api.brand.getBrandId(id);
         if (response && response.data) {
-            store.commit('brand/setBrandData', response.data);
-            result.value = response.data;
+            let data = cloneDeep(response.data);
+
+            const lst = Object.values(STATUS_BRAND).map(_ => ({ value: _.code, label: _.label }));
+            data.status = lst[1];
+
+            if (response.data) {
+                const index = lst.find(f => f.value === response.data.status);
+                if (index >= 0) {
+                    data.status = lst[index];
+                }
+            }
+
+            store.commit('brand/setBrandData', data);
+            result.value = data;
         }
         loading.value = false;
     };
@@ -41,11 +54,11 @@ const useCreateBrand = () => {
         loading.value = true;
         errorMessage.value = '';
         result.value = '';
-
         const payload = {
             code: data.code,
             name: data.name,
-            // description: data.description,
+            description: data.description,
+            status: data.status.key,
         };
 
         const response = await api.brand.createBrand(payload);
@@ -59,11 +72,11 @@ const useCreateBrand = () => {
         loading.value = true;
         errorMessage.value = '';
         result.value = '';
-
         const payload = {
             code: data.code,
             name: data.name,
-            // description: data.description,
+            description: data.description,
+            status: data.status.value,
         };
 
         const response = await api.brand.updateBrand(payload);

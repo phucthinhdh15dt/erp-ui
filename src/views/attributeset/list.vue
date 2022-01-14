@@ -74,7 +74,11 @@ const filters = [
     },
 ];
 
-const sortConfigs = [];
+const sortConfigs = [
+    {
+        'id.keyword': 'desc',
+    },
+];
 
 export default defineComponent({
     name: 'AttributeSetList',
