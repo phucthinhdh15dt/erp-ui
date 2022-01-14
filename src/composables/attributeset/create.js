@@ -18,7 +18,6 @@ const useCreate = () => {
         const data = store.state.attributeSet.create.data;
         let attributeItem = [];
         if (data.attributes && data.attributes.length > 0) {
-            debugger;
             attributeItem = data.attributes.map(m => ({
                 attrOrder: m.attributeOrder,
                 attributeCode: m.code,
@@ -121,7 +120,6 @@ const useGetAttributeSet = () => {
         errorMessage.value = '';
         result.value = '';
         const data = store.state.attributeSet.detail.data;
-        debugger;
         let attributeItem = [];
         if (data.attributes && data.attributes.length > 0) {
             attributeItem = data.attributes.map(m => ({

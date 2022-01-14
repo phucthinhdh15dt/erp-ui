@@ -232,7 +232,7 @@ export default {
         };
 
         const removeProperties = item => {
-            store.dispatch('attributeSet/removeAttribute', item);
+            store.dispatch('attributeSet/removeAttributeSet', item);
         };
 
         const onNewProperties = () => {
