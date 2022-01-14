@@ -170,7 +170,9 @@ const useRemoveAttributeSet = () => {
         result.value = '';
         const payload = ids;
         const response = await api.attributeSet.removeAttributeSetIds(payload);
-        result.value = response;
+        if (response && !response.error) {
+            result.value = response;
+        }
         loading.value = false;
     };
 

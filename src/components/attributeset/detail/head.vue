@@ -70,6 +70,7 @@ export default {
             () => result.value,
             () => {
                 if (result.value) {
+                    debugger;
                     message.success('Xóa nhóm thuộc tính thành công');
                     setTimeout(() => {
                         router.push({ path: '/attributeSet/list' });

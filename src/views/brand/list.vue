@@ -1,5 +1,6 @@
 <template>
     <Spin tip="Đang tải..." :spinning="loading">
+        <div class="card-head-title font-18 font-bold">Danh sách thương hiệu</div>
         <List
             :columns="columns"
             :filter-configs="filters"

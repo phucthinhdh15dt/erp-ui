@@ -1,13 +1,16 @@
 <template>
-    <List
-        :columns="columns"
-        :filter-configs="filters"
-        :search-configs="searchConfigs"
-        :sort-configs="sortConfigs"
-        name="AttributeSet"
-    >
-        <template #ActionArea><ActionArea /></template>
-    </List>
+    <div>
+        <div class="card-head-title font-18 font-bold">Danh sách nhóm thuộc tính</div>
+        <List
+            :columns="columns"
+            :filter-configs="filters"
+            :search-configs="searchConfigs"
+            :sort-configs="sortConfigs"
+            name="AttributeSet"
+        >
+            <template #ActionArea><ActionArea /></template>
+        </List>
+    </div>
 </template>
 <script>
 import { defineComponent } from 'vue';
