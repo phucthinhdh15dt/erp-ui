@@ -24,7 +24,7 @@ const useCreate = () => {
                 attributeCode: m.code,
                 group: m.groupName,
                 groupOrder: m.groupOrder,
-                layoutPosition: m.attributePosition.value,
+                layoutPosition: m.attributePosition ? m.attributePosition.value : null,
                 isVariant: m.isVariant,
             }));
         }
@@ -121,7 +121,7 @@ const useGetAttributeSet = () => {
         errorMessage.value = '';
         result.value = '';
         const data = store.state.attributeSet.detail.data;
-
+        debugger;
         let attributeItem = [];
         if (data.attributes && data.attributes.length > 0) {
             attributeItem = data.attributes.map(m => ({
@@ -129,7 +129,7 @@ const useGetAttributeSet = () => {
                 attributeCode: m.attribute.code,
                 group: m.group,
                 groupOrder: m.groupOrder,
-                layoutPosition: m.position.key,
+                layoutPosition: m.position ? m.position.value : null,
                 isVariant: m.isVariant,
             }));
         }

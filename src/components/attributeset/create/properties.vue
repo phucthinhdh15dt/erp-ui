@@ -209,7 +209,6 @@ export default {
                 id: value.id,
                 label: value.label,
                 type: value.type,
-                attributePosition: AttributeItemPosition[0],
                 attributeOrder: 1,
                 groupOrder: 1,
                 groupName: '',

@@ -1,7 +1,6 @@
 <template>
     <div>
         <div class="font-14 font-bold">Thông tin thuộc tính</div>
-        {{ modelRef.attributes }}
         <Row>
             <Col
                 v-if="modelRef.attributes && modelRef.attributes.length > 0"
@@ -87,7 +86,7 @@
                         <Col :span="3">
                             <label style="font-weight: bold">Vị trí</label>
                             <Row align="bottom" style="margin-top: 20px">
-                                <label v-if="!isEdit">{{ getPositionAttributeItem(item).text }}</label>
+                                <label v-if="!isEdit">{{ getPositionAttributeItem(item) }}</label>
 
                                 <Select
                                     v-else
@@ -231,12 +230,12 @@ export default {
             if (foundAttribute) {
                 const data = {
                     id: value.id,
-                    layoutPosition: AttributeItemPosition[0].key,
+                    position: undefined,
                     attribute: { ...foundAttribute, uiComponentType: foundAttribute.type },
                     group: '',
                     groupOrder: 1,
                     isVariant: false,
-                    layoutPosition: AttributeItemPosition[0].key,
+                    layoutPosition: undefined,
                     attrOrder: 1,
                 };
                 store.dispatch('attributeSet/addDetailAttributeSet', data);
@@ -304,7 +303,7 @@ export default {
             if (item && item.layoutPosition) {
                 const data = AttributeItemPosition.find(f => f.value === item.layoutPosition);
                 if (data) {
-                    return data;
+                    return data.text;
                 }
             }
             return 'Không rõ';

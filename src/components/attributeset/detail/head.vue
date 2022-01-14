@@ -98,7 +98,7 @@ export default {
 
         const onSave = () => {
             if (modelRef.value.attributes.length >= 0) {
-                var index = modelRef.value.attributes.findIndex(_ => !_.id || !_.layoutPosition || _.attrOrder <= 0);
+                var index = modelRef.value.attributes.findIndex(_ => !_.id || _.attrOrder <= 0);
                 if (index >= 0) {
                     message.warning('Vui lòng kiểm tra lại danh sách thuộc tính');
                     return;
