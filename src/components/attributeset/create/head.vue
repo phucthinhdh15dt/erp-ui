@@ -2,7 +2,7 @@
     <Row justify="space-between">
         <div class="card-head-title font-18 font-bold">Nhóm thuộc tính</div>
         <div class="mt-12">
-            <Button type="primary" danger class="mr-12" @click="onCancel">Hủy bỏ</Button>
+            <Button type="primary" danger class="mr-12" :disabled="loading" @click="onCancel">Hủy bỏ</Button>
             <Button type="primary" class="confirm" :disabled="!isEnableSave" @click="onCreate">Xác nhận</Button>
         </div>
     </Row>
@@ -23,7 +23,7 @@ export default {
         const modelRef = inject('modelRef');
         const form = inject('form');
         const { validate, resetFields } = form;
-        const { result, createAttributeSet } = useCreate();
+        const { result, createAttributeSet, loading } = useCreate();
         const isEnableSave = computed(() => {
             const data = store.state.attributeSet.create.data;
             if (data.category && data.name && data.attributes && data.attributes.length > 0) {
@@ -94,7 +94,7 @@ export default {
             },
             { deep: true }
         );
-        return { onCancel, onCreate, modelRef, isEnableSave };
+        return { onCancel, onCreate, modelRef, isEnableSave, loading };
     },
 };
 </script>

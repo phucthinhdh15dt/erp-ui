@@ -5,6 +5,7 @@
                 ref="inputRef"
                 v-model:value="localKeyword"
                 class="SearchBar__Input"
+                enter-button
                 :placeholder="searchConfigs.placeholder"
                 allow-clear
                 @search="onSearchEnter"
@@ -17,9 +18,7 @@
                 @click="onOpen"
                 >Lọc</Button
             >
-            <slot name="CustomButtonModal" />
             <slot name="ActionArea" />
-            <slot name="CustomModal" />
             <Drawer title="Bộ lọc" placement="bottom" :height="300" closable :visible="visible" @close="onClose">
                 <Form>
                     <Row :gutter="24">
@@ -109,11 +108,11 @@ export default defineComponent({
         };
 
         const onBlurSearch = e => {
-            const value = trim(e.target.value);
-            localKeyword.value = value;
-            store.commit('list/setSearchKeyword', value);
-            store.commit('list/setSearchPaginationCurrent', 1);
-            onSearch();
+            // const value = trim(e.target.value);
+            // localKeyword.value = value;
+            // store.commit('list/setSearchKeyword', value);
+            // store.commit('list/setSearchPaginationCurrent', 1);
+            // onSearch();
         };
 
         const onSearchEnter = val => {

@@ -7,25 +7,46 @@
             </div>
         </router-link>
         <Menu :selected-keys="[menuKey]" :open-keys="openKeys" theme="dark" mode="inline" class="LayoutSider__Menu">
-            <SubMenu key="1">
+            <!-- <template #title>Quản lý ngành hàng</template> -->
+            <router-link to="/category">
+                <MenuItem key="1.1">
+                    <template #icon> <FormOutlined /> </template> Quản lý ngành hàng
+                </MenuItem>
+            </router-link>
+            <!-- <SubMenu key="sub1">
+                <template #icon>
+                    <FormOutlined />
+                </template>
+                <template #title>Quản lý sản phẩm</template>
+                <router-link to="/product/create">
+                    <MenuItem key="1.1">Khai báo sản phẩm</MenuItem>
+                </router-link>
+                <router-link to="/product/list">
+                    <MenuItem key="1.2">Danh sách sản phẩm</MenuItem>
+                </router-link>
+            </SubMenu> -->
+            <!--   <router-link to="/order/list">
+                    <MenuItem key="1.2">Danh sách đơn hàng</MenuItem>
+                </router-link> -->
+            <SubMenu key="3">
                 <template #icon>
                     <FormOutlined />
                 </template>
                 <template #title>QL nhóm thuộc tính</template>
                 <router-link to="/attributeSet/create">
-                    <MenuItem key="1.1">Tạo nhóm thuộc tính</MenuItem>
+                    <MenuItem key="3.1">Tạo nhóm thuộc tính</MenuItem>
                 </router-link>
                 <router-link to="/attributeSet/list">
-                    <MenuItem key="1.2">Ds nhóm thuộc tính</MenuItem>
+                    <MenuItem key="3.2">Ds nhóm thuộc tính</MenuItem>
                 </router-link>
             </SubMenu>
-            <SubMenu key="2">
+            <SubMenu key="4">
                 <template #icon>
                     <FormOutlined />
                 </template>
                 <template #title>Ql thương hiệu</template>
                 <router-link to="/brand/list">
-                    <MenuItem key="2.2">Ds thương hiệu</MenuItem>
+                    <MenuItem key="4.2">Ds thương hiệu</MenuItem>
                 </router-link>
             </SubMenu>
         </Menu>
@@ -165,10 +186,10 @@ export default defineComponent({
             }
         }
 
-        .ant-menu-submenu-title,
-        .ant-menu-item-only-child {
-            padding-left: $primary-padding !important;
-        }
+        // .ant-menu-submenu-title,
+        // .ant-menu-item-only-child {
+        //     padding-left: $primary-padding !important;
+        // }
 
         .ant-menu-submenu-arrow::before,
         .ant-menu-submenu-arrow::after {

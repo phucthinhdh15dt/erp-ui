@@ -1,4 +1,4 @@
-const removeAscent = str => {
+export const removeAscent = str => {
     if (str === null || str === undefined) return str;
     str = str.toLowerCase();
     str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a');
@@ -11,26 +11,30 @@ const removeAscent = str => {
     return str;
 };
 
-const isValidName = string => {
+export const isValidName = string => {
     var re = /^[a-zA-Z ]{2,}$/g; // regex here
     return re.test(removeAscent(string));
 };
 
-const validateEmail = value => {
+export const validateEmail = value => {
     return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(
         value
     );
 };
-const charAndNumber = value => {
+
+export const charAndNumber = value => {
     return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{0,}/.test(value);
 };
-const charSpecial = value => {
+
+export const charSpecial = value => {
     return /[$&+,:;=?@#|'<>.^*()%!-]/.test(value);
 };
-const validatePassword = value => {
+
+export const validatePassword = value => {
     return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(value);
 };
-const onlyNumber = evt => {
+
+export const onlyNumber = evt => {
     evt = evt ? evt : window.event;
     var charCode = evt.which ? evt.which : evt.keyCode;
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -39,23 +43,17 @@ const onlyNumber = evt => {
         return true;
     }
 };
-const formatPhoneNumber = value => {
+
+export const formatPhoneNumber = value => {
     let number = value.replace(/[^0-9]/g, '');
     number = number.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
     return number;
 };
-const validatePhoneNumber = value => {
+
+export const validatePhoneNumber = value => {
     return /(84|0[3|5|7|8|9])+([0-9]{8})\b/.test(value);
 };
 
-export {
-    removeAscent,
-    isValidName,
-    validateEmail,
-    charAndNumber,
-    charSpecial,
-    validatePassword,
-    formatPhoneNumber,
-    onlyNumber,
-    validatePhoneNumber,
+export const filterOption = (input, option) => {
+    return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };
