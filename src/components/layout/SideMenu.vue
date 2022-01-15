@@ -28,6 +28,27 @@
             <!--   <router-link to="/order/list">
                     <MenuItem key="1.2">Danh sách đơn hàng</MenuItem>
                 </router-link> -->
+            <SubMenu key="3">
+                <template #icon>
+                    <FormOutlined />
+                </template>
+                <template #title>QL nhóm thuộc tính</template>
+                <router-link to="/attributeSet/create">
+                    <MenuItem key="3.1">Tạo nhóm thuộc tính</MenuItem>
+                </router-link>
+                <router-link to="/attributeSet/list">
+                    <MenuItem key="3.2">Ds nhóm thuộc tính</MenuItem>
+                </router-link>
+            </SubMenu>
+            <SubMenu key="4">
+                <template #icon>
+                    <FormOutlined />
+                </template>
+                <template #title>Ql thương hiệu</template>
+                <router-link to="/brand/list">
+                    <MenuItem key="4.2">Ds thương hiệu</MenuItem>
+                </router-link>
+            </SubMenu>
         </Menu>
     </LayoutSider>
 </template>
@@ -35,9 +56,8 @@
 <script>
 import { defineComponent, reactive, toRefs, watch, computed } from 'vue';
 import store from '@/store';
-import { FormOutlined, TeamOutlined } from '@ant-design/icons-vue';
+import { FormOutlined } from '@ant-design/icons-vue';
 import { Menu, Layout } from 'ant-design-vue';
-import { isEmpty } from 'lodash/fp';
 
 const { SubMenu, Item: MenuItem } = Menu;
 const { Sider: LayoutSider } = Layout;
@@ -47,7 +67,7 @@ export default defineComponent({
         FormOutlined,
         Menu,
         MenuItem,
-        // SubMenu,
+        SubMenu,
         LayoutSider,
     },
     props: {

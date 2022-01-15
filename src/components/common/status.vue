@@ -5,7 +5,7 @@
 <script>
 import { computed, defineComponent } from 'vue';
 import { Tag } from 'ant-design-vue';
-import { STATUS } from '@/constants';
+import { STATUS_BRAND } from '@/constants';
 import { getOr } from 'lodash/fp';
 
 export default defineComponent({
@@ -20,8 +20,7 @@ export default defineComponent({
         },
     },
     setup(props) {
-        const status = computed(() => getOr({}, props.code, STATUS));
-
+        const status = computed(() => getOr({}, props.code, STATUS_BRAND));
         return { status };
     },
 });

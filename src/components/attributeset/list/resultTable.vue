@@ -1,5 +1,5 @@
 <template>
-    <div class="Result">
+    <div class="AttributeSetResult">
         <Table
             :data-source="searchResult.data"
             :columns="columns"
@@ -15,10 +15,7 @@
             </template>
             <template #id="{ text: id }">
                 <span>
-                    <a v-if="searchConfigs.urlParam" class="id-style" :href="`/${searchConfigs.urlParam}/${id}`"
-                        >#{{ id }}</a
-                    >
-                    <a v-else class="id-style">#{{ id }}</a>
+                    <a class="id-style" :href="`/${searchConfigs.urlParam}/${id}`">#{{ id }}</a>
                 </span>
             </template>
             <template #clampline="{ text: text }">
@@ -26,35 +23,20 @@
                     {{ text }}
                 </span>
             </template>
-            <template #status="{ text: status }">
-                <Status :code="status ? status : 'DEACTIVE'" />
-            </template>
-            <template #event="{ record }">
-                <Button type="primary" class="btnEdit" shape="circle" @click="openPopup(record.code)"
-                    ><EditOutlined
-                /></Button>
-            </template>
-            <template #datetime="{ text: status }">
-                <Datetime :value="status" />
-            </template>
         </Table>
     </div>
 </template>
 
 <script>
 import { defineComponent, computed, inject, watch } from 'vue';
-import { Table, Radio, Button } from 'ant-design-vue';
+import { Table, Radio } from 'ant-design-vue';
 import { useStore } from 'vuex';
-import { STATUS } from '@/constants';
-import { getOr } from 'lodash/fp';
-import moment from 'moment';
-import Status from '@/components/common/status.vue';
-import Datetime from '@/components/common/datetime.vue';
-import { EditOutlined } from '@ant-design/icons-vue';
+
+const { Group } = Radio;
 
 export default defineComponent({
-    name: 'Result',
-    components: { Table, Radio, Status, Datetime, Button, EditOutlined },
+    name: 'AttributeSetResult',
+    components: { Table, Radio },
     props: {
         columns: {
             type: Array,
@@ -68,68 +50,49 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const onSearch = inject('onSearch');
-        const onGetDetail = inject('onGetDetail');
-        const searchResult = computed(() => store.state.list.results);
-        const isLoading = computed(() => store.state.list.isLoading);
-        const paginationStored = computed(() => store.state.list.pagination);
-        const selectedRowKeys = computed(() => store.state.list.selectedRow);
-        const progress = computed(() => store.state.list.progress);
+        const searchResult = computed(() => store.state.attributeSet.list.data.results);
+        const isLoading = computed(() => store.state.attributeSet.list.data.isLoading);
+        const paginationStored = computed(() => store.state.attributeSet.list.data.pagination);
+        const selectedRowKeys = computed(() => store.state.attributeSet.list.data.selectedRow);
+        const progress = computed(() => store.state.attributeSet.list.data.progress);
 
         const onChange = pagination => {
             const { current } = pagination;
-            store.commit('list/setSearchSelectedRow', []);
-            store.commit('list/setSearchPagination', {
+            store.commit('attributeSet/setSearchSelectedRow', []);
+            store.commit('attributeSet/setSearchPagination', {
                 ...paginationStored.value,
                 current,
             });
         };
-
         const pagination = computed(() => ({
             total: searchResult.value.total,
             current: paginationStored.value.current,
             defaultPageSize: paginationStored.value.defaultPageSize,
             hideOnSinglePage: true,
         }));
-
         watch(
             paginationStored,
             () => {
-                store.commit('list/setSearchSelectedAll', false);
+                store.commit('attributeSet/setSearchSelectedAll', false);
                 onSearch();
             },
             { deep: true }
         );
-
         const onChangeSelected = e => {
             const value = e.target.value;
-            store.commit('list/setSearchSelectedRow', value);
-        };
-
-        const getStatusColor = record => {
-            let color = getOr('#000', 'color', STATUS[record.status]);
-            if (record.status === STATUS.PUBLISHED.code && moment(record.publishFromDate).isAfter(moment())) {
-                color = '#52c41a';
-            }
-            return color;
+            store.commit('attributeSet/setSearchSelectedRow', value);
         };
 
         const onSelectChange = selectedRowKeys => {
-            store.commit('list/setSearchSelectedRow', selectedRowKeys);
-            store.commit('list/setSearchSelectedAll', false);
+            store.commit('attributeSet/setSearchSelectedRow', selectedRowKeys);
+            store.commit('attributeSet/setSearchSelectedAll', false);
         };
-
         const onSelectAll = selected => {
-            store.commit('list/setSearchSelectedAll', selected);
-        };
-
-        const openPopup = id => {
-            onGetDetail(id);
+            store.commit('attributeSet/setSearchSelectedAll', selected);
         };
         return {
-            STATUS,
             searchResult,
             pagination,
-            getStatusColor,
             isLoading,
             onChange,
             selectedRowKeys,
@@ -137,14 +100,13 @@ export default defineComponent({
             onSelectChange,
             progress,
             onSelectAll,
-            openPopup,
         };
     },
 });
 </script>
 
 <style lang="scss">
-.Result {
+.AttributeSetResult {
     margin-top: $primary-margin;
 
     .ant-table-thead {
@@ -165,11 +127,6 @@ export default defineComponent({
 
     .ant-radio-group {
         width: 100%;
-    }
-
-    .btnEdit {
-        background: $active-color;
-        border-color: $active-color;
     }
 }
 </style>

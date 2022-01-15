@@ -7,14 +7,19 @@ const Login = () => import('@/views/auth/login.vue');
 const CategoryList = () => import('@/views/category/list.vue');
 const Product = () => import('@/views/product/index.vue');
 const ProductCreate = () => import('@/views/product/create.vue');
-
+const AttributeSet = () => import('@/views/attributeset/index.vue');
+const AttributeSetCreate = () => import('@/views/attributeset/create.vue');
+const AttributeSetDetail = () => import('@/views/attributeset/detail.vue');
+const AttributeSetList = () => import('@/views/attributeset/list.vue');
+const Brand = () => import('@/views/brand/index.vue');
+const BrandList = () => import('@/views/brand/list.vue');
 const routes = [
     {
         path: '/',
         name: 'Home',
         component: Home,
         meta: {
-            title: 'ERP',
+            title: 'Blissbery - ERP',
             authRequired: true,
         },
     },
@@ -101,6 +106,84 @@ const routes = [
                     layout: 'default',
                     subMenuKey: '2',
                     menuKey: '2.1',
+                },
+            },
+        ],
+    },
+    {
+        path: '/attributeset',
+        name: 'AttributeSet',
+        component: AttributeSet,
+        meta: {
+            title: 'Nhóm thuộc tính',
+            breadCrumb: 'Nhóm huộc tính',
+            authRequired: true,
+            layout: 'default',
+        },
+        children: [
+            {
+                name: 'AttributeSetDetail',
+                path: ':id',
+                component: AttributeSetDetail,
+                meta: {
+                    title: 'Chi tiết nhóm thuộc tính',
+                    breadCrumb: 'Chi tiết nhóm thuộc tính',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '3',
+                    menuKey: '3.3',
+                },
+            },
+            {
+                name: 'AttributeSetList',
+                path: 'list',
+                component: AttributeSetList,
+                meta: {
+                    title: 'Danh sách nhóm thuộc tính',
+                    breadCrumb: 'Danh sách nhóm thuộc tính',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '3',
+                    menuKey: '3.2',
+                },
+            },
+            {
+                name: 'AttributeSetCreate',
+                path: 'create',
+                component: AttributeSetCreate,
+                meta: {
+                    title: 'Tạo nhóm thuộc tính',
+                    breadCrumb: 'Tạo nhóm thuộc tính',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '3',
+                    menuKey: '3.1',
+                },
+            },
+        ],
+    },
+    {
+        path: '/brand',
+        name: 'Brand',
+        component: Brand,
+        meta: {
+            title: 'Thương hiệu',
+            authRequired: true,
+            breadCrumb: 'Thương hiệu',
+            layout: 'blank',
+        },
+        children: [
+            {
+                name: 'BrandList',
+                path: 'list',
+                component: BrandList,
+                meta: {
+                    title: 'Danh sách thương hiệu',
+                    breadCrumb: 'Danh sách thương hiệu',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '4',
+                    menuKey: '4.2',
                 },
             },
         ],

@@ -1,28 +1,23 @@
 <template>
-    <Card class="SearchBar">
-        <div class="SearchBar__Filter">
+    <Card class="AttributeSetSearchBar">
+        <div class="AttributeSetSearchBar__Filter">
             <Search
                 ref="inputRef"
                 v-model:value="localKeyword"
-                class="SearchBar__Input"
-                enter-button
+                class="AttributeSetSearchBar__Input"
                 :placeholder="searchConfigs.placeholder"
                 allow-clear
                 @search="onSearchEnter"
                 @blur="onBlurSearch"
             />
-            <Button
-                v-if="filterConfigs && filterConfigs.length > 0"
-                class="SearchBar__Filter__Btn"
-                type="primary"
-                @click="onOpen"
-                >Lọc</Button
+            <Button class="AttributeSetSearchBar__Filter__Btn" type="primary" @click="onOpen"
+                ><FilterOutlined />Lọc</Button
             >
             <slot name="ActionArea" />
             <Drawer title="Bộ lọc" placement="bottom" :height="300" closable :visible="visible" @close="onClose">
                 <Form>
                     <Row :gutter="24">
-                        <Col v-for="(filter, idx) in filterConfigs" :key="idx" :span="filter.span">
+                        <Col v-for="(filter, idx) in filterConfigsRef" :key="idx" :span="filter.span">
                             <FormItem :label="filter.label">
                                 <component
                                     :is="filter.type"
@@ -34,9 +29,9 @@
                             </FormItem>
                         </Col>
                     </Row>
-                    <div class="SearchBar__Action">
-                        <Button style="margin-right: 8px" @click="onResetFilters">Làm mới</Button>
-                        <Button type="primary" @click="search">Tìm kiếm</Button>
+                    <div class="AttributeSetSearchBar__Action">
+                        <Button style="margin-right: 8px" @click="onResetFilters"><PlusOutlined /> Làm mới</Button>
+                        <Button type="primary" @click="search"><SearchOutlined />Tìm kiếm</Button>
                     </div>
                 </Form>
             </Drawer>
@@ -45,16 +40,17 @@
 </template>
 
 <script>
-import { defineComponent, defineAsyncComponent, watch, computed, inject, ref, provide } from 'vue';
+import { defineComponent, defineAsyncComponent, watch, computed, inject, ref, provide, toRefs } from 'vue';
 import { Card, Input, Select, message, Button, Drawer, Form, Row, Col } from 'ant-design-vue';
+import { FilterOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { useStore } from 'vuex';
 import { trim, cloneDeep } from 'lodash/fp';
+import { useCommon } from '@/composables/common/common';
 
 const { Search } = Input;
 const { Item: FormItem } = Form;
 
 export default defineComponent({
-    name: 'SearchBar',
     components: {
         Card,
         Search,
@@ -65,9 +61,9 @@ export default defineComponent({
         FormItem,
         Row,
         Col,
-        Text: defineAsyncComponent(() => import(`./filters/text.vue`)),
-        DateRange: defineAsyncComponent(() => import(`./filters/dateRange.vue`)),
-        NumberRange: defineAsyncComponent(() => import(`./filters/numberRange.vue`)),
+        FilterOutlined,
+        PlusOutlined,
+        SearchOutlined,
         Selection: defineAsyncComponent(() => import(`./filters/selection.vue`)),
     },
     props: {
@@ -80,57 +76,53 @@ export default defineComponent({
             default: () => {},
         },
     },
-    setup() {
+    setup(props) {
+        const { filterConfigs: filterConfigsRef } = toRefs(props);
+        const { resultBrand, getCategory } = useCommon();
+        getCategory();
         const store = useStore();
         const onSearch = inject('onSearch');
-        const filters = computed(() => store.state.list.filters);
-        const filterCollected = computed(() => store.state.list.filterCollected);
+        const filters = computed(() => store.state.attributeSet.list.data.filters);
+        const filterCollected = computed(() => store.state.attributeSet.list.data.filterCollected);
         const localKeyword = ref('');
         const visible = ref(false);
         const inputRef = ref(null);
-        const keyword = computed(() => store.state.list.keyword);
-        const selectedRow = computed(() => store.state.list.selectedRow);
-
+        const keyword = computed(() => store.state.attributeSet.list.data.keyword);
+        const selectedRow = computed(() => store.state.attributeSet.list.data.selectedRow);
         const onOpen = () => {
-            store.commit('list/setFilters', cloneDeep(filterCollected.value));
+            store.commit('attributeSet/setFilters', cloneDeep(filterCollected.value));
             visible.value = true;
         };
-
         const onClose = () => {
             visible.value = false;
         };
-
         const onResetFilters = () => {
-            store.commit('list/setFilterCollected', {});
-            store.commit('list/setFilters', {});
+            store.commit('attributeSet/setFilterCollected', {});
+            store.commit('attributeSet/setFilters', {});
             onSearch();
             onClose();
         };
-
         const onBlurSearch = e => {
-            // const value = trim(e.target.value);
-            // localKeyword.value = value;
-            // store.commit('list/setSearchKeyword', value);
-            // store.commit('list/setSearchPaginationCurrent', 1);
-            // onSearch();
+            const value = trim(e.target.value);
+            localKeyword.value = value;
+            store.commit('attributeSet/setSearchKeyword', value);
+            store.commit('attributeSet/setSearchPaginationCurrent', 1);
+            onSearch();
         };
-
         const onSearchEnter = val => {
             const value = trim(val);
             localKeyword.value = value;
-            store.commit('list/setSearchKeyword', value);
-            store.commit('list/setSearchPaginationCurrent', 1);
+            store.commit('attributeSet/setSearchKeyword', value);
+            store.commit('attributeSet/setSearchPaginationCurrent', 1);
             onSearch();
         };
-
         const onChange = data => {
-            store.commit('list/setSearchFilters', cloneDeep(data));
+            store.commit('attributeSet/setSearchFilters', cloneDeep(data));
         };
         provide('onChange', onChange);
-
         const search = () => {
-            store.commit('list/setFilterCollected', cloneDeep(filters.value));
-            store.commit('list/setSearchPaginationCurrent', 1);
+            store.commit('attributeSet/setFilterCollected', cloneDeep(filters.value));
+            store.commit('attributeSet/setSearchPaginationCurrent', 1);
             onSearch();
             onClose();
         };
@@ -144,14 +136,33 @@ export default defineComponent({
             },
             { deep: true }
         );
-
         const onRecovery = () => {
             message.warning('comming soon!');
         };
-
         const filterOption = (input, option) => {
             return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
         };
+        watch(
+            () => resultBrand.value,
+            () => {
+                if (resultBrand.value) {
+                    filterConfigsRef.value.forEach(element => {
+                        if (element.key === 'category') {
+                            element.configs.options = store.state.attributeSet.common.data.optionCategory.map(_ => ({
+                                value: _.id,
+                                label: _.label,
+                            }));
+                        }
+                        if (element.key === 'brand') {
+                            element.configs.options = store.state.attributeSet.common.data.optionBrand.map(_ => ({
+                                value: _.id,
+                                label: _.label,
+                            }));
+                        }
+                    });
+                }
+            }
+        );
 
         return {
             inputRef,
@@ -170,13 +181,14 @@ export default defineComponent({
             search,
             filterCollected,
             onResetFilters,
+            filterConfigsRef,
         };
     },
 });
 </script>
 
 <style lang="scss">
-.SearchBar {
+.AttributeSetSearchBar {
     .ant-card-body {
         display: flex;
     }
@@ -193,7 +205,6 @@ export default defineComponent({
         //     justify-content: end;
         //     text-align: right;
         //     // width: 240px;
-
         //     &--delete {
         //         margin-left: 1rem;
         //     }
@@ -210,7 +221,6 @@ export default defineComponent({
 
     &__Input {
         width: 400px;
-        // height: 38px;
         margin-right: 10px;
     }
 
