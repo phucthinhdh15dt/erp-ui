@@ -15,10 +15,7 @@
             </template>
             <template #id="{ text: id }">
                 <span>
-                    <a v-if="searchConfigs.urlParam" class="id-style" :href="`/${searchConfigs.urlParam}/${id}`"
-                        >#{{ id }}</a
-                    >
-                    <a v-else class="id-style">#{{ id }}</a>
+                    <a class="id-style" :href="`/${searchConfigs.urlParam}/${id}`">#{{ id }}</a>
                 </span>
             </template>
             <template #clampline="{ text: text }">
