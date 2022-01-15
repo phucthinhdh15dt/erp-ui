@@ -7,7 +7,7 @@ export default axios => ({
         return api.call();
     },
     searchProductCategory(payload) {
-        const api = apiGenerator(axios, API_NAME.PRODUCT_CATEGORY, { payload });
+        const api = apiGenerator(axios, API_NAME.SEARCH_PRODUCT_CATEGORY, { payload });
         return api.call();
     },
     searchBrand(payload) {
