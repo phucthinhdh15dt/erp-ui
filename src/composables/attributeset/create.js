@@ -64,7 +64,7 @@ const useProperties = () => {
                 match_all: {},
             },
         };
-        const response = await api.attributeSet.getAttribute(payload);
+        const response = await api.search.searchAttribute(payload);
         if (response.data) {
             // hardcode
             if (key) {

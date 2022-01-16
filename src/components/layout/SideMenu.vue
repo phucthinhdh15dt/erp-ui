@@ -37,7 +37,7 @@
                     <MenuItem key="3.1">Tạo nhóm thuộc tính</MenuItem>
                 </router-link>
                 <router-link to="/attributeSet/list">
-                    <MenuItem key="3.2">Ds nhóm thuộc tính</MenuItem>
+                    <MenuItem key="3.2">DS nhóm thuộc tính</MenuItem>
                 </router-link>
             </SubMenu>
             <SubMenu key="4">
@@ -46,9 +46,14 @@
                 </template>
                 <template #title>Ql thương hiệu</template>
                 <router-link to="/brand/list">
-                    <MenuItem key="4.2">Ds thương hiệu</MenuItem>
+                    <MenuItem key="4.2">DS thương hiệu</MenuItem>
                 </router-link>
             </SubMenu>
+            <router-link to="/attribute">
+                <MenuItem key="5.1">
+                    <template #icon> <FormOutlined /> </template> Quản lý thuộc tính
+                </MenuItem>
+            </router-link>
         </Menu>
     </LayoutSider>
 </template>
