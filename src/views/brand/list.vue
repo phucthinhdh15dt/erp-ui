@@ -1,5 +1,5 @@
 <template>
-    <Spin tip="Đang tải..." :spinning="loading">
+    <div class="BrandList">
         <div class="card-head-title font-18 font-bold">Danh sách thương hiệu</div>
         <List
             :columns="columns"
@@ -9,23 +9,21 @@
             name="Brand"
         >
             <template #ActionArea><ActionArea /></template>
+            <template #ResultTable><ResultTable :columns="columns" :search-configs="searchConfigs" /></template>
         </List>
-    </Spin>
+    </div>
 </template>
 <script>
-import { defineComponent, provide, watch } from 'vue';
-import { Spin } from 'ant-design-vue';
+import { defineComponent, provide, ref } from 'vue';
+import ActionArea from './list/actionArea.vue';
+import ResultTable from './list/resultTable.vue';
 import List from '@/components/list/index.vue';
-import ActionArea from './actionArea.vue';
-import { useBrand } from '@/composables/brand/index';
-import { useStore } from 'vuex';
 
 export const columns = [
     {
         title: 'Mã thương hiệu',
         dataIndex: 'id',
         key: 'id',
-        slots: { customRender: 'id' },
         width: 100,
         align: 'center',
     },
@@ -53,16 +51,7 @@ export const columns = [
     {
         title: 'Trạng thái',
         dataIndex: 'status',
-        slots: { customRender: 'status' },
         key: 'status',
-        width: 200,
-        align: 'center',
-    },
-    {
-        title: 'Thao tác',
-        dataIndex: 'event',
-        slots: { customRender: 'event' },
-        key: 'event',
         width: 200,
         align: 'center',
     },
@@ -71,7 +60,7 @@ export const columns = [
 const searchConfigs = {
     fields: ['id', 'name'],
     placeholder: 'Nhập mã hoặc tên thương hiệu',
-    rowKey: 'id',
+    rowKey: 'brandId',
     urlParam: 'brand',
 };
 
@@ -88,27 +77,12 @@ export default defineComponent({
     components: {
         List,
         ActionArea,
-        Spin,
+        ResultTable,
     },
     setup() {
-        const store = useStore();
-        const { getBrandId, result, loading } = useBrand();
-        const getDetail = id => {
-            getBrandId(id);
-        };
-        provide('onGetDetail', getDetail);
-
-        watch(
-            () => result.value,
-            () => {
-                if (result.value && !loading.value) {
-                    store.commit('brand/setIsOpen', true);
-                    store.commit('brand/setIsEdit', true);
-                }
-            }
-        );
-
-        return { columns, filters, searchConfigs, sortConfigs, loading };
+        const processingItem = ref(null);
+        provide('processingItem', processingItem);
+        return { columns, filters, searchConfigs, sortConfigs };
     },
 });
 </script>
