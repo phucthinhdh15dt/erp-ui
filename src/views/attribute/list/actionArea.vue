@@ -240,6 +240,7 @@ export default defineComponent({
             typeOptions,
             title,
             filterOption,
+            processingItem,
         };
     },
 });
