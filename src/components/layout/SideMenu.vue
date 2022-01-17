@@ -42,7 +42,7 @@
             </SubMenu>
             <router-link to="/brand">
                 <MenuItem key="4.1">
-                    <template #icon> <FormOutlined /> </template> Quản lý thương hiẹu
+                    <template #icon> <FormOutlined /> </template> Quản lý thương hiệu
                 </MenuItem>
             </router-link>
             <router-link to="/attribute">
