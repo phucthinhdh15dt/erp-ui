@@ -150,12 +150,12 @@
                                 </li>
                             </ul>
                             <ul v-else class="AttributeSetDetailChoose__Dropdown__Menu">
-                                <Row align="bottom" style="padding: 5px 12px">
+                                <!-- <Row align="bottom" style="padding: 5px 12px">
                                     <Button type="primary" @click="onNewProperties">
                                         <PlusOutlined />
                                         Thêm thuộc tính mới
                                     </Button>
-                                </Row>
+                                </Row> -->
                                 <li v-for="(item, idx) in attributeSuggestion" :key="idx" class="item">
                                     <Row align="bottom">
                                         <Checkbox
@@ -200,7 +200,6 @@ export default {
         Row,
         Select,
         Option,
-        PlusOutlined,
         InputNumber,
     },
     setup() {
