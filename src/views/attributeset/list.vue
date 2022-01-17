@@ -22,7 +22,6 @@ export const columns = [
         title: 'Mã nhóm thuộc tính',
         dataIndex: 'id',
         key: 'id',
-        slots: { customRender: 'id' },
         width: 100,
         align: 'center',
     },
