@@ -108,8 +108,9 @@ export default {
                 }
 
                 // kiểm tra attribute có chung group
+                debugger;
                 errorIds.value = [];
-                const key = 'groupName';
+                const key = 'group';
                 const listItems = groupByItem(modelRef.value.attributes, key);
                 if (listItems) {
                     let objects = Object.values(listItems);
@@ -120,7 +121,7 @@ export default {
                             element.forEach((el, index) => {
                                 if (el.position) {
                                     if (index === 0) {
-                                        first = el.position.key;
+                                        first = el.position.value;
                                     } else {
                                         if (el.position.value !== first) {
                                             errorIds.value = [...errorIds.value, ...element.map(m => m.id)];
