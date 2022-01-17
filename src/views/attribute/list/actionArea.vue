@@ -58,6 +58,17 @@
                         :filter-option="filterOption"
                     />
                 </FormItem>
+                <FormItem
+                    v-if="isSelectValue()"
+                    label="Giá trị"
+                    name="values"
+                    :rules="{
+                        required: true,
+                        message: 'Vui lòng chọn giá trị thuộc tính',
+                    }"
+                >
+                    <Select v-model:value="formState.values" mode="tags" />
+                </FormItem>
             </Form>
             <Progress
                 v-if="progress.total"
@@ -108,6 +119,8 @@ export default defineComponent({
         const searchQuery = inject('searchQuery');
         const processingItem = inject('processingItem');
 
+        const configSelect = ['MULTI_SELECT', 'SINGLE_SELECT'];
+
         const { createAttribute, result: resultCreate } = useCreateAttribute();
         const { updateAttribute, result: resultUpdate } = useUpdateAttribute();
 
@@ -147,6 +160,7 @@ export default defineComponent({
             formRef.value
                 .validateFields()
                 .then(values => {
+                    debugger;
                     console.log('Received values of form: ', values);
                     console.log('formState: ', toRaw(formState));
                     const payload = toRaw(formState);
@@ -187,6 +201,9 @@ export default defineComponent({
                 formState.code = processingItem.value.code;
                 formState.description = processingItem.value.description;
                 formState.uiComponentType = processingItem.value.uiComponentType;
+                if (processingItem.value.values && processingItem.value.values.length > 0) {
+                    formState.values = JSON.parse(processingItem.value.values).map(m => m.value);
+                }
                 visible.value = true;
             } else {
                 // formRef.value.resetFields();
@@ -194,6 +211,7 @@ export default defineComponent({
                 formState.code = '';
                 formState.description = '';
                 formState.uiComponentType = undefined;
+                formState.values = [];
             }
         });
 
@@ -227,6 +245,13 @@ export default defineComponent({
             { deep: true }
         );
 
+        const isSelectValue = () => {
+            if (typeOptions.find(f => f.value === formState.uiComponentType && configSelect.includes(f.value))) {
+                return true;
+            }
+            return false;
+        };
+
         return {
             onConfirm,
             visible,
@@ -241,6 +266,7 @@ export default defineComponent({
             title,
             filterOption,
             processingItem,
+            isSelectValue,
         };
     },
 });

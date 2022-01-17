@@ -25,7 +25,7 @@ export const AttributeItemType = [
     {
         id: 3,
         value: 'SINGLE_SELECT',
-        text: 'Drop down    ',
+        text: 'Drop down',
     },
     {
         id: 4,
