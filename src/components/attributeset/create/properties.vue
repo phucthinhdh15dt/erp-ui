@@ -1,40 +1,51 @@
 <template>
     <div>
-        <div class="font-14 font-bold">Thông tin thuộc tính</div>
-        <Row>
-            <Col
-                v-if="modelRef.attributes && modelRef.attributes.length > 0"
-                style="margin-bottom: 0; width: 100%; margin-top: 24px"
-                class="AttributeSetChoose"
+        <div class="font-14 font-bold mb-12">Thông tin thuộc tính</div>
+        <div v-if="modelRef.attributes && modelRef.attributes.length > 0" class="AttributeSetChoose">
+            <Form
+                v-for="(item, idx) in modelRef.attributes"
+                ref="item"
+                :key="idx"
+                label-align="left"
+                class="AttributeSetChoose__List__Item"
+                :class="attributeIdsError && attributeIdsError.includes(item.id) ? 'error' : ''"
+                :data-id="item.id"
             >
-                <ul class="AttributeSetChoose__List">
-                    <Row v-for="(item, idx) in modelRef.attributes" :key="idx" class="AttributeSetChoose__List__Item">
-                        <Col :span="5" style="padding-right: 20px">
-                            <Row>
-                                <label style="font-weight: bold">Thuộc tính {{ idx + 1 }}</label>
-                            </Row>
-                            <Row style="margin-top: 20px">
-                                <label style="margin-left: 20px">{{ item.label }}</label>
-                            </Row>
-                        </Col>
-                        <Col :span="3" style="padding-right: 20px">
-                            <Row>
-                                <label style="font-weight: bold">Tính chất {{ idx + 1 }}</label>
-                            </Row>
-                            <Row style="margin-top: 20px">
+                <Row>
+                    <Col :span="5" style="padding-right: 20px">
+                        <Row>
+                            <label style="font-weight: bold">Thuộc tính {{ idx + 1 }}</label>
+                        </Row>
+                        <Row style="margin-top: 20px">
+                            <label>{{ item.label }}</label>
+                        </Row>
+                    </Col>
+                    <Col :span="3" style="padding-right: 20px">
+                        <Row>
+                            <label style="font-weight: bold">Tính chất {{ idx + 1 }}</label>
+                        </Row>
+                        <Row style="margin-top: 20px">
+                            <FormItem>
                                 <label>{{ getAttributeItemType(item) }}</label>
-                            </Row>
-                        </Col>
-                        <Col :span="4" style="padding-right: 20px">
+                            </FormItem>
+                        </Row>
+                    </Col>
+                    <Col :span="4" style="padding-right: 20px">
+                        <Row>
                             <label style="font-weight: bold">Tên nhóm</label>
-                            <Row align="bottom" style="margin-top: 20px">
+                        </Row>
+                        <Row style="margin-top: 20px">
+                            <FormItem name="item.groupName">
                                 <Input v-model:value="item.groupName" placeholder="Nhập tên nhóm" size="large"> </Input>
-                            </Row>
-                        </Col>
-
-                        <Col :span="2" style="padding-right: 20px">
+                            </FormItem>
+                        </Row>
+                    </Col>
+                    <Col :span="2" style="padding-right: 20px">
+                        <Row>
                             <label style="font-weight: bold">Thứ tự nhóm</label>
-                            <Row align="bottom" style="margin-top: 20px">
+                        </Row>
+                        <Row align="bottom" style="margin-top: 20px">
+                            <FormItem name="groupOrder">
                                 <InputNumber
                                     v-model:value="item.groupOrder"
                                     size="large"
@@ -47,11 +58,15 @@
                                     :parser="value => value.replace('.', '').replace(/\$\s?|(,*)/g, '')"
                                     :step="1"
                                 ></InputNumber>
-                            </Row>
-                        </Col>
-                        <Col :span="2" style="padding-right: 20px">
+                            </FormItem>
+                        </Row>
+                    </Col>
+                    <Col :span="2" style="padding-right: 20px">
+                        <Row>
                             <label style="font-weight: bold">Số thứ tự</label>
-                            <Row align="bottom" style="margin-top: 20px">
+                        </Row>
+                        <Row align="bottom" style="margin-top: 20px">
+                            <FormItem name="attributeOrder">
                                 <InputNumber
                                     v-model:value="item.attributeOrder"
                                     size="large"
@@ -64,11 +79,15 @@
                                     :parser="value => value.replace('.', '').replace(/\$\s?|(,*)/g, '')"
                                     :step="1"
                                 ></InputNumber>
-                            </Row>
-                        </Col>
-                        <Col :span="3" style="padding-right: 20px">
+                            </FormItem>
+                        </Row>
+                    </Col>
+                    <Col :span="3" style="padding-right: 20px">
+                        <Row>
                             <label style="font-weight: bold">Vị trí</label>
-                            <Row align="bottom" style="margin-top: 20px">
+                        </Row>
+                        <Row align="bottom" style="margin-top: 20px">
+                            <FormItem name="item.attributePosition">
                                 <Select
                                     v-model:value="item.attributePosition"
                                     placeholder="Chọn vị trí"
@@ -85,26 +104,28 @@
                                         {{ position.text }}</Option
                                     >
                                 </Select>
-                            </Row>
-                        </Col>
-                        <Col :span="2" style="padding-right: 20px">
+                            </FormItem>
+                        </Row>
+                    </Col>
+                    <Col :span="2" style="padding-right: 20px">
+                        <Row align="bottom">
                             <label style="font-weight: bold; text-align: center; display: block">Biến thể</label>
-                            <Row align="center" style="margin-top: 20px">
-                                <Checkbox v-model:checked="item.isVariant"></Checkbox>
-                            </Row>
-                        </Col>
-                        <Col :span="2">
-                            <Row>&nbsp;</Row>
-                            <Row align="bottom" style="margin-top: 20px">
-                                <Button type="primary" danger size="large" @click="onRemove(item)"
-                                    ><DeleteOutlined /> Xóa</Button
-                                >
-                            </Row>
-                        </Col>
-                    </Row>
-                </ul>
-            </Col>
-        </Row>
+                        </Row>
+                        <Row align="middle" style="margin-top: 30px; text-align: center">
+                            <Checkbox v-model:checked="item.isVariant"></Checkbox>
+                        </Row>
+                    </Col>
+                    <Col :span="2">
+                        <Row>&nbsp;</Row>
+                        <Row align="bottom" style="margin-top: 20px">
+                            <Button type="primary" danger size="large" @click="onRemove(item)"
+                                ><DeleteOutlined /> Xóa</Button
+                            >
+                        </Row>
+                    </Col>
+                </Row>
+            </Form>
+        </div>
 
         <Row>
             <Col :span="12">
@@ -131,12 +152,12 @@
                                 </li>
                             </ul>
                             <ul v-else class="AttributeSetChoose__Dropdown__Menu">
-                                <Row style="padding: 5px 12px">
+                                <!-- <Row style="padding: 5px 12px">
                                     <Button type="primary" @click="onNewProperties">
                                         <PlusOutlined />
                                         Thêm thuộc tính mới
                                     </Button>
-                                </Row>
+                                </Row> -->
                                 <li v-for="(item, idx) in attributeSuggestion" :key="idx" class="item">
                                     <Row>
                                         <Checkbox
@@ -159,7 +180,7 @@
 import { Input, Form, Dropdown, Col, Spin, Checkbox, Button, Row, Modal, Select, InputNumber } from 'ant-design-vue';
 import { SearchOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons-vue';
 import { useStore } from 'vuex';
-import { inject, ref, toRaw } from 'vue';
+import { inject, ref, reactive, computed } from 'vue';
 import { useProperties } from '@/composables/attributeset/create';
 import { debounce } from 'lodash/fp';
 import { AttributeItemPosition, AttributeItemType } from '@/constants/attributeItem';
@@ -181,7 +202,6 @@ export default {
         Row,
         Select,
         Option,
-        PlusOutlined,
         InputNumber,
     },
     setup() {
@@ -192,6 +212,8 @@ export default {
 
         const lstProperties = ref([]);
         const searchKey = ref('');
+
+        const attributeIdsError = computed(() => store.getters['attributeSet/getAttributeIdsError']);
 
         const { getAttribute, result: attributeSuggestion, loading } = useProperties();
 
@@ -296,6 +318,7 @@ export default {
             onChangePosition,
             AttributeItemType,
             getAttributeItemType,
+            attributeIdsError,
         };
     },
 };
@@ -322,9 +345,14 @@ export default {
             margin-bottom: 20px;
             padding: 15px;
             background: #d8e0e3;
+            border: 1px dashed transparent;
 
             &:last-child {
                 margin-bottom: 0;
+            }
+
+            &.error {
+                border: 1px dashed $danger-color;
             }
         }
     }

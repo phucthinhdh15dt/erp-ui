@@ -49,6 +49,7 @@ export default {
             data: {
                 optionCategory: [],
                 optionBrand: [],
+                attributeSetIdError: [],
             },
         },
     }),

@@ -54,6 +54,17 @@ export const validatePhoneNumber = value => {
     return /(84|0[3|5|7|8|9])+([0-9]{8})\b/.test(value);
 };
 
+export const groupByItem = (objectArray, property) => {
+    return objectArray.reduce(function (acc, obj) {
+        var key = obj[property.trim()];
+        if (!acc[key]) {
+            acc[key] = [];
+        }
+        acc[key].push(obj);
+        return acc;
+    }, {});
+};
+
 export const filterOption = (input, option) => {
     return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
 };

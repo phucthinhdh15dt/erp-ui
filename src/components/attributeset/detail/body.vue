@@ -1,5 +1,5 @@
 <template>
-    <Card style="min-height: 400px">
+    <Card>
         <Row class="AttributeSetDetailBody">
             <Row>
                 <Col :span="8" class="AttributeSetDetailBody__Item">

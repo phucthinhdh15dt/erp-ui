@@ -107,6 +107,10 @@ const setCommonBrand = (state, data) => {
     state.common.data.optionBrand = data;
 };
 
+const setAttributeIdsError = (state, data) => {
+    state.common.data.attributeSetIdError = data;
+};
+
 export default {
     setAttributeCreate,
     setAttributeSetCreateCategory,
@@ -134,4 +138,5 @@ export default {
     setSearchSelectedAll,
     setCommonCategory,
     setCommonBrand,
+    setAttributeIdsError,
 };

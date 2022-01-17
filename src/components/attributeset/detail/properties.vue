@@ -12,6 +12,8 @@
                         v-for="(item, idx) in modelRef.attributes"
                         :key="idx"
                         class="AttributeSetDetailChoose__List__Item"
+                        :class="attributeIdsError && attributeIdsError.includes(item.id) ? 'error' : ''"
+                        :data-id="item.id"
                     >
                         <Col :span="5" style="padding-right: 20px">
                             <Row>
@@ -108,7 +110,7 @@
                         </Col>
                         <Col :span="2" style="padding-right: 20px">
                             <label style="font-weight: bold; text-align: center; display: block">Biến thể</label>
-                            <Row align="center" style="margin-top: 20px">
+                            <Row align="middle" style="margin-top: 30px; text-align: center; display: block">
                                 <label v-if="!isEdit">{{ item.isVariant ? 'Có' : 'Không' }}</label>
                                 <Checkbox v-else v-model:checked="item.isVariant"></Checkbox>
                             </Row>
@@ -150,12 +152,12 @@
                                 </li>
                             </ul>
                             <ul v-else class="AttributeSetDetailChoose__Dropdown__Menu">
-                                <Row align="bottom" style="padding: 5px 12px">
+                                <!-- <Row align="bottom" style="padding: 5px 12px">
                                     <Button type="primary" @click="onNewProperties">
                                         <PlusOutlined />
                                         Thêm thuộc tính mới
                                     </Button>
-                                </Row>
+                                </Row> -->
                                 <li v-for="(item, idx) in attributeSuggestion" :key="idx" class="item">
                                     <Row align="bottom">
                                         <Checkbox
@@ -200,13 +202,14 @@ export default {
         Row,
         Select,
         Option,
-        PlusOutlined,
         InputNumber,
     },
     setup() {
         const store = useStore();
         const modelRef = computed(() => store.state.attributeSet.detail.data);
         const isEdit = computed(() => store.state.attributeSet.detail.isEdit);
+
+        const attributeIdsError = computed(() => store.getters['attributeSet/getAttributeIdsError']);
 
         const lstProperties = ref([]);
         const searchKey = ref('');
@@ -225,7 +228,6 @@ export default {
         const onChange = e => onSearch(e.target.value);
 
         const onSelect = value => {
-            debugger;
             const foundAttribute = attributeSuggestion.value.find(_ => _.id === value.id);
             if (foundAttribute) {
                 const data = {
@@ -325,6 +327,7 @@ export default {
             AttributeItemPosition,
             getAttributeItemType,
             getPositionAttributeItem,
+            attributeIdsError,
         };
     },
 };
@@ -351,9 +354,14 @@ export default {
             margin-bottom: 20px;
             padding: 15px;
             background: #d8e0e3;
+            border: 1px dashed transparent;
 
             &:last-child {
                 margin-bottom: 0;
+            }
+
+            &.error {
+                border: 1px dashed $danger-color;
             }
         }
     }

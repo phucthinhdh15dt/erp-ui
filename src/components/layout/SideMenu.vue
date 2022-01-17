@@ -33,10 +33,10 @@
                     <FormOutlined />
                 </template>
                 <template #title>QL nhóm thuộc tính</template>
-                <router-link to="/attributeSet/create">
+                <router-link to="/attribute-set/create">
                     <MenuItem key="3.1">Tạo nhóm thuộc tính</MenuItem>
                 </router-link>
-                <router-link to="/attributeSet/list">
+                <router-link to="/attribute-set/list">
                     <MenuItem key="3.2">DS nhóm thuộc tính</MenuItem>
                 </router-link>
             </SubMenu>

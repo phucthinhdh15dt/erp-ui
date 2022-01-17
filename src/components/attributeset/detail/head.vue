@@ -15,10 +15,11 @@
 <script>
 import { Row, Button, Modal, message } from 'ant-design-vue';
 import { DeleteOutlined, EditOutlined, CheckCircleOutlined } from '@ant-design/icons-vue';
-import { inject, computed, watch } from 'vue';
+import { inject, computed, watch, ref } from 'vue';
 import { useRemoveAttributeSet, useGetAttributeSet } from '@/composables/attributeset/create';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import { groupByItem } from '@/utils/common';
 
 export default {
     components: {
@@ -34,6 +35,7 @@ export default {
         const attributeSetId = inject('attributeSetId');
         const form = inject('form');
         const { validate } = form;
+        const errorIds = ref([]);
 
         const isEdit = computed(() => store.state.attributeSet.detail.isEdit);
         const modelRef = computed(() => store.state.attributeSet.detail.data);
@@ -99,11 +101,41 @@ export default {
 
         const onSave = () => {
             if (modelRef.value.attributes.length >= 0) {
-                var index = modelRef.value.attributes.findIndex(_ => !_.id || _.attrOrder <= 0);
+                var index = modelRef.value.attributes.findIndex(_ => !_.id);
                 if (index >= 0) {
                     message.warning('Vui lòng kiểm tra lại danh sách thuộc tính');
                     return;
                 }
+
+                // kiểm tra attribute có chung group
+                errorIds.value = [];
+                const key = 'groupName';
+                const listItems = groupByItem(modelRef.value.attributes, key);
+                if (listItems) {
+                    let objects = Object.values(listItems);
+                    if (objects && objects.length > 0) {
+                        objects = objects.filter(f => f.length >= 2);
+                        objects.forEach(element => {
+                            let first = undefined;
+                            element.forEach((el, index) => {
+                                if (el.position) {
+                                    if (index === 0) {
+                                        first = el.position.key;
+                                    } else {
+                                        if (el.position.value !== first) {
+                                            errorIds.value = [...errorIds.value, ...element.map(m => m.id)];
+                                        }
+                                    }
+                                }
+                            });
+                        });
+                    }
+                }
+            }
+            if (errorIds.value && errorIds.value.length > 0) {
+                message.error('Thuộc tính cùng nhóm phải chung vị trí');
+                gotoError();
+                return;
             }
             validate().then(() => {
                 Modal.confirm({
@@ -128,6 +160,15 @@ export default {
                 }
             }
         );
+
+        const gotoError = () => {
+            store.commit('attributeSet/setAttributeIdsError', Object.values(errorIds.value));
+            const id = setTimeout(() => {
+                errorIds.value = [];
+                store.commit('attributeSet/setAttributeIdsError', []);
+                clearTimeout(id);
+            }, 3000);
+        };
 
         return {
             onRemove,
