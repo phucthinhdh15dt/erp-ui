@@ -71,11 +71,13 @@ export default {
                         objects.forEach(element => {
                             let first = undefined;
                             element.forEach((el, index) => {
-                                if (index === 0) {
-                                    first = el.attributePosition.key;
-                                } else {
-                                    if (el.attributePosition.key !== first) {
-                                        errorIds.value = [...errorIds.value, ...element.map(m => m.id)];
+                                if (el.attributePosition) {
+                                    if (index === 0) {
+                                        first = el.attributePosition.key;
+                                    } else {
+                                        if (el.attributePosition.key !== first) {
+                                            errorIds.value = [...errorIds.value, ...element.map(m => m.id)];
+                                        }
                                     }
                                 }
                             });
