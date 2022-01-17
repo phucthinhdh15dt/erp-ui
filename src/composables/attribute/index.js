@@ -1,4 +1,4 @@
-import { ref, inject, onMounted } from 'vue';
+import { ref, inject } from 'vue';
 
 export const useCreateAttribute = () => {
     const api = inject('api');

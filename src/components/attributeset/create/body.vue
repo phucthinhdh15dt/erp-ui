@@ -1,6 +1,6 @@
 <template>
-    <Spin tip="Đang tải..." :spinning="loading">
-        <Card style="min-height: 400px">
+    <Card>
+        <Spin tip="Đang tải..." :spinning="loading">
             <Row class="AttributeSetBody">
                 <Row>
                     <Col :span="8" class="AttributeSetBody__Item">
@@ -49,12 +49,12 @@
                 </Row>
             </Row>
             <Properties />
-        </Card>
-    </Spin>
+        </Spin>
+    </Card>
 </template>
 <script>
 import { Card, Form, Select, Input, Col, Row, Spin } from 'ant-design-vue';
-import { inject, ref, watch } from 'vue';
+import { inject } from 'vue';
 import Properties from '@/components/attributeset/create/properties.vue';
 import { useCommon } from '@/composables/common/common';
 import { useStore } from 'vuex';

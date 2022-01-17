@@ -108,7 +108,7 @@
                         </Col>
                         <Col :span="2" style="padding-right: 20px">
                             <label style="font-weight: bold; text-align: center; display: block">Biến thể</label>
-                            <Row align="center" style="margin-top: 20px">
+                            <Row align="middle" style="margin-top: 30px; text-align: center; display: block">
                                 <label v-if="!isEdit">{{ item.isVariant ? 'Có' : 'Không' }}</label>
                                 <Checkbox v-else v-model:checked="item.isVariant"></Checkbox>
                             </Row>
