@@ -62,9 +62,9 @@ const filters = [
 
 const searchConfigs = {
     fields: ['id', 'name'],
-    placeholder: 'Nhập mã hoặc tên ngành hàng',
-    rowKey: 'categoryId',
-    urlParam: 'category',
+    placeholder: 'Nhập mã hoặc tên thuộc tính',
+    rowKey: 'attributeId',
+    urlParam: 'attribute',
 };
 
 const sortConfigs = [
