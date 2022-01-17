@@ -1,18 +1,18 @@
 <template>
-    <div class="BrandList">
-        <div class="card-head-title font-18 font-bold">Danh sách thương hiệu</div>
+    <div class="AttributeList">
         <List
             :columns="columns"
             :filter-configs="filters"
             :search-configs="searchConfigs"
             :sort-configs="sortConfigs"
-            name="Brand"
+            name="Attribute"
         >
             <template #ActionArea><ActionArea /></template>
             <template #ResultTable><ResultTable :columns="columns" :search-configs="searchConfigs" /></template>
         </List>
     </div>
 </template>
+
 <script>
 import { defineComponent, provide, ref } from 'vue';
 import ActionArea from './list/actionArea.vue';
@@ -21,50 +21,51 @@ import List from '@/components/list/index.vue';
 
 export const columns = [
     {
-        title: 'Mã thương hiệu',
+        title: 'Mã thuộc tính',
         dataIndex: 'id',
         key: 'id',
-        width: 100,
+        width: 140,
         align: 'center',
     },
     {
-        title: 'Mã code',
+        title: 'Mã Code',
         dataIndex: 'code',
         key: 'code',
-        width: 100,
-        align: 'center',
+        width: 200,
     },
     {
-        title: 'Tên thương hiệu',
-        dataIndex: 'name',
-        key: 'name',
-        width: 200,
-        align: 'center',
+        title: 'Tên thuộc tính',
+        dataIndex: 'label',
+        key: 'label',
+        width: 300,
+    },
+    {
+        title: 'Tính chât',
+        dataIndex: 'uiComponentType',
+        key: 'uiComponentType',
+        width: 300,
     },
     {
         title: 'Mô tả',
         dataIndex: 'description',
         key: 'description',
-        width: 200,
-        align: 'center',
     },
-    {
-        title: 'Trạng thái',
-        dataIndex: 'status',
-        key: 'status',
-        width: 200,
-        align: 'center',
-    },
+];
+
+const filters = [
+    // {
+    //     type: 'DateRange',
+    //     label: 'Thời gian',
+    //     name: 'createdAt',
+    // },
 ];
 
 const searchConfigs = {
     fields: ['id', 'name'],
-    placeholder: 'Nhập mã hoặc tên thương hiệu',
-    rowKey: 'brandId',
-    urlParam: 'brand',
+    placeholder: 'Nhập mã hoặc tên ngành hàng',
+    rowKey: 'categoryId',
+    urlParam: 'category',
 };
-
-const filters = [];
 
 const sortConfigs = [
     // {
@@ -73,7 +74,7 @@ const sortConfigs = [
 ];
 
 export default defineComponent({
-    name: 'BrandList',
+    name: 'AttributeList',
     components: {
         List,
         ActionArea,
@@ -82,6 +83,7 @@ export default defineComponent({
     setup() {
         const processingItem = ref(null);
         provide('processingItem', processingItem);
+
         return { columns, filters, searchConfigs, sortConfigs };
     },
 });

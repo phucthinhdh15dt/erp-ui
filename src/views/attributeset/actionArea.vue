@@ -40,7 +40,6 @@ export default defineComponent({
         };
 
         const removeAttributeList = () => {
-            debugger;
             removeAttributeSetIds(selectedRowKeys.value);
         };
 

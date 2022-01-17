@@ -5,14 +5,19 @@ import { nextTick } from 'vue';
 
 const Login = () => import('@/views/auth/login.vue');
 const CategoryList = () => import('@/views/category/list.vue');
+
 const Product = () => import('@/views/product/index.vue');
 const ProductCreate = () => import('@/views/product/create.vue');
+
 const AttributeSet = () => import('@/views/attributeset/index.vue');
 const AttributeSetCreate = () => import('@/views/attributeset/create.vue');
 const AttributeSetDetail = () => import('@/views/attributeset/detail.vue');
 const AttributeSetList = () => import('@/views/attributeset/list.vue');
-const Brand = () => import('@/views/brand/index.vue');
+
 const BrandList = () => import('@/views/brand/list.vue');
+
+const AttributeList = () => import('@/views/attribute/list.vue');
+
 const routes = [
     {
         path: '/',
@@ -131,7 +136,7 @@ const routes = [
                     authRequired: true,
                     layout: 'default',
                     subMenuKey: '3',
-                    menuKey: '3.3',
+                    menuKey: '3.1',
                 },
             },
             {
@@ -164,13 +169,13 @@ const routes = [
     },
     {
         path: '/brand',
-        name: 'Brand',
-        component: Brand,
+        name: 'BrandList',
+        component: BrandList,
         meta: {
             title: 'Thương hiệu',
             authRequired: true,
             breadCrumb: 'Thương hiệu',
-            layout: 'blank',
+            layout: 'default',
         },
         children: [
             {
@@ -183,7 +188,33 @@ const routes = [
                     authRequired: true,
                     layout: 'default',
                     subMenuKey: '4',
-                    menuKey: '4.2',
+                    menuKey: '4.1',
+                },
+            },
+        ],
+    },
+    {
+        path: '/attribute',
+        name: 'AttributeList',
+        component: AttributeList,
+        meta: {
+            title: 'Thuộc tính',
+            breadCrumb: 'Thuộc tính',
+            authRequired: true,
+            layout: 'default',
+        },
+        children: [
+            {
+                name: 'AttributeList',
+                path: 'list',
+                component: AttributeList,
+                meta: {
+                    title: 'Danh sách thuộc tính',
+                    breadCrumb: 'Danh sách thuộc tính',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '5',
+                    menuKey: '5.1',
                 },
             },
         ],

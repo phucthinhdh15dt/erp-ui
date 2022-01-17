@@ -54,34 +54,10 @@ const useCreateBrand = () => {
         loading.value = true;
         errorMessage.value = '';
         result.value = '';
-        const payload = {
-            code: data.code,
-            name: data.name,
-            description: data.description,
-            status: data.status.key,
-        };
 
-        const response = await api.brand.createBrand(payload);
+        const response = await api.brand.createBrand(data);
         if (response && response.data) {
-            result.value = response.data;
-        }
-        loading.value = false;
-    };
-
-    const updateBrand = async data => {
-        loading.value = true;
-        errorMessage.value = '';
-        result.value = '';
-        const payload = {
-            code: data.code,
-            name: data.name,
-            description: data.description,
-            status: data.status.value,
-        };
-
-        const response = await api.brand.updateBrand(payload);
-        if (response && response.success) {
-            result.value = response.success;
+            result.value = 'tạo mới thương hiệu thành công';
         }
         loading.value = false;
     };
@@ -91,8 +67,31 @@ const useCreateBrand = () => {
         createBrand,
         result,
         loading,
-        updateBrand,
     };
 };
 
-export { useBrand, useCreateBrand };
+const useUpdateBrand = () => {
+    const api = inject('api');
+    const store = useStore();
+    const errorMessage = ref('');
+    const loading = ref(false);
+    const result = ref({});
+
+    const updateBrand = async data => {
+        loading.value = true;
+        errorMessage.value = '';
+        result.value = '';
+        const response = await api.brand.updateBrand(data);
+        if (response && response.success) {
+            result.value = 'Cập nhật thông tin thương hiệu thành công';
+        }
+        loading.value = false;
+    };
+    return {
+        errorMessage,
+        result,
+        loading,
+        updateBrand,
+    };
+};
+export { useBrand, useCreateBrand, useUpdateBrand };

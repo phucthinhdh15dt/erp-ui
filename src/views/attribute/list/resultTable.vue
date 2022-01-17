@@ -7,15 +7,22 @@
             :pagination="pagination"
             :row-key="record => record[searchConfigs.rowKey]"
             :scroll="{ x: 1000 }"
-            :row-selection="{ selectedRowKeys, onChange: onSelectChange, onSelectAll }"
             @change="onChange"
         >
-            <template #radio="{ record }">
+            <template #bodyCell="{ column, text, record }">
+                <template v-if="column.dataIndex === 'id'">
+                    <a class="id-style" @click="onEdit(record)">#{{ text }}</a>
+                </template>
+                <template v-if="column.dataIndex === 'subCategory'">
+                    <span v-if="text">{{ text.map(_ => _.subCategoryName).join(', ') }}</span>
+                </template>
+            </template>
+            <!-- <template #radio="{ record }">
                 <span style="color: #53459b"> <Radio :value="record.id" /> </span>
             </template>
             <template #id="{ text: id }">
-                <span>
-                    <a class="id-style" :href="`/${searchConfigs.urlParam}/${id}`">#{{ id }}</a>
+                <span style="color: red">
+                    <a class="id-style" @click="onEdit">#{{ id }}</a>
                 </span>
             </template>
             <template #clampline="{ text: text }">
@@ -24,28 +31,26 @@
                 </span>
             </template>
             <template #status="{ text: status }">
-                <Status :code="status ? status : 'DEACTIVE'" />
+                <Status v-if="status" :code="status.code" />
             </template>
             <template #datetime="{ text: status }">
                 <Datetime :value="status" />
-            </template>
+            </template> -->
         </Table>
     </div>
 </template>
 
 <script>
 import { defineComponent, computed, inject, watch } from 'vue';
-import { Table, Radio } from 'ant-design-vue';
+import { Table } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { STATUS } from '@/constants';
 import { getOr } from 'lodash/fp';
 import moment from 'moment';
-import Status from '@/components/common/status.vue';
-import Datetime from '@/components/common/datetime.vue';
 
 export default defineComponent({
     name: 'Result',
-    components: { Table, Radio, Status, Datetime },
+    components: { Table },
     props: {
         columns: {
             type: Array,
@@ -59,7 +64,7 @@ export default defineComponent({
     setup() {
         const store = useStore();
         const onSearch = inject('onSearch');
-        const onGetDetail = inject('onGetDetail');
+        const processingItem = inject('processingItem');
         const searchResult = computed(() => store.state.list.results);
         const isLoading = computed(() => store.state.list.isLoading);
         const paginationStored = computed(() => store.state.list.pagination);
@@ -113,6 +118,10 @@ export default defineComponent({
             store.commit('list/setSearchSelectedAll', selected);
         };
 
+        const onEdit = record => {
+            processingItem.value = record;
+        };
+
         return {
             STATUS,
             searchResult,
@@ -125,6 +134,7 @@ export default defineComponent({
             onSelectChange,
             progress,
             onSelectAll,
+            onEdit,
         };
     },
 });
@@ -152,11 +162,6 @@ export default defineComponent({
 
     .ant-radio-group {
         width: 100%;
-    }
-
-    .btnEdit {
-        background: $active-color;
-        border-color: $active-color;
     }
 }
 </style>

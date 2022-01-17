@@ -10,12 +10,19 @@
             :row-selection="{ selectedRowKeys, onChange: onSelectChange, onSelectAll }"
             @change="onChange"
         >
-            <template #radio="{ record }">
+            <template #bodyCell="{ column, text }">
+                <template v-if="column.dataIndex === 'id'">
+                    <span>
+                        <a class="id-style" :href="`/${searchConfigs.urlParam}/${text}`">#{{ text }}</a>
+                    </span>
+                </template>
+            </template>
+            <!-- <template #radio="{ record }">
                 <span style="color: #53459b"> <Radio :value="record.id" /> </span>
             </template>
             <template #id="{ text: id }">
-                <span>
-                    <a class="id-style" :href="`/${searchConfigs.urlParam}/${id}`">#{{ id }}</a>
+                <span style="color: red">
+                    <a class="id-style" @click="onEdit">#{{ id }}</a>
                 </span>
             </template>
             <template #clampline="{ text: text }">
@@ -23,20 +30,24 @@
                     {{ text }}
                 </span>
             </template>
+            <template #status="{ text: status }">
+                <Status v-if="status" :code="status.code" />
+            </template>
+            <template #datetime="{ text: status }">
+                <Datetime :value="status" />
+            </template> -->
         </Table>
     </div>
 </template>
 
 <script>
 import { defineComponent, computed, inject, watch } from 'vue';
-import { Table, Radio } from 'ant-design-vue';
+import { Table } from 'ant-design-vue';
 import { useStore } from 'vuex';
-
-const { Group } = Radio;
 
 export default defineComponent({
     name: 'AttributeSetResult',
-    components: { Table, Radio },
+    components: { Table },
     props: {
         columns: {
             type: Array,
