@@ -17,66 +17,44 @@
                 :model="formState"
             >
                 <FormItem
-                    label="Tên ngành"
-                    name="name"
-                    :rules="{
-                        required: true,
-                        message: 'Vui lòng nhập tên ngành',
-                    }"
-                >
-                    <Input v-model:value="formState.name" :disabled="progress.total > 0"> </Input>
-                </FormItem>
-                <!-- <FormItem
-                    label="Mã ngành"
+                    label="Mã thuộc tính"
                     name="code"
                     :rules="{
                         required: true,
-                        message: 'Vui lòng nhập mã ngành',
+                        message: 'Vui lòng nhập mã thuộc tính',
                     }"
                 >
                     <Input v-model:value="formState.code" :disabled="progress.total > 0"> </Input>
-                </FormItem> -->
+                </FormItem>
+                <FormItem
+                    label="Tên thuộc tính"
+                    name="label"
+                    :rules="{
+                        required: true,
+                        message: 'Vui lòng nhập tên thuộc tính',
+                    }"
+                >
+                    <Input v-model:value="formState.label" :disabled="progress.total > 0"> </Input>
+                </FormItem>
                 <FormItem label="Mô tả" name="description">
                     <TextArea v-model:value="formState.description" :rows="4" :disabled="progress.total > 0"></TextArea>
                 </FormItem>
-                <FormItem label="Ngành hàng cha" name="parent">
+                <FormItem
+                    label="Tính chất"
+                    name="uiComponentType"
+                    :rules="{
+                        required: true,
+                        message: 'Vui lòng chọn tính chất',
+                    }"
+                >
                     <Select
-                        v-model:value="formState.parent"
-                        :options="parentOptions"
+                        v-model:value="formState.uiComponentType"
+                        :options="typeOptions"
                         show-search
                         :filter-option="filterOption"
                     />
                 </FormItem>
-
-                <!-- <h3>Ngành hàng con</h3>
-                <List item-layout="horizontal" :data-source="formState.subCategories">
-                    <template #renderItem="{ item, index }">
-                        <ListItem>
-                            <template #actions>
-                                <DeleteOutlined style="color: red" @click="() => onRemoveItem(index)"></DeleteOutlined>
-                            </template>
-
-                            <FormItem
-                                :name="['subCategories', index, 'name']"
-                                :rules="{
-                                    required: true,
-                                    message: 'Vui lòng nhập giá trị',
-                                }"
-                                style="margin-bottom: 0"
-                            >
-                                <Input v-model:value="item.name" placeholder="Nhập tên ngành hàng con"></Input>
-                            </FormItem>
-                        </ListItem>
-                    </template>
-                </List> -->
             </Form>
-            <!-- <Row class="mt-16 mb-16" :gutter="10">
-                <Col :span="14" :push="3">
-                    <Input v-model:value="subCatInput" placeholder="Nhập tên ngành hàng con"> </Input>
-                </Col>
-                <Col :span="4" :push="3"> <Button type="primary" ghost @click="onAddSubCat">Thêm</Button></Col>
-            </Row> -->
-
             <Progress
                 v-if="progress.total"
                 :stroke-color="{
@@ -98,9 +76,10 @@
 import { defineComponent, watch, computed, inject, toRaw, ref, reactive, createVNode } from 'vue';
 import { Button, message, Modal, Progress, Form, Input, Select } from 'ant-design-vue';
 import { useStore } from 'vuex';
-import { useCreateCategory, useUpdateCategory } from '@/composables/product/category';
+import { useCreateAttribute, useUpdateAttribute } from '@/composables/attribute/index';
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import { filterOption } from '@/utils/common';
+import { AttributeItemType } from '@/constants/attributeItem';
 
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
@@ -124,29 +103,27 @@ export default defineComponent({
         const onSearch = inject('onSearch');
         const searchQuery = inject('searchQuery');
         const processingItem = inject('processingItem');
-        // const subCatInput = ref('');
 
-        const { createCategory, result: resultCreate } = useCreateCategory();
-        const { updateCategory, result: resultUpdate } = useUpdateCategory();
+        const { createAttribute, result: resultCreate } = useCreateAttribute();
+        const { updateAttribute, result: resultUpdate } = useUpdateAttribute();
 
         const visible = ref(false);
         const formState = reactive({
-            name: '',
-            // code: '',
+            code: '',
+            defaultValue: '',
             description: '',
-            parent: null,
+            label: '',
+            pic: '',
+            type: 'META',
+            uiComponentType: '',
+            values: [],
         });
         const formRef = ref();
 
-        const parentOptions = computed(() =>
-            store.state.list.allResults.data.map(_ => ({
-                value: _.id,
-                label: _.name,
-            }))
-        );
+        const typeOptions = AttributeItemType.map(_ => ({ value: _.value, label: _.text }));
 
         const title = computed(() =>
-            processingItem.value ? `Chỉnh sửa ngành hàng ${processingItem.value.id}` : 'Tạo ngành hàng mới'
+            processingItem.value ? `Chỉnh sửa thuộc tính: ${processingItem.value.id}` : 'Tạo thuộc tính mới'
         );
 
         const progress = computed(() => store.state.list.progress);
@@ -159,18 +136,8 @@ export default defineComponent({
             visible.value = false;
             console.log(formRef.value);
             processingItem.value = null;
-
             formRef.value.clearValidate();
         };
-
-        // const onAddSubCat = () => {
-        //     if (!subCatInput.value) {
-        //         return;
-        //     }
-
-        //     formState.subCategories.push({ name: subCatInput.value });
-        //     subCatInput.value = '';
-        // };
 
         const onConfirm = async () => {
             formRef.value
@@ -178,19 +145,15 @@ export default defineComponent({
                 .then(values => {
                     console.log('Received values of form: ', values);
                     console.log('formState: ', toRaw(formState));
-                    const { parent, ...rest } = toRaw(formState);
-                    const payload = {
-                        ...rest,
-                        parentID: parent || 0,
-                        categoryType: 'CAMPAIGN',
-                    };
+                    const payload = toRaw(formState);
+
                     if (processingItem.value) {
-                        payload.id = processingItem.value.id;
+                        // payload.id = processingItem.value.id;
                         Modal.confirm({
                             content: 'Xác nhận lưu bản chỉnh sửa này',
                             icon: createVNode(ExclamationCircleOutlined),
                             onOk() {
-                                updateCategory(payload);
+                                updateAttribute(payload);
                                 visible.value = false;
                                 formRef.value.resetFields();
                                 processingItem.value = null;
@@ -200,7 +163,7 @@ export default defineComponent({
                             onCancel() {},
                         });
                     } else {
-                        createCategory(payload);
+                        createAttribute(payload);
                         visible.value = false;
                         formRef.value.resetFields();
                         processingItem.value = null;
@@ -216,15 +179,17 @@ export default defineComponent({
         watch(processingItem, () => {
             if (processingItem.value) {
                 console.log('processingItem.value', processingItem.value);
-                formState.name = processingItem.value.name;
+                formState.label = processingItem.value.label;
+                formState.code = processingItem.value.code;
                 formState.description = processingItem.value.description;
-                formState.parent = processingItem.value.parentID || null;
+                formState.uiComponentType = processingItem.value.uiComponentType;
                 visible.value = true;
             } else {
                 // formRef.value.resetFields();
-                formState.name = '';
+                formState.label = '';
+                formState.code = '';
                 formState.description = '';
-                formState.parent = null;
+                formState.uiComponentType = undefined;
             }
         });
 
@@ -268,7 +233,7 @@ export default defineComponent({
             // subCatInput,
             // onAddSubCat,
             formRef,
-            parentOptions,
+            typeOptions,
             title,
             filterOption,
         };

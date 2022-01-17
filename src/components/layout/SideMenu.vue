@@ -40,15 +40,11 @@
                     <MenuItem key="3.2">DS nhóm thuộc tính</MenuItem>
                 </router-link>
             </SubMenu>
-            <SubMenu key="4">
-                <template #icon>
-                    <FormOutlined />
-                </template>
-                <template #title>Ql thương hiệu</template>
-                <router-link to="/brand/list">
-                    <MenuItem key="4.2">DS thương hiệu</MenuItem>
-                </router-link>
-            </SubMenu>
+            <router-link to="/brand">
+                <MenuItem key="4.1">
+                    <template #icon> <FormOutlined /> </template> Quản lý thương hiẹu
+                </MenuItem>
+            </router-link>
             <router-link to="/attribute">
                 <MenuItem key="5.1">
                     <template #icon> <FormOutlined /> </template> Quản lý thuộc tính

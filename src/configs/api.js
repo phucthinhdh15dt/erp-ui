@@ -19,6 +19,9 @@ export const API_NAME = {
 
     // MODULE.ATTRIBUTE
     SEARCH_ATTRIBUTE: 'SEARCH_ATTRIBUTE',
+    POST_ATTRIBUTE: 'POST_ATTRIBUTE',
+    PUT_ATTRIBUTE: 'PUT_ATTRIBUTE',
+    GET_ATTRIBUTE: 'GET_ATTRIBUTE',
 };
 
 const MODULE = {
@@ -87,6 +90,24 @@ export default {
         endpoint: 'search',
         version: 'v1',
         method: 'POST',
+    },
+    [API_NAME.POST_ATTRIBUTE]: {
+        module: MODULE.ATTRIBUTE,
+        endpoint: '',
+        version: 'v1',
+        method: 'POST',
+    },
+    [API_NAME.PUT_ATTRIBUTE]: {
+        module: MODULE.ATTRIBUTE,
+        endpoint: '',
+        version: 'v1',
+        method: 'PUT',
+    },
+    [API_NAME.GET_ATTRIBUTE]: {
+        module: MODULE.ATTRIBUTE,
+        endpoint: '${ id }',
+        version: 'v1',
+        method: 'GET',
     },
 
     // MODULE.Brand

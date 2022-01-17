@@ -14,7 +14,6 @@ const AttributeSetCreate = () => import('@/views/attributeset/create.vue');
 const AttributeSetDetail = () => import('@/views/attributeset/detail.vue');
 const AttributeSetList = () => import('@/views/attributeset/list.vue');
 
-const Brand = () => import('@/views/brand/index.vue');
 const BrandList = () => import('@/views/brand/list.vue');
 
 const AttributeList = () => import('@/views/attribute/list.vue');
@@ -170,13 +169,13 @@ const routes = [
     },
     {
         path: '/brand',
-        name: 'Brand',
-        component: Brand,
+        name: 'BrandList',
+        component: BrandList,
         meta: {
             title: 'Thương hiệu',
             authRequired: true,
             breadCrumb: 'Thương hiệu',
-            layout: 'blank',
+            layout: 'default',
         },
         children: [
             {
@@ -189,7 +188,7 @@ const routes = [
                     authRequired: true,
                     layout: 'default',
                     subMenuKey: '4',
-                    menuKey: '4.2',
+                    menuKey: '4.1',
                 },
             },
         ],
@@ -218,7 +217,6 @@ const routes = [
                     menuKey: '5.1',
                 },
             },
-
         ],
     },
 ];
