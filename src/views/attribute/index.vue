@@ -1,5 +1,5 @@
 <template>
-    <div class="category">
+    <div class="Attribute">
         <router-view></router-view>
     </div>
 </template>
