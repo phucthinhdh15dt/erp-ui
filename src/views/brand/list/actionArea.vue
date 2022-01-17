@@ -24,7 +24,11 @@
                         message: 'Vui lòng nhập mã thương hiệu',
                     }"
                 >
-                    <Input v-model:value="formState.code" :disabled="progress.total > 0"> </Input>
+                    <Input
+                        v-model:value="formState.code"
+                        :disabled="progress.total > 0 || (processingItem && processingItem.id)"
+                    >
+                    </Input>
                 </FormItem>
                 <FormItem
                     label="Tên thương hiệu"
@@ -232,6 +236,7 @@ export default defineComponent({
             statusOptions,
             title,
             filterOption,
+            processingItem,
         };
     },
 });

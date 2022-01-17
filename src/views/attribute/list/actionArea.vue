@@ -24,7 +24,11 @@
                         message: 'Vui lòng nhập mã thuộc tính',
                     }"
                 >
-                    <Input v-model:value="formState.code" :disabled="progress.total > 0"> </Input>
+                    <Input
+                        v-model:value="formState.code"
+                        :disabled="progress.total > 0 || (processingItem && processingItem.id)"
+                    >
+                    </Input>
                 </FormItem>
                 <FormItem
                     label="Tên thuộc tính"

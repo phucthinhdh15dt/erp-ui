@@ -25,7 +25,7 @@ export const columns = [
         dataIndex: 'id',
         key: 'id',
         width: 140,
-        align: 'right',
+        align: 'center',
     },
     {
         title: 'Mã Code',
