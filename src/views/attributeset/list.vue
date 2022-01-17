@@ -52,7 +52,7 @@ const searchConfigs = {
     fields: ['id', 'name'],
     placeholder: 'Nhập mã hoặc tên nhóm thuộc tính',
     rowKey: 'id',
-    urlParam: 'attributeSet',
+    urlParam: 'attribute-set',
 };
 
 const filters = [

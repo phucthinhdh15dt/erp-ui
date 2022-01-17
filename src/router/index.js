@@ -116,7 +116,7 @@ const routes = [
         ],
     },
     {
-        path: '/attributeset',
+        path: '/attribute-set',
         name: 'AttributeSet',
         component: AttributeSet,
         meta: {
