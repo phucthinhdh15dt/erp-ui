@@ -17,6 +17,7 @@
                 :model="formState"
             >
                 <FormItem
+                    v-if="processingItem && processingItem.id"
                     label="Mã thương hiệu"
                     name="code"
                     :rules="{
