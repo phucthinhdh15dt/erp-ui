@@ -17,22 +17,7 @@
                 :model="formState"
             >
                 <FormItem
-                    v-if="processingItem && processingItem.id"
-                    label="Mã thương hiệu"
-                    name="code"
-                    :rules="{
-                        required: true,
-                        message: 'Vui lòng nhập mã thương hiệu',
-                    }"
-                >
-                    <Input
-                        v-model:value="formState.code"
-                        :disabled="progress.total > 0 || (processingItem && processingItem.id)"
-                    >
-                    </Input>
-                </FormItem>
-                <FormItem
-                    label="Tên thương hiệu"
+                    label="Tên"
                     name="name"
                     :rules="{
                         required: true,
