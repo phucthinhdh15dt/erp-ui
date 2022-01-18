@@ -21,14 +21,14 @@ import List from '@/components/list/index.vue';
 
 export const columns = [
     {
-        title: 'Mã thương hiệu',
+        title: 'Id',
         dataIndex: 'id',
         key: 'id',
         width: 100,
         align: 'center',
     },
     {
-        title: 'Mã code',
+        title: 'Mã thương hiệu',
         dataIndex: 'code',
         key: 'code',
         width: 100,
