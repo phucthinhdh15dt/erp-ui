@@ -10,7 +10,7 @@
             <MenuFoldOutlined
                 v-else
                 class="trigger"
-                style="font-size: 19px; margin-left: 220px"
+                style="font-size: 19px; margin-left: 234px"
                 @click="sideLayoutCollapsed"
             />
         </div>

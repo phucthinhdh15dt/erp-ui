@@ -40,104 +40,82 @@
     </div>
 </template>
 
-<script>
-import { defineComponent, computed, inject, watch } from 'vue';
+<script setup>
+import { computed, inject, watch, toRefs } from 'vue';
 import { Table } from 'ant-design-vue';
 import { useStore } from 'vuex';
-import { STATUS } from '@/constants';
-import { getOr } from 'lodash/fp';
-import moment from 'moment';
 
-export default defineComponent({
-    name: 'Result',
-    components: { Table },
-    props: {
-        columns: {
-            type: Array,
-            default: () => [],
-        },
-        searchConfigs: {
-            type: Object,
-            default: () => {},
-        },
+const props = defineProps({
+    columns: {
+        type: Array,
+        default: () => [],
     },
-    setup() {
-        const store = useStore();
-        const onSearch = inject('onSearch');
-        const processingItem = inject('processingItem');
-        const searchResult = computed(() => store.state.list.results);
-        const isLoading = computed(() => store.state.list.isLoading);
-        const paginationStored = computed(() => store.state.list.pagination);
-        const selectedRowKeys = computed(() => store.state.list.selectedRow);
-        const progress = computed(() => store.state.list.progress);
-
-        const onChange = pagination => {
-            const { current } = pagination;
-            store.commit('list/setSearchSelectedRow', []);
-            store.commit('list/setSearchPagination', {
-                ...paginationStored.value,
-                current,
-            });
-        };
-
-        const pagination = computed(() => ({
-            total: searchResult.value.total,
-            current: paginationStored.value.current,
-            defaultPageSize: paginationStored.value.defaultPageSize,
-            hideOnSinglePage: true,
-        }));
-
-        watch(
-            paginationStored,
-            () => {
-                store.commit('list/setSearchSelectedAll', false);
-                onSearch();
-            },
-            { deep: true }
-        );
-
-        const onChangeSelected = e => {
-            const value = e.target.value;
-            store.commit('list/setSearchSelectedRow', value);
-        };
-
-        const getStatusColor = record => {
-            let color = getOr('#000', 'color', STATUS[record.status]);
-            if (record.status === STATUS.PUBLISHED.code && moment(record.publishFromDate).isAfter(moment())) {
-                color = '#52c41a';
-            }
-            return color;
-        };
-
-        const onSelectChange = selectedRowKeys => {
-            store.commit('list/setSearchSelectedRow', selectedRowKeys);
-            store.commit('list/setSearchSelectedAll', false);
-        };
-
-        const onSelectAll = selected => {
-            store.commit('list/setSearchSelectedAll', selected);
-        };
-
-        const onEdit = record => {
-            processingItem.value = record;
-        };
-
-        return {
-            STATUS,
-            searchResult,
-            pagination,
-            getStatusColor,
-            isLoading,
-            onChange,
-            selectedRowKeys,
-            onChangeSelected,
-            onSelectChange,
-            progress,
-            onSelectAll,
-            onEdit,
-        };
+    searchConfigs: {
+        type: Object,
+        default: () => {},
     },
 });
+const { columns, searchConfigs } = toRefs(props);
+
+const store = useStore();
+const onSearch = inject('onSearch');
+const processingItem = inject('processingItem');
+const searchResult = computed(() => store.state.list.results);
+const isLoading = computed(() => store.state.list.isLoading);
+const paginationStored = computed(() => store.state.list.pagination);
+// const selectedRowKeys = computed(() => store.state.list.selectedRow);
+// const progress = computed(() => store.state.list.progress);
+
+const onChange = pagination => {
+    const { current } = pagination;
+    store.commit('list/setSearchSelectedRow', []);
+    store.commit('list/setSearchPagination', {
+        ...paginationStored.value,
+        current,
+    });
+};
+
+const pagination = computed(() => ({
+    total: searchResult.value.total,
+    current: paginationStored.value.current,
+    defaultPageSize: paginationStored.value.defaultPageSize,
+    hideOnSinglePage: true,
+}));
+
+watch(
+    paginationStored,
+    () => {
+        store.commit('list/setSearchSelectedAll', false);
+        onSearch();
+    },
+    { deep: true }
+);
+
+// const onChangeSelected = e => {
+//     const value = e.target.value;
+//     store.commit('list/setSearchSelectedRow', value);
+// };
+
+// const getStatusColor = record => {
+//     let color = getOr('#000', 'color', STATUS[record.status]);
+//     if (record.status === STATUS.PUBLISHED.code && moment(record.publishFromDate).isAfter(moment())) {
+//         color = '#52c41a';
+//     }
+//     return color;
+// };
+
+// const onSelectChange = selectedRowKeys => {
+//     store.commit('list/setSearchSelectedRow', selectedRowKeys);
+//     store.commit('list/setSearchSelectedAll', false);
+// };
+
+// const onSelectAll = selected => {
+//     store.commit('list/setSearchSelectedAll', selected);
+// };
+
+const onEdit = record => {
+    processingItem.value = record;
+};
 </script>
 
 <style lang="scss">
