@@ -44,6 +44,7 @@
                     <TextArea v-model:value="formState.description" :rows="4" :disabled="progress.total > 0"></TextArea>
                 </FormItem>
                 <FormItem
+                    v-if="processingItem && processingItem.id"
                     label="Trạng thái"
                     name="status"
                     :rules="{
@@ -145,8 +146,7 @@ export default defineComponent({
                 .then(values => {
                     console.log('Received values of form: ', values);
                     console.log('formState: ', toRaw(formState));
-                    const payload = toRaw(formState);
-
+                    let payload = toRaw(formState);
                     if (processingItem.value) {
                         // payload.id = processingItem.value.id;
                         Modal.confirm({
@@ -163,6 +163,8 @@ export default defineComponent({
                             onCancel() {},
                         });
                     } else {
+                        formState.status = STATUS_BRAND.ACTIVE.code;
+                        payload = toRaw(formState);
                         createBrand(payload);
                         visible.value = false;
                         formRef.value.resetFields();
