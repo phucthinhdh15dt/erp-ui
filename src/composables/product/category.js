@@ -1,20 +1,20 @@
 import { ref, inject, onMounted } from 'vue';
+import { useLayoutLoading } from '@/composables/common/layout';
 
 export const useCreateCategory = () => {
+    const { layoutLoading, layoutDone } = useLayoutLoading();
     const api = inject('api');
     const loading = ref(false);
     const result = ref('');
     const errorMessage = ref('');
 
     const createCategory = async payload => {
-        loading.value = true;
-
-        const response = await api.productCategory.createCategory(payload);
+        layoutLoading();
+        const response = await api.category.createCategory(payload);
         if (response.data) {
             result.value = 'Tạo ngành hàng mới thành công';
         }
-
-        loading.value = false;
+        layoutDone();
     };
 
     return {
@@ -26,20 +26,20 @@ export const useCreateCategory = () => {
 };
 
 export const useUpdateCategory = () => {
+    const { layoutLoading, layoutDone } = useLayoutLoading();
+
     const api = inject('api');
     const loading = ref(false);
     const result = ref('');
     const errorMessage = ref('');
 
     const updateCategory = async payload => {
-        loading.value = true;
-
-        const response = await api.productCategory.updateCategory(payload);
+        layoutLoading();
+        const response = await api.category.updateCategory(payload);
         if (response.success) {
             result.value = 'Chỉnh sửa ngành hàng thành công';
         }
-
-        loading.value = false;
+        layoutDone();
     };
 
     return {
@@ -51,20 +51,22 @@ export const useUpdateCategory = () => {
 };
 
 export const useGetAllCategory = () => {
+    const { layoutLoading, layoutDone } = useLayoutLoading();
+
     const api = inject('api');
     const loading = ref(false);
     const result = ref([]);
     const errorMessage = ref('');
 
     const getAllCategory = async () => {
-        loading.value = true;
+        layoutLoading();
 
         const response = await api.search.searchProductCategory({ from: 0, size: 10000 });
         if (response.data) {
-            result.value = response.data.hits.map(_ => ({ value: _.id, label: _.name }));
+            result.value = response.data.hits.map(_ => ({ value: _.code, label: _.name }));
         }
 
-        loading.value = false;
+        layoutDone();
     };
 
     onMounted(getAllCategory);

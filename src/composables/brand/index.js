@@ -1,9 +1,9 @@
-import { ref, inject } from 'vue';
+import { ref, inject, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { cloneDeep } from 'lodash';
 import { STATUS_BRAND } from '@/constants';
 
-const useBrand = () => {
+export const useBrand = () => {
     const api = inject('api');
     const store = useStore();
     const errorMessage = ref('');
@@ -43,7 +43,7 @@ const useBrand = () => {
     };
 };
 
-const useCreateBrand = () => {
+export const useCreateBrand = () => {
     const api = inject('api');
     const store = useStore();
     const errorMessage = ref('');
@@ -70,7 +70,7 @@ const useCreateBrand = () => {
     };
 };
 
-const useUpdateBrand = () => {
+export const useUpdateBrand = () => {
     const api = inject('api');
     const store = useStore();
     const errorMessage = ref('');
@@ -94,4 +94,30 @@ const useUpdateBrand = () => {
         updateBrand,
     };
 };
-export { useBrand, useCreateBrand, useUpdateBrand };
+
+export const useGetAllBrand = () => {
+    const api = inject('api');
+    const loading = ref(false);
+    const result = ref([]);
+    const errorMessage = ref('');
+
+    const getAllBrand = async () => {
+        loading.value = true;
+
+        const response = await api.search.searchBrand({ from: 0, size: 10000 });
+        if (response.data) {
+            result.value = response.data.hits.map(_ => ({ value: _.code, label: _.name }));
+        }
+
+        loading.value = false;
+    };
+
+    onMounted(getAllBrand);
+
+    return {
+        getAllBrand,
+        loading,
+        result,
+        errorMessage,
+    };
+};

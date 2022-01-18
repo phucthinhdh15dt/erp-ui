@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card-head-title">SEO và Website</div>
+        <div class="card-head-title">Giấy chứng nhận</div>
         <Card body-style="padding: 20px 20px 0 20px">
             <FormItem label="Sản phẩm bán" class="form-label-w-18">
                 <Input @blur="onBlurName" />

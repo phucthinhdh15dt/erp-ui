@@ -1,5 +1,5 @@
 <template>
-    <LayoutSider :collapsed="collapsed" :trigger="null" collapsible class="LayoutSider" width="208">
+    <LayoutSider :collapsed="collapsed" :trigger="null" collapsible class="LayoutSider" width="222">
         <router-link to="/">
             <div class="LayoutSider__Logo">
                 <img src="@/assets/images/logo_color.svg" width="140" />&nbsp;
@@ -10,21 +10,34 @@
             <!-- <template #title>Quản lý ngành hàng</template> -->
             <router-link to="/category">
                 <MenuItem key="1.1">
-                    <template #icon> <FormOutlined /> </template> Quản lý ngành hàng
+                    <template #icon>
+                        <DatabaseOutlined />
+                    </template>
+                    Quản lý ngành hàng
                 </MenuItem>
             </router-link>
-            <!-- <SubMenu key="sub1">
+            <SubMenu key="sub1">
                 <template #icon>
-                    <FormOutlined />
+                    <CodeSandboxOutlined />
                 </template>
                 <template #title>Quản lý sản phẩm</template>
                 <router-link to="/product/create">
-                    <MenuItem key="1.1">Khai báo sản phẩm</MenuItem>
+                    <MenuItem key="1.1">
+                        <template #icon>
+                            <PlusOutlined />
+                        </template>
+                        Khai báo sản phẩm
+                    </MenuItem>
                 </router-link>
                 <router-link to="/product/list">
-                    <MenuItem key="1.2">Danh sách sản phẩm</MenuItem>
+                    <MenuItem key="1.2">
+                        <template #icon>
+                            <UnorderedListOutlined />
+                        </template>
+                        Danh sách sản phẩm
+                    </MenuItem>
                 </router-link>
-            </SubMenu> -->
+            </SubMenu>
             <!--   <router-link to="/order/list">
                     <MenuItem key="1.2">Danh sách đơn hàng</MenuItem>
                 </router-link> -->
@@ -57,7 +70,13 @@
 <script>
 import { defineComponent, reactive, toRefs, watch, computed } from 'vue';
 import store from '@/store';
-import { FormOutlined } from '@ant-design/icons-vue';
+import {
+    FormOutlined,
+    PlusOutlined,
+    UnorderedListOutlined,
+    CodeSandboxOutlined,
+    DatabaseOutlined,
+} from '@ant-design/icons-vue';
 import { Menu, Layout } from 'ant-design-vue';
 
 const { SubMenu, Item: MenuItem } = Menu;
@@ -70,6 +89,10 @@ export default defineComponent({
         MenuItem,
         SubMenu,
         LayoutSider,
+        PlusOutlined,
+        UnorderedListOutlined,
+        CodeSandboxOutlined,
+        DatabaseOutlined,
     },
     props: {
         subMenuKeyRef: {

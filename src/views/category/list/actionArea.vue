@@ -40,12 +40,7 @@
                     <TextArea v-model:value="formState.description" :rows="4" :disabled="progress.total > 0"></TextArea>
                 </FormItem>
                 <FormItem label="Ngành hàng cha" name="parent">
-                    <Select
-                        v-model:value="formState.parent"
-                        :options="parentOptions"
-                        show-search
-                        :filter-option="filterOption"
-                    />
+                    <CategorySelection :value="formState.parent" @change="value => (formState.parent = value)" />
                 </FormItem>
 
                 <!-- <h3>Ngành hàng con</h3>
@@ -94,186 +89,147 @@
     </div>
 </template>
 
-<script>
-import { defineComponent, watch, computed, inject, toRaw, ref, reactive, createVNode } from 'vue';
-import { Button, message, Modal, Progress, Form, Input, Select } from 'ant-design-vue';
+<script setup>
+import { watch, computed, inject, toRaw, ref, reactive, createVNode } from 'vue';
+import { Button, message, Modal, Progress, Form, Input } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { useCreateCategory, useUpdateCategory } from '@/composables/product/category';
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
-import { filterOption } from '@/utils/common';
+import CategorySelection from '@/components/product/materials/categorySelection.vue';
 
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
 
-export default defineComponent({
-    name: 'ActionArea',
-    components: {
-        Button,
-        Modal,
-        Progress,
-        Form,
-        FormItem,
-        Input,
-        TextArea,
-        // Row,
-        // Col,
-        Select,
-    },
-    setup() {
-        const store = useStore();
-        const onSearch = inject('onSearch');
-        const searchQuery = inject('searchQuery');
-        const processingItem = inject('processingItem');
-        // const subCatInput = ref('');
+const store = useStore();
+const onSearch = inject('onSearch');
+const searchQuery = inject('searchQuery');
+const processingItem = inject('processingItem');
+// const subCatInput = ref('');
 
-        const { createCategory, result: resultCreate } = useCreateCategory();
-        const { updateCategory, result: resultUpdate } = useUpdateCategory();
+const { createCategory, result: resultCreate } = useCreateCategory();
+const { updateCategory, result: resultUpdate } = useUpdateCategory();
 
-        const visible = ref(false);
-        const formState = reactive({
-            name: '',
-            // code: '',
-            description: '',
-            parent: null,
-        });
-        const formRef = ref();
+const visible = ref(false);
+const formState = reactive({
+    name: '',
+    // code: '',
+    description: '',
+    parent: null,
+});
+const formRef = ref();
 
-        const parentOptions = computed(() =>
-            store.state.list.allResults.data.map(_ => ({
-                value: _.id,
-                label: _.name,
-            }))
-        );
+const title = computed(() =>
+    processingItem.value ? `Chỉnh sửa ngành hàng ${processingItem.value.id}` : 'Tạo ngành hàng mới'
+);
 
-        const title = computed(() =>
-            processingItem.value ? `Chỉnh sửa ngành hàng ${processingItem.value.id}` : 'Tạo ngành hàng mới'
-        );
+const progress = computed(() => store.state.list.progress);
 
-        const progress = computed(() => store.state.list.progress);
+const showCreateModal = () => {
+    visible.value = true;
+};
 
-        const showCreateModal = () => {
-            visible.value = true;
-        };
+const onCancel = () => {
+    visible.value = false;
+    console.log(formRef.value);
+    processingItem.value = null;
 
-        const onCancel = () => {
-            visible.value = false;
-            console.log(formRef.value);
-            processingItem.value = null;
+    formRef.value.clearValidate();
+};
 
-            formRef.value.clearValidate();
-        };
+// const onAddSubCat = () => {
+//     if (!subCatInput.value) {
+//         return;
+//     }
 
-        // const onAddSubCat = () => {
-        //     if (!subCatInput.value) {
-        //         return;
-        //     }
+//     formState.subCategories.push({ name: subCatInput.value });
+//     subCatInput.value = '';
+// };
 
-        //     formState.subCategories.push({ name: subCatInput.value });
-        //     subCatInput.value = '';
-        // };
-
-        const onConfirm = async () => {
-            formRef.value
-                .validateFields()
-                .then(values => {
-                    console.log('Received values of form: ', values);
-                    console.log('formState: ', toRaw(formState));
-                    const { parent, ...rest } = toRaw(formState);
-                    const payload = {
-                        ...rest,
-                        parentID: parent || 0,
-                        categoryType: 'CAMPAIGN',
-                    };
-                    if (processingItem.value) {
-                        payload.id = processingItem.value.id;
-                        Modal.confirm({
-                            content: 'Xác nhận lưu bản chỉnh sửa này',
-                            icon: createVNode(ExclamationCircleOutlined),
-                            onOk() {
-                                updateCategory(payload);
-                                visible.value = false;
-                                formRef.value.resetFields();
-                                processingItem.value = null;
-                            },
-                            cancelText: 'Quay lại',
-                            okText: 'Xác nhận',
-                            onCancel() {},
-                        });
-                    } else {
-                        createCategory(payload);
+const onConfirm = async () => {
+    formRef.value
+        .validateFields()
+        .then(values => {
+            console.log('Received values of form: ', values);
+            console.log('formState: ', toRaw(formState));
+            const { parent, ...rest } = toRaw(formState);
+            const payload = {
+                ...rest,
+                parentID: parent || 0,
+                categoryType: 'CAMPAIGN',
+            };
+            if (processingItem.value) {
+                payload.id = processingItem.value.id;
+                Modal.confirm({
+                    content: 'Xác nhận lưu bản chỉnh sửa này',
+                    icon: createVNode(ExclamationCircleOutlined),
+                    onOk() {
+                        updateCategory(payload);
                         visible.value = false;
                         formRef.value.resetFields();
                         processingItem.value = null;
-                    }
-
-                    console.log('reset formState: ', toRaw(formState));
-                })
-                .catch(info => {
-                    console.log('Validate Failed:', info);
+                    },
+                    cancelText: 'Quay lại',
+                    okText: 'Xác nhận',
+                    onCancel() {},
                 });
-        };
-
-        watch(processingItem, () => {
-            if (processingItem.value) {
-                console.log('processingItem.value', processingItem.value);
-                formState.name = processingItem.value.name;
-                formState.description = processingItem.value.description;
-                formState.parent = processingItem.value.parentID || null;
-                visible.value = true;
             } else {
-                // formRef.value.resetFields();
-                formState.name = '';
-                formState.description = '';
-                formState.parent = null;
+                createCategory(payload);
+                visible.value = false;
+                formRef.value.resetFields();
+                processingItem.value = null;
             }
+
+            console.log('reset formState: ', toRaw(formState));
+        })
+        .catch(info => {
+            console.log('Validate Failed:', info);
         });
+};
 
-        watch(
-            searchQuery,
-            () => {
-                store.commit('list/setSearchSelectedAll', false);
-            },
-            { deep: true }
-        );
-
-        watch(
-            resultCreate,
-            () => {
-                if (resultCreate.value) {
-                    message.success(resultCreate.value);
-                    onSearch();
-                }
-            },
-            { deep: true }
-        );
-
-        watch(
-            resultUpdate,
-            () => {
-                if (resultUpdate.value) {
-                    message.success(resultUpdate.value);
-                    onSearch();
-                }
-            },
-            { deep: true }
-        );
-
-        return {
-            onConfirm,
-            visible,
-            progress,
-            onCancel,
-            showCreateModal,
-            formState,
-            // subCatInput,
-            // onAddSubCat,
-            formRef,
-            parentOptions,
-            title,
-            filterOption,
-        };
-    },
+watch(processingItem, () => {
+    if (processingItem.value) {
+        console.log('processingItem.value', processingItem.value);
+        formState.name = processingItem.value.name;
+        formState.description = processingItem.value.description;
+        formState.parent = processingItem.value.parentID || null;
+        visible.value = true;
+    } else {
+        // formRef.value.resetFields();
+        formState.name = '';
+        formState.description = '';
+        formState.parent = null;
+    }
 });
+
+watch(
+    searchQuery,
+    () => {
+        store.commit('list/setSearchSelectedAll', false);
+    },
+    { deep: true }
+);
+
+watch(
+    resultCreate,
+    () => {
+        if (resultCreate.value) {
+            message.success(resultCreate.value);
+            onSearch();
+        }
+    },
+    { deep: true }
+);
+
+watch(
+    resultUpdate,
+    () => {
+        if (resultUpdate.value) {
+            message.success(resultUpdate.value);
+            onSearch();
+        }
+    },
+    { deep: true }
+);
 </script>
 
 <style lang="scss">
