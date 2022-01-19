@@ -1,56 +1,57 @@
 <template>
     <Form label-align="left">
         <Row :gutter="20">
+            <Col :span="24">
+                <Head />
+            </Col>
             <Col :span="14">
                 <General></General>
-                <Seo></Seo>
-                <Variant></Variant>
+                <AttributeWrapper :attributes="attributeSets.left" />
             </Col>
 
             <Col :span="10">
-                <Attribute></Attribute>
+                <AttributeWrapper :attributes="attributeSets.right" />
             </Col>
         </Row>
     </Form>
 </template>
 
 <script setup>
-import { ref, reactive, provide } from 'vue';
+import { ref, reactive, provide, computed, watch, toRaw } from 'vue';
+import { useStore } from 'vuex';
 import { Card, Row, Col, Form } from 'ant-design-vue';
+import Head from '@/components/product/create/head.vue';
 import General from '@/components/product/create/general.vue';
-import Seo from '@/components/product/create/seo.vue';
-import Variant from '@/components/product/create/variant.vue';
-import Attribute from '@/components/product/create/attribute.vue';
+import AttributeWrapper from '@/components/product/create/attributeWrapper.vue';
+import { modelRef, rulesRef } from '@/composables/product/';
+
+const store = useStore();
 
 const useForm = Form.useForm;
-
-const modelRef = reactive({
-    category: '',
-    brand: '',
-});
-const rulesRef = reactive({
-    category: [
-        {
-            required: true,
-            message: 'Please input Activity name',
-        },
-        {
-            min: 3,
-            max: 5,
-            message: 'Length should be 3 to 5',
-            trigger: 'blur',
-        },
-    ],
-    brand: [
-        {
-            required: true,
-            message: 'Please select region',
-        },
-    ],
-});
-
 const form = useForm(modelRef, rulesRef);
 provide('form', form);
 provide('modelRef', modelRef);
 provide('rulesRef', rulesRef);
+
+const attributeSets = computed(() => store.state.product.attributes);
+watch(
+    attributeSets,
+    () => {
+        const _attributeSets = [...toRaw(attributeSets.value.left), ...toRaw(attributeSets.value.right)];
+        console.log('_attributeSets', _attributeSets);
+
+        for (const _attributeSet of _attributeSets) {
+            console.log('modelRef', modelRef);
+            for (const attr of _attributeSet.attributes) {
+                modelRef[attr.code] = attr.defaultValue;
+            }
+            // modelRef[_attributeSet.groupCode] = _attributeSet.attributes.reduce((acc, cur) => {
+            //     acc[cur.code] = cur.defaultValue;
+
+            //     return acc;
+            // }, {});
+        }
+    },
+    { deep: true }
+);
 </script>

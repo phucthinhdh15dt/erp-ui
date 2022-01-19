@@ -1,51 +1,50 @@
 <template>
     <div>
-        <div class="card-head-title">Thuộc tính sản phẩm</div>
-        <Card body-style="padding: 20px 20px 0 20px">
-            <FormItem label="Tên chương trình" class="label-width-18">
-                <Input @blur="onBlurName" />
-            </FormItem>
-            <FormItem label="Mô tả" class="label-width-18 no-required-label">
-                <Input @change="onChangeDescription" />
-            </FormItem>
-        </Card>
+        <FormItem :label="configs.label" class="form-label-w-18">
+            <Input v-if="configs.uiComponentType === 'TEXT'" v-model:value="modelRef[configs.code]" />
+            <Select
+                v-else-if="['MULTI_SELECT', 'SINGLE_SELECT'].includes(configs.uiComponentType)"
+                v-model:value="modelRef[configs.code]"
+                :mode="configs.uiComponentType === 'MULTI_SELECT' ? 'multiple' : null"
+                :options="configs.options"
+            />
+            <DatePicker
+                v-else-if="configs.uiComponentType === 'DATETIME'"
+                v-model:value="modelRef[configs.code]"
+                show-time
+                :locale="locale"
+            />
+            <Switch v-else-if="configs.uiComponentType === 'YES_NO'" v-model:checked="modelRef[configs.code]" />
+        </FormItem>
     </div>
 </template>
 
-<script>
-import { inject } from 'vue';
+<script setup>
+import { inject, toRefs } from 'vue';
 import { useStore } from 'vuex';
-import { Card, Input, Form } from 'ant-design-vue';
+import { Card, Input, Form, DatePicker, Select, Switch } from 'ant-design-vue';
+import locale from 'ant-design-vue/es/date-picker/locale/vi_VN';
 
 const { Item: FormItem } = Form;
-
-export default {
-    name: 'OrderDetailGeneral',
-    components: {
-        Card,
-        Input,
-        FormItem,
+const modelRef = inject('modelRef');
+console.log('modelRef 2', modelRef);
+const store = useStore();
+const props = defineProps({
+    configs: {
+        type: Object,
+        default: () => {},
     },
-    setup() {
-        const store = useStore();
-        // const form = inject('form');
-        // const modelRef = inject('modelRef');
-        // const { validateInfos } = form;
-
-        const onBlurName = e => {
-            store.commit('promotion/setName', e.target.value.trim());
-        };
-
-        const onChangeDescription = e => {
-            store.commit('promotion/setDescription', e.target.value);
-        };
-
-        return {
-            // modelRef,
-            // validateInfos,
-            onBlurName,
-            onChangeDescription,
-        };
+    parent: {
+        type: String,
+        default: '',
     },
+});
+const { name, parent } = toRefs(props);
+const onBlurName = e => {
+    store.commit('promotion/setName', e.target.value.trim());
+};
+
+const onChangeDescription = e => {
+    store.commit('promotion/setDescription', e.target.value);
 };
 </script>

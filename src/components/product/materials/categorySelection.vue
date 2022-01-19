@@ -5,7 +5,6 @@
             :options="categories"
             :filter-option="filterOption"
             show-search
-            label-in-value
             @change="onChange"
         ></Select>
     </div>
@@ -20,16 +19,12 @@ import { filterOption } from '@/utils/common';
 const props = defineProps({
     value: { type: String, default: null },
 });
-const emits = defineEmits({
-    change: value => {
-        console.log('value', value);
-        return value;
-    },
-});
-const value = toRefs(props);
+const emits = defineEmits(['change']);
+const { value } = toRefs(props);
+
 const { result: categories } = useGetAllCategory();
 
-const onChange = value => {
-    emits.change(value);
+const onChange = val => {
+    emits('change', val);
 };
 </script>
