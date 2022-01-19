@@ -103,8 +103,22 @@ export const useGetAllBrand = () => {
 
     const getAllBrand = async () => {
         loading.value = true;
-
-        const response = await api.search.searchBrand({ from: 0, size: 10000 });
+        const query = {
+            from: 0,
+            size: 10,
+            query: {
+                bool: {
+                    must: [
+                        {
+                            match: {
+                                status: 'ACTIVE',
+                            },
+                        },
+                    ],
+                },
+            },
+        };
+        const response = await api.search.searchBrand(query);
         if (response.data) {
             result.value = response.data.hits.map(_ => ({ value: _.code, label: _.name }));
         }
