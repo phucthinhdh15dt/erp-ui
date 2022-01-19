@@ -51,7 +51,7 @@ export const columns = [
 ];
 
 const searchConfigs = {
-    fields: ['id', 'name'],
+    fields: ['code', 'name'],
     placeholder: 'Nhập mã hoặc tên thương hiệu',
     rowKey: 'brandId',
     urlParam: 'brand',
