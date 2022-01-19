@@ -29,7 +29,7 @@ const useCreate = () => {
         }
         const payload = {
             attributeItems: attributeItem,
-            brandCode: data.brand.key,
+            brandCode: data.brand ? data.brand.key : null,
             categoryCode: data.category.key,
             name: data.name,
         };
@@ -133,7 +133,7 @@ const useGetAttributeSet = () => {
         }
         const payload = {
             attributeItems: attributeItem,
-            brandCode: data.brand.code,
+            brandCode: data.brand ? data.brand.code : null,
             categoryCode: data.category.code,
             name: data.name,
             id: data.id,
