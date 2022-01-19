@@ -9,20 +9,6 @@
             :mask-closable="false"
             :closable="false"
         >
-            <FormItem
-                label="Mã thương hiệu"
-                name="code"
-                :rules="{
-                    required: true,
-                    message: 'Vui lòng nhập mã thương hiệu',
-                }"
-            >
-                <Input
-                    v-model:value="formState.code"
-                    :disabled="progress.total > 0 || (processingItem && processingItem.id)"
-                >
-                </Input>
-            </FormItem>
             <Form
                 ref="formRef"
                 :label-col="{ span: 6 }"
@@ -30,6 +16,26 @@
                 label-align="left"
                 :model="formState"
             >
+                <FormItem
+                    label="Mã thương hiệu"
+                    name="code"
+                    :rules="{
+                        required: true,
+                        message: 'Vui lòng nhập mã thương hiệu',
+                    }"
+                >
+                    <InputNumber
+                        v-model:value="formState.code"
+                        :disabled="progress.total > 0 || (processingItem && processingItem.id)"
+                        :min="1"
+                        :max="10000"
+                        style="width: 100%"
+                        :formatter="value => `${value}`.replace('.', '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                        :parser="value => value.replace('.', '').replace(/\$\s?|(,*)/g, '')"
+                        :step="1"
+                    >
+                    </InputNumber>
+                </FormItem>
                 <FormItem
                     label="Tên"
                     name="name"
@@ -79,7 +85,7 @@
 
 <script>
 import { defineComponent, watch, computed, inject, toRaw, ref, reactive, createVNode } from 'vue';
-import { Button, message, Modal, Progress, Form, Input, Select } from 'ant-design-vue';
+import { Button, message, Modal, Progress, Form, Input, Select, InputNumber } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { useCreateBrand, useUpdateBrand } from '@/composables/brand/index';
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
@@ -102,6 +108,7 @@ export default defineComponent({
         // Row,
         // Col,
         Select,
+        InputNumber,
     },
     setup() {
         const store = useStore();
@@ -114,7 +121,7 @@ export default defineComponent({
 
         const visible = ref(false);
         const formState = reactive({
-            code: '',
+            code: undefined,
             description: '',
             name: '',
             status: '',
