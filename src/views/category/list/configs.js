@@ -1,16 +1,24 @@
 export const columns = [
     {
-        title: 'Mã ngành hàng',
+        title: 'Id',
         dataIndex: 'id',
         key: 'id',
         width: 140,
-        align: 'right',
+        align: 'center',
+    },
+    {
+        title: 'Mã thương hiệu',
+        dataIndex: 'code',
+        key: 'code',
+        width: 200,
+        align: 'center',
     },
     {
         title: 'Tên ngành hàng',
         dataIndex: 'name',
         key: 'name',
-        width: 200,
+        width: 300,
+        align: 'center',
     },
     {
         title: 'Ngành hàng con',
