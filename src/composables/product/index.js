@@ -1,6 +1,7 @@
 import { reactive, inject, ref } from 'vue';
 import { useLayoutLoading } from '@/composables/common/layout';
 import { useStore } from 'vuex';
+import { isPlainObject } from 'lodash/fp';
 
 export const modelRef = reactive({
     general: { category: '', brand: '', productName: '', registerName: '', englishName: '', url: '' },
@@ -54,7 +55,7 @@ export const useCreateProduct = () => {
     const errorMessage = ref('');
 
     const normalize = value => {
-        if (value instanceof Object) {
+        if (isPlainObject(value)) {
             return value.toISOString();
         }
 
@@ -73,7 +74,7 @@ export const useCreateProduct = () => {
 
     const collectPayload = data => {
         console.log('data', data);
-        const { general, ...attributes } = data;
+        const { general, variants = [], ...attributes } = data;
         const payload = {
             attributes: collectAttributes(attributes),
             avatar: 'string',
@@ -95,6 +96,7 @@ export const useCreateProduct = () => {
             url: general.url,
             userManual: 'string',
             uses: 'string',
+            variantCodes: variants,
         };
 
         return payload;

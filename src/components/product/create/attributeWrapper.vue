@@ -5,6 +5,7 @@
             :key="index"
             :name="attribute.groupName"
             :code="attribute.groupCode"
+            :is-variant="attribute.isVariant"
             :attributes="attribute.attributes"
         ></AttributeSet>
     </div>

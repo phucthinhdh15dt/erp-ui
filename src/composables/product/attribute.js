@@ -42,7 +42,7 @@ export const useSearchAttributeSet = () => {
             return;
         }
 
-        const responseGet = await api.attributeSet.getAttributeSetId(attributeSet.id);
+        const responseGet = await api.attributeSet.getAttributeSetId(41);
         if (!responseGet.data) {
             layoutDone();
             return;
