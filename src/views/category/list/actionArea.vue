@@ -24,11 +24,17 @@
                         message: 'Vui lòng nhập mã ngành hàng',
                     }"
                 >
-                    <Input
+                    <InputNumber
                         v-model:value="formState.code"
                         :disabled="progress.total > 0 || (processingItem && processingItem.id)"
+                        :min="1"
+                        :max="10000"
+                        style="width: 100%"
+                        :formatter="value => `${value}`.replace('.', '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                        :parser="value => value.replace('.', '').replace(/\$\s?|(,*)/g, '')"
+                        :step="1"
                     >
-                    </Input>
+                    </InputNumber>
                 </FormItem>
                 <FormItem
                     label="Tên ngành"
@@ -96,7 +102,7 @@
 
 <script setup>
 import { watch, computed, inject, toRaw, ref, reactive, createVNode } from 'vue';
-import { Button, message, Modal, Progress, Form, Input } from 'ant-design-vue';
+import { Button, message, Modal, Progress, Form, Input, InputNumber } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { useCreateCategory, useUpdateCategory } from '@/composables/product/category';
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
@@ -117,7 +123,7 @@ const { updateCategory, result: resultUpdate } = useUpdateCategory();
 const visible = ref(false);
 const formState = reactive({
     name: '',
-    code: '',
+    code: undefined,
     description: '',
     parent: null,
 });
@@ -204,7 +210,7 @@ watch(processingItem, () => {
         formState.name = '';
         formState.description = '';
         formState.parent = null;
-        formState.code = '';
+        formState.code = undefined;
     }
 });
 
