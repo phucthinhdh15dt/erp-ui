@@ -90,7 +90,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .FilterTags {
     margin-top: $primary-margin;
     padding-left: 1.6rem;
