@@ -35,9 +35,9 @@ export const filters = [
 ];
 
 export const searchConfigs = {
-    fields: ['id', 'name'],
+    fields: ['code', 'name'],
     placeholder: 'Nhập mã hoặc tên ngành hàng',
-    rowKey: 'categoryId',
+    rowKey: 'code',
     urlParam: 'category',
 };
 
