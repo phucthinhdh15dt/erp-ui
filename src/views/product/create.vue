@@ -42,6 +42,11 @@ watch(
 
         for (const _attributeSet of _attributeSets) {
             console.log('modelRef', modelRef);
+            if (_attributeSet.isVariant) {
+                modelRef.variants = _attributeSet.attributes.map(_ => _.code);
+                continue;
+            }
+
             for (const attr of _attributeSet.attributes) {
                 modelRef[attr.code] = attr.defaultValue;
             }

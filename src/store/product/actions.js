@@ -4,7 +4,7 @@ import { removeAscent } from '@/utils/common';
 const collectAttributes = (groupByAttributes, type) =>
     flow(
         pathOr([], type),
-        map(pick(['group', 'groupOrder', 'attribute', 'attrOrder', 'attributeOrder'])),
+        map(pick(['group', 'groupOrder', 'attribute', 'attrOrder', 'attributeOrder', 'isVariant'])),
         groupBy('groupOrder'),
         groups => {
             return reduce((acc, cur) => {
@@ -42,6 +42,7 @@ const collectAttributes = (groupByAttributes, type) =>
                 if (!existGroup) {
                     const result = {
                         groupName: _attributes[0].group,
+                        isVariant: _attributes[0].isVariant,
                         groupCode: removeAscent(_attributes[0].group).split(' ').join('_'),
                         attributes: attributeData,
                     };
