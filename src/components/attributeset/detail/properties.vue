@@ -21,12 +21,7 @@
                             </Row>
                             <Row v-if="item.attribute" align="bottom" style="margin-top: 20px">
                                 <label v-if="!item.isAdd" style="margin-left: 20px">{{ item.attribute.label }}</label>
-                                <Input
-                                    v-else
-                                    v-model:value="item.attribute.label"
-                                    placeholder="Nhập tên thuộc tính"
-                                    size="large"
-                                >
+                                <Input v-else v-model:value="item.attribute.label" placeholder="Nhập tên thuộc tính">
                                 </Input>
                             </Row>
                         </Col>
@@ -44,8 +39,7 @@
                             </Row>
                             <Row align="bottom" style="margin-top: 20px">
                                 <label v-if="!isEdit">{{ item.group || 'Không rõ' }}</label>
-                                <Input v-else v-model:value="item.group" placeholder="Nhập tên nhóm" size="large">
-                                </Input>
+                                <Input v-else v-model:value="item.group" placeholder="Nhập tên nhóm"> </Input>
                             </Row>
                         </Col>
                         <Col :span="2" style="padding-right: 20px">
@@ -55,7 +49,6 @@
                                 <InputNumber
                                     v-else
                                     v-model:value="item.groupOrder"
-                                    size="large"
                                     :min="1"
                                     :max="10000"
                                     style="width: 100%"
@@ -74,7 +67,6 @@
                                 <InputNumber
                                     v-else
                                     v-model:value="item.attrOrder"
-                                    size="large"
                                     :min="1"
                                     :max="10000"
                                     :formatter="
@@ -95,7 +87,6 @@
                                     v-model:value="item.position"
                                     placeholder="Chọn vị trí"
                                     label-in-value
-                                    size="large"
                                     style="width: 150px"
                                 >
                                     <Option
@@ -110,7 +101,7 @@
                         </Col>
                         <Col :span="2" style="padding-right: 20px">
                             <label style="font-weight: bold; text-align: center; display: block">Biến thể</label>
-                            <Row align="middle" style="margin-top: 30px; text-align: center; display: block">
+                            <Row align="middle" style="margin-top: 23px; text-align: center; display: block">
                                 <label v-if="!isEdit">{{ item.isVariant ? 'Có' : 'Không' }}</label>
                                 <Checkbox v-else v-model:checked="item.isVariant"></Checkbox>
                             </Row>
@@ -118,9 +109,7 @@
                         <Col v-if="isEdit" :span="2">
                             <Row>&nbsp;</Row>
                             <Row align="bottom" style="margin-top: 20px">
-                                <Button type="primary" danger size="large" @click="onRemove(item)"
-                                    ><DeleteOutlined /> Xóa</Button
-                                >
+                                <Button type="primary" danger @click="onRemove(item)"><DeleteOutlined /> Xóa</Button>
                             </Row>
                         </Col>
                     </Row>
@@ -135,12 +124,7 @@
                         :overlay-style="{ maxHeight: '500px', overflowY: 'auto', boxShadow: '0 2px 8px #00000026' }"
                         class="AttributeSetDetailChoose__Dropdown"
                     >
-                        <Input
-                            v-model:value="searchKey"
-                            placeholder="Nhập tên thuộc tính cần tìm?"
-                            size="large"
-                            @change="onChange"
-                        >
+                        <Input v-model:value="searchKey" placeholder="Nhập tên thuộc tính cần tìm?" @change="onChange">
                             <template #suffix>
                                 <SearchOutlined style="color: rgba(0, 0, 0, 0.25)" />
                             </template>

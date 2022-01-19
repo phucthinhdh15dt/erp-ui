@@ -36,7 +36,7 @@
                         </Row>
                         <Row style="margin-top: 20px">
                             <FormItem name="item.groupName">
-                                <Input v-model:value="item.groupName" placeholder="Nhập tên nhóm" size="large"> </Input>
+                                <Input v-model:value="item.groupName" placeholder="Nhập tên nhóm"> </Input>
                             </FormItem>
                         </Row>
                     </Col>
@@ -48,7 +48,6 @@
                             <FormItem name="groupOrder">
                                 <InputNumber
                                     v-model:value="item.groupOrder"
-                                    size="large"
                                     :min="1"
                                     :max="10000"
                                     style="width: 100%"
@@ -69,7 +68,6 @@
                             <FormItem name="attributeOrder">
                                 <InputNumber
                                     v-model:value="item.attributeOrder"
-                                    size="large"
                                     :min="1"
                                     :max="10000"
                                     style="width: 100%"
@@ -91,7 +89,6 @@
                                 <Select
                                     v-model:value="item.attributePosition"
                                     placeholder="Chọn vị trí"
-                                    size="large"
                                     style="width: 100%"
                                     label-in-value
                                     @change="onChangePosition"
@@ -111,16 +108,14 @@
                         <Row align="bottom">
                             <label style="font-weight: bold; text-align: center; display: block">Biến thể</label>
                         </Row>
-                        <Row align="middle" style="margin-top: 30px; text-align: center">
+                        <Row align="middle" style="margin-top: 23px; text-align: center">
                             <Checkbox v-model:checked="item.isVariant"></Checkbox>
                         </Row>
                     </Col>
                     <Col :span="2">
                         <Row>&nbsp;</Row>
                         <Row align="bottom" style="margin-top: 20px">
-                            <Button type="primary" danger size="large" @click="onRemove(item)"
-                                ><DeleteOutlined /> Xóa</Button
-                            >
+                            <Button type="primary" danger @click="onRemove(item)"><DeleteOutlined /> Xóa</Button>
                         </Row>
                     </Col>
                 </Row>
@@ -135,12 +130,7 @@
                         :overlay-style="{ maxHeight: '500px', overflowY: 'auto', boxShadow: '0 2px 8px #00000026' }"
                         class="AttributeSetChoose__Dropdown"
                     >
-                        <Input
-                            v-model:value="searchKey"
-                            placeholder="Nhập tên thuộc tính cần tìm?"
-                            size="large"
-                            @change="onChange"
-                        >
+                        <Input v-model:value="searchKey" placeholder="Nhập tên thuộc tính cần tìm?" @change="onChange">
                             <template #suffix>
                                 <SearchOutlined style="color: rgba(0, 0, 0, 0.25)" />
                             </template>

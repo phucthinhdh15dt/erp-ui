@@ -22,6 +22,7 @@
                             <Select
                                 v-model:value="modelRef.brand"
                                 label-in-value
+                                allow-clear
                                 placeholder="Chọn thương hiệu"
                                 @change="onChangeBrand"
                             >
