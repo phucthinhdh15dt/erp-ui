@@ -22,28 +22,24 @@ import List from '@/components/list/index.vue';
 export const columns = [
     {
         title: 'Mã thuộc tính',
-        dataIndex: 'id',
-        key: 'id',
-        width: 140,
-        align: 'center',
-    },
-    {
-        title: 'Mã Code',
         dataIndex: 'code',
         key: 'code',
         width: 200,
+        align: 'center',
     },
     {
         title: 'Tên thuộc tính',
         dataIndex: 'label',
         key: 'label',
         width: 300,
+        align: 'center',
     },
     {
         title: 'Tính chât',
         dataIndex: 'uiComponentType',
         key: 'uiComponentType',
         width: 300,
+        align: 'center',
     },
     {
         title: 'Mô tả',

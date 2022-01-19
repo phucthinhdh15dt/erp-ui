@@ -1,12 +1,5 @@
 export const columns = [
     {
-        title: 'Id',
-        dataIndex: 'id',
-        key: 'id',
-        width: 140,
-        align: 'center',
-    },
-    {
         title: 'Mã thương hiệu',
         dataIndex: 'code',
         key: 'code',
