@@ -191,6 +191,10 @@ export default defineComponent({
         flex: 1;
         display: flex;
         justify-content: space-between;
+
+        .ant-input-search-button {
+            border-left: none;
+        }
     }
 
     &__Action {
