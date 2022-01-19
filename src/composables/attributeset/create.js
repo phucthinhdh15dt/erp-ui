@@ -60,6 +60,7 @@ const useProperties = () => {
         result.value = '';
 
         const payload = {
+            size: 1000,
             query: {
                 match_all: {},
             },
