@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="AttributeSetList">
         <div class="card-head-title font-18 font-bold">Danh sách nhóm thuộc tính</div>
         <List
             :columns="columns"

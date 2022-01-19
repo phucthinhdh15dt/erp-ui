@@ -2,7 +2,7 @@
     <Card>
         <Row class="AttributeSetDetailBody">
             <Row>
-                <Col :span="8" class="AttributeSetDetailBody__Item">
+                <Col :span="12" class="AttributeSetDetailBody__Item">
                     <FormItem label="Ngành hàng" v-bind="validateInfos.category">
                         <label v-if="!isEdit && modelRef.category" style="font-weight: bold">{{
                             modelRef.category.name
@@ -12,7 +12,6 @@
                             v-model:value="state.categoryName"
                             allow-clear
                             placeholder="Chọn ngành hàng"
-                            size="large"
                             @change="onChangeCategory"
                         >
                             <Option v-for="item in resultCate" :key="item.code" :value="item.label">
@@ -21,7 +20,7 @@
                         </Select>
                     </FormItem>
                 </Col>
-                <Col :span="8" class="AttributeSetDetailBody__Item">
+                <Col :span="12" class="AttributeSetDetailBody__Item">
                     <FormItem label="Thương hiệu">
                         <label v-if="!isEdit && modelRef.brand" style="font-weight: bold">{{
                             modelRef.brand.name
@@ -31,7 +30,6 @@
                             v-model:value="state.brandName"
                             allow-clear
                             placeholder="Chọn thương hiệu"
-                            size="large"
                             @change="onChangeBrand"
                         >
                             <Option v-for="item in resultBrand" :key="item.code" :value="item.label">
@@ -42,8 +40,8 @@
                 </Col>
             </Row>
             <Row>
-                <Col :span="8" class="AttributeSetDetailBody__Item">
-                    <FormItem label="Tên nhóm thuộc tính" v-bind="validateInfos.name">
+                <Col :span="12" class="AttributeSetDetailBody__Item">
+                    <FormItem label="Tên nhóm" v-bind="validateInfos.name">
                         <label v-if="!isEdit" style="font-weight: bold">{{ modelRef.name }}</label>
                         <Input
                             v-else
@@ -51,7 +49,6 @@
                             name="name"
                             :maxlength="80"
                             placeholder="Tên nhóm thuộc tính"
-                            size="large"
                         />
                     </FormItem>
                 </Col>

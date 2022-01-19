@@ -1,8 +1,8 @@
 <template>
     <div class="ActionArea">
-        <Button type="primary" class="mr-12" @click="onCreate"><PlusOutlined /> Tạo mới </Button>
+        <Button type="primary" class="mr-12" @click="onCreate">Tạo mới </Button>
         <Button type="primary" danger :disabled="!selectedRowKeys || selectedRowKeys.length <= 0" @click="onDelete"
-            ><DeleteOutlined />Xóa</Button
+            >Xóa</Button
         >
     </div>
 </template>
@@ -10,14 +10,13 @@
 <script>
 import { defineComponent, computed, watch, inject } from 'vue';
 import { Button, Modal, message } from 'ant-design-vue';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { useRemoveAttributeSet } from '@/composables/attributeset/create';
 
 export default defineComponent({
     name: 'ActionArea',
-    components: { Button, DeleteOutlined, PlusOutlined },
+    components: { Button },
     setup() {
         const router = useRouter();
         const store = useStore();
@@ -36,7 +35,7 @@ export default defineComponent({
             });
         };
         const onCreate = () => {
-            router.push('/attributeSet/create');
+            router.push('/attribute-set/create');
         };
 
         const removeAttributeList = () => {

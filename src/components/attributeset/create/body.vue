@@ -3,13 +3,12 @@
         <Spin tip="Đang tải..." :spinning="loading">
             <Row class="AttributeSetBody">
                 <Row>
-                    <Col :span="8" class="AttributeSetBody__Item">
+                    <Col :span="12" class="AttributeSetBody__Item">
                         <FormItem label="Ngành hàng" v-bind="validateInfos['category']">
                             <Select
                                 v-model:value="modelRef.category"
                                 label-in-value
                                 placeholder="Chọn ngành hàng"
-                                size="large"
                                 @change="onChangeCategory"
                             >
                                 <Option v-for="item in resultCate" :key="item.code" :value="item.code">
@@ -18,13 +17,13 @@
                             </Select>
                         </FormItem>
                     </Col>
-                    <Col :span="8" class="AttributeSetBody__Item">
+                    <Col :span="12" class="AttributeSetBody__Item">
                         <FormItem label="Thương hiệu" v-bind="validateInfos['brand']">
                             <Select
                                 v-model:value="modelRef.brand"
                                 label-in-value
+                                allow-clear
                                 placeholder="Chọn thương hiệu"
-                                size="large"
                                 @change="onChangeBrand"
                             >
                                 <Option v-for="item in resultBrand" :key="item.code" :value="item.code">
@@ -35,14 +34,13 @@
                     </Col>
                 </Row>
                 <Row>
-                    <Col :span="8" class="AttributeSetBody__Item">
-                        <FormItem label="Tên nhóm thuộc tính" v-bind="validateInfos['name']">
+                    <Col :span="12" class="AttributeSetBody__Item">
+                        <FormItem label="Tên nhóm" v-bind="validateInfos['name']">
                             <Input
                                 v-model:value="modelRef.name"
                                 name="name"
                                 :maxlength="80"
                                 placeholder="Tên nhóm thuộc tính"
-                                size="large"
                             />
                         </FormItem>
                     </Col>

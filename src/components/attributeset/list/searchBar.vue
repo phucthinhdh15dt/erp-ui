@@ -10,9 +10,7 @@
                 @search="onSearchEnter"
                 @blur="onBlurSearch"
             />
-            <Button class="AttributeSetSearchBar__Filter__Btn" type="primary" @click="onOpen"
-                ><FilterOutlined />Lọc</Button
-            >
+            <Button class="AttributeSetSearchBar__Filter__Btn" type="primary" @click="onOpen">Lọc</Button>
             <slot name="ActionArea" />
             <Drawer title="Bộ lọc" placement="bottom" :height="300" closable :visible="visible" @close="onClose">
                 <Form>
@@ -30,8 +28,8 @@
                         </Col>
                     </Row>
                     <div class="AttributeSetSearchBar__Action">
-                        <Button style="margin-right: 8px" @click="onResetFilters"><PlusOutlined /> Làm mới</Button>
-                        <Button type="primary" @click="search"><SearchOutlined />Tìm kiếm</Button>
+                        <Button style="margin-right: 8px" @click="onResetFilters"> Làm mới</Button>
+                        <Button type="primary" @click="search">Tìm kiếm</Button>
                     </div>
                 </Form>
             </Drawer>
@@ -42,7 +40,6 @@
 <script>
 import { defineComponent, defineAsyncComponent, watch, computed, inject, ref, provide, toRefs } from 'vue';
 import { Card, Input, Select, message, Button, Drawer, Form, Row, Col } from 'ant-design-vue';
-import { FilterOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons-vue';
 import { useStore } from 'vuex';
 import { trim, cloneDeep } from 'lodash/fp';
 import { useCommon } from '@/composables/common/common';
@@ -61,9 +58,6 @@ export default defineComponent({
         FormItem,
         Row,
         Col,
-        FilterOutlined,
-        PlusOutlined,
-        SearchOutlined,
         Selection: defineAsyncComponent(() => import(`./filters/selection.vue`)),
     },
     props: {
@@ -197,6 +191,10 @@ export default defineComponent({
         flex: 1;
         display: flex;
         justify-content: space-between;
+
+        .ant-input-search-button {
+            border-left: none;
+        }
     }
 
     &__Action {
@@ -237,5 +235,30 @@ export default defineComponent({
             line-height: 38px !important;
         }
     }
+}
+
+.ant-drawer-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    display: block;
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    color: #00000073;
+    font-weight: 700;
+    font-size: 16px;
+    font-style: normal;
+    line-height: 56px;
+    text-align: center;
+    text-transform: none;
+    text-decoration: none;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    transition: color 0.3s;
+    text-rendering: auto;
 }
 </style>
