@@ -63,6 +63,7 @@ const useProperties = () => {
             query: {
                 match_all: {},
             },
+            size: 1000,
         };
         const response = await api.search.searchAttribute(payload);
         if (response.data) {
