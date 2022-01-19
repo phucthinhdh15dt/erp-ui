@@ -10,7 +10,7 @@
             @change="onChange"
         >
             <template #bodyCell="{ column, text, record }">
-                <template v-if="column.dataIndex === 'id'">
+                <template v-if="column.dataIndex === 'code'">
                     <a class="id-style" @click="onEdit(record)">#{{ text }}</a>
                 </template>
                 <template v-if="column.dataIndex === 'subCategory'">
