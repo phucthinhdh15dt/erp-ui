@@ -17,6 +17,20 @@
                 :model="formState"
             >
                 <FormItem
+                    label="Mã ngành hàng"
+                    name="code"
+                    :rules="{
+                        required: true,
+                        message: 'Vui lòng nhập mã ngành hàng',
+                    }"
+                >
+                    <Input
+                        v-model:value="formState.code"
+                        :disabled="progress.total > 0 || (processingItem && processingItem.id)"
+                    >
+                    </Input>
+                </FormItem>
+                <FormItem
                     label="Tên ngành"
                     name="name"
                     :rules="{
@@ -26,16 +40,7 @@
                 >
                     <Input v-model:value="formState.name" :disabled="progress.total > 0"> </Input>
                 </FormItem>
-                <!-- <FormItem
-                    label="Mã ngành"
-                    name="code"
-                    :rules="{
-                        required: true,
-                        message: 'Vui lòng nhập mã ngành',
-                    }"
-                >
-                    <Input v-model:value="formState.code" :disabled="progress.total > 0"> </Input>
-                </FormItem> -->
+
                 <FormItem label="Mô tả" name="description">
                     <TextArea v-model:value="formState.description" :rows="4" :disabled="progress.total > 0"></TextArea>
                 </FormItem>
@@ -112,7 +117,7 @@ const { updateCategory, result: resultUpdate } = useUpdateCategory();
 const visible = ref(false);
 const formState = reactive({
     name: '',
-    // code: '',
+    code: '',
     description: '',
     parent: null,
 });
@@ -190,6 +195,7 @@ watch(processingItem, () => {
     if (processingItem.value) {
         console.log('processingItem.value', processingItem.value);
         formState.name = processingItem.value.name;
+        formState.code = processingItem.value.code;
         formState.description = processingItem.value.description;
         formState.parent = processingItem.value.parentID || null;
         visible.value = true;
@@ -198,6 +204,7 @@ watch(processingItem, () => {
         formState.name = '';
         formState.description = '';
         formState.parent = null;
+        formState.code = '';
     }
 });
 
