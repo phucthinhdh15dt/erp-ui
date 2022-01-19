@@ -235,7 +235,10 @@ export default defineComponent({
             () => {
                 if (resultCreate.value) {
                     message.success(resultCreate.value);
-                    onSearch();
+                    const timeout = setTimeout(() => {
+                        onSearch();
+                        clearTimeout(timeout);
+                    }, 1000);
                 }
             },
             { deep: true }
@@ -246,7 +249,10 @@ export default defineComponent({
             () => {
                 if (resultUpdate.value) {
                     message.success(resultUpdate.value);
-                    onSearch();
+                    const timeout = setTimeout(() => {
+                        onSearch();
+                        clearTimeout(timeout);
+                    }, 1000);
                 }
             },
             { deep: true }

@@ -227,7 +227,10 @@ watch(
     () => {
         if (resultCreate.value) {
             message.success(resultCreate.value);
-            onSearch();
+            const timeout = setTimeout(() => {
+                onSearch();
+                clearTimeout(timeout);
+            }, 1000);
         }
     },
     { deep: true }
@@ -238,7 +241,10 @@ watch(
     () => {
         if (resultUpdate.value) {
             message.success(resultUpdate.value);
-            onSearch();
+            const timeout = setTimeout(() => {
+                onSearch();
+                clearTimeout(timeout);
+            }, 1000);
         }
     },
     { deep: true }
