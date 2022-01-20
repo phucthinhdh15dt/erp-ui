@@ -14,7 +14,7 @@
                     <a class="id-style" @click="onEdit(record)">#{{ text }}</a>
                 </template>
                 <template v-if="column.dataIndex === 'status'">
-                    <Status :code="record.status ? record.status : 'DEACTIVE'" />
+                    <Status :code="record.status ? record.status : 'DEACTIVE'" :list-status="STATUS_BRAND" />
                 </template>
             </template>
         </Table>
@@ -27,6 +27,7 @@ import { Table } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import Status from '@/components/common/status.vue';
 import { getOr } from 'lodash/fp';
+import { STATUS_BRAND } from '@/constants/index';
 import moment from 'moment';
 
 export default defineComponent({
@@ -115,6 +116,7 @@ export default defineComponent({
             progress,
             onSelectAll,
             onEdit,
+            STATUS_BRAND,
         };
     },
 });
