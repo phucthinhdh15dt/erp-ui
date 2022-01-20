@@ -57,7 +57,7 @@ export const useCreateBrand = () => {
 
         const response = await api.brand.createBrand(data);
         if (response && response.data) {
-            result.value = 'tạo mới thương hiệu thành công';
+            result.value = 'Tạo thương hiệu mới thành công';
         }
         loading.value = false;
     };
@@ -83,7 +83,7 @@ export const useUpdateBrand = () => {
         result.value = '';
         const response = await api.brand.updateBrand(data);
         if (response && response.success) {
-            result.value = 'Cập nhật thông tin thương hiệu thành công';
+            result.value = 'Cập nhật thông tin thương hiệu thành công.';
         }
         loading.value = false;
     };
