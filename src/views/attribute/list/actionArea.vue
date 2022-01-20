@@ -147,7 +147,7 @@ export default defineComponent({
         const typeOptions = AttributeItemType.map(_ => ({ value: _.value, label: _.text }));
 
         const title = computed(() =>
-            processingItem.value ? `Chỉnh sửa thuộc tính: ${processingItem.value.id}` : 'Tạo thuộc tính mới'
+            processingItem.value ? `Chỉnh sửa thuộc tính: ${processingItem.value.label}` : 'Tạo thuộc tính mới'
         );
 
         const progress = computed(() => store.state.list.progress);

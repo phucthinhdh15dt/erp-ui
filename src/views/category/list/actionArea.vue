@@ -130,7 +130,7 @@ const formState = reactive({
 const formRef = ref();
 
 const title = computed(() =>
-    processingItem.value ? `Chỉnh sửa ngành hàng ${processingItem.value.id}` : 'Tạo ngành hàng mới'
+    processingItem.value ? `Chỉnh sửa ngành hàng: ${processingItem.value.name}` : 'Tạo ngành hàng mới'
 );
 
 const progress = computed(() => store.state.list.progress);

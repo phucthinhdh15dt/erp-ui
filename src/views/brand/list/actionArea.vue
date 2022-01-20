@@ -131,7 +131,7 @@ export default defineComponent({
         const statusOptions = Object.values(STATUS_BRAND).map(_ => ({ value: _.code, label: _.label }));
 
         const title = computed(() =>
-            processingItem.value ? `Chỉnh sửa thương hiệu: ${processingItem.value.id}` : 'Tạo thương hiệu mới'
+            processingItem.value ? `Chỉnh sửa thương hiệu: ${processingItem.value.name}` : 'Tạo thương hiệu mới'
         );
 
         const progress = computed(() => store.state.list.progress);
