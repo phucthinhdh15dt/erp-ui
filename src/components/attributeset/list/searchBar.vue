@@ -1,21 +1,28 @@
 <template>
-    <Card class="AttributeSetSearchBar">
-        <div class="AttributeSetSearchBar__Filter">
+    <Card class="SearchBar">
+        <div class="SearchBar__Filter">
             <Search
                 ref="inputRef"
                 v-model:value="localKeyword"
-                class="AttributeSetSearchBar__Input"
+                class="SearchBar__Input"
+                enter-button
                 :placeholder="searchConfigs.placeholder"
                 allow-clear
                 @search="onSearchEnter"
                 @blur="onBlurSearch"
             />
-            <Button class="AttributeSetSearchBar__Filter__Btn" type="primary" @click="onOpen">Lọc</Button>
+            <Button
+                v-if="filterConfigs && filterConfigs.length > 0"
+                class="SearchBar__Filter__Btn"
+                type="primary"
+                @click="onOpen"
+                >Lọc</Button
+            >
             <slot name="ActionArea" />
             <Drawer title="Bộ lọc" placement="bottom" :height="300" closable :visible="visible" @close="onClose">
                 <Form>
                     <Row :gutter="24">
-                        <Col v-for="(filter, idx) in filterConfigsRef" :key="idx" :span="filter.span">
+                        <Col v-for="(filter, idx) in filterConfigs" :key="idx" :span="filter.span">
                             <FormItem :label="filter.label">
                                 <component
                                     :is="filter.type"
@@ -27,8 +34,8 @@
                             </FormItem>
                         </Col>
                     </Row>
-                    <div class="AttributeSetSearchBar__Action">
-                        <Button style="margin-right: 8px" @click="onResetFilters"> Làm mới</Button>
+                    <div class="SearchBar__Action">
+                        <Button style="margin-right: 8px" @click="onResetFilters">Làm mới</Button>
                         <Button type="primary" @click="search">Tìm kiếm</Button>
                     </div>
                 </Form>
@@ -182,7 +189,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.AttributeSetSearchBar {
+.SearchBar {
     .ant-card-body {
         display: flex;
     }
