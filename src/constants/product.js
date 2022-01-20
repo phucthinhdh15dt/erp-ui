@@ -1,5 +1,5 @@
 export const STATUS_PRODUCT = {
-    ON_SALE: {
+    ONSALE: {
         code: 'ONSALE',
         label: 'Đang bán',
         color: '#52c41a',

@@ -18,13 +18,14 @@ import { defineComponent, provide, ref } from 'vue';
 import ActionArea from './list/actionArea.vue';
 import ResultTable from './list/resultTable.vue';
 import List from '@/components/list/index.vue';
+import { formatToCurrency } from '@/utils/number';
 
 export const columns = [
     {
         title: 'STT',
         dataIndex: 'index',
         key: 'index',
-        width: 200,
+        width: 100,
         align: 'center',
     },
     {
@@ -52,14 +53,14 @@ export const columns = [
         title: 'Ngành hàng',
         dataIndex: 'category.name',
         key: 'category.name',
-        width: 150,
+        width: 200,
         align: 'center',
     },
     {
         title: 'Thương hiệu',
         dataIndex: 'brand.name',
         key: 'brand.name',
-        width: 150,
+        width: 200,
         align: 'center',
     },
     {
@@ -68,12 +69,15 @@ export const columns = [
         key: 'priceVat',
         width: 150,
         align: 'center',
+        customRender({ text }) {
+            return formatToCurrency(text);
+        },
     },
     {
         title: 'Trạng thái',
         dataIndex: 'status',
         key: 'status',
-        width: 300,
+        width: 100,
         align: 'center',
     },
 ];
