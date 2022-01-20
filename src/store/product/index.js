@@ -9,6 +9,16 @@ export default {
             left: [],
             right: [],
         },
+        detail: {
+            general: {
+                brand: '',
+                category: '',
+                name: '',
+                englishName: '',
+                registedName: '',
+                url: '',
+            },
+        },
     }),
     getters,
     actions,

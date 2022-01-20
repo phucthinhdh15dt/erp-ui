@@ -1,6 +1,7 @@
 <template>
     <div>
-        <Certification v-if="name === 'Giấy chứng nhận'">ahiih</Certification>
+        <Certification v-if="code === 'certifications'">ahiih</Certification>
+        <Distributors v-else-if="code === 'distributors'" />
         <div v-else-if="isVariant">
             <div class="card-head-title">{{ name }}</div>
             <Card body-style="padding: 20px 20px 0 20px">
@@ -24,11 +25,12 @@
 </template>
 
 <script setup>
-import { inject, toRefs } from 'vue';
+import { toRefs } from 'vue';
 import { useStore } from 'vuex';
-import { Card, Input, Form } from 'ant-design-vue';
+import { Card, Form } from 'ant-design-vue';
 import Attribute from './attribute.vue';
 import Certification from './certification.vue';
+import Distributors from './distributors.vue';
 
 const { Item: FormItem } = Form;
 
@@ -52,11 +54,4 @@ const props = defineProps({
     },
 });
 const { name, code, isVariant, attributes } = toRefs(props);
-const onBlurName = e => {
-    store.commit('promotion/setName', e.target.value.trim());
-};
-
-const onChangeDescription = e => {
-    store.commit('promotion/setDescription', e.target.value);
-};
 </script>

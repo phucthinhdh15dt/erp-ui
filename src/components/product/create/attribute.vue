@@ -15,6 +15,18 @@
                 :locale="locale"
             />
             <Switch v-else-if="configs.uiComponentType === 'YES_NO'" v-model:checked="modelRef[configs.code]" />
+            <Upload
+                v-else-if="onfigs.uiComponentType === 'UPLOAD'"
+                v-model:fileList="modelRef[configs.code]"
+                list-type="picture-card"
+                name="files"
+                action="/upload.do"
+            >
+                <div>
+                    <PlusOutlined />
+                    <div class="ant-upload-text">Thêm ảnh</div>
+                </div>
+            </Upload>
         </FormItem>
     </div>
 </template>
@@ -22,8 +34,9 @@
 <script setup>
 import { inject, toRefs } from 'vue';
 import { useStore } from 'vuex';
-import { Card, Input, Form, DatePicker, Select, Switch } from 'ant-design-vue';
+import { Card, Input, Form, DatePicker, Select, Switch, Upload } from 'ant-design-vue';
 import locale from 'ant-design-vue/es/date-picker/locale/vi_VN';
+import { PlusOutlined } from '@ant-design/icons-vue';
 
 const { Item: FormItem } = Form;
 const modelRef = inject('modelRef');
@@ -40,11 +53,4 @@ const props = defineProps({
     },
 });
 const { name, parent } = toRefs(props);
-const onBlurName = e => {
-    store.commit('promotion/setName', e.target.value.trim());
-};
-
-const onChangeDescription = e => {
-    store.commit('promotion/setDescription', e.target.value);
-};
 </script>

@@ -6,4 +6,8 @@ export default axios => ({
         const api = apiGenerator(axios, API_NAME.CREATE_PRODUCT, { payload });
         return api.call();
     },
+    get(id) {
+        const api = apiGenerator(axios, API_NAME.GET_PRODUCT, { query: { key: id } });
+        return api.call();
+    },
 });

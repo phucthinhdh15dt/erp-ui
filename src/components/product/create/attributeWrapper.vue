@@ -12,14 +12,8 @@
 </template>
 
 <script setup>
-import { computed, inject, toRefs } from 'vue';
-import { useStore } from 'vuex';
-import { Card, Input, Form } from 'ant-design-vue';
+import { toRefs } from 'vue';
 import AttributeSet from './attributeSet.vue';
-
-const store = useStore();
-
-const { Item: FormItem } = Form;
 
 const props = defineProps({
     attributes: {

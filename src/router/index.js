@@ -9,6 +9,7 @@ const CategoryList = () => import('@/views/category/list.vue');
 const Product = () => import('@/views/product/index.vue');
 const ProductCreate = () => import('@/views/product/create.vue');
 const ProductList = () => import('@/views/product/list.vue');
+const ProductDetail = () => import('@/views/product/detail.vue');
 
 const AttributeSet = () => import('@/views/attributeset/index.vue');
 const AttributeSetCreate = () => import('@/views/attributeset/create.vue');
@@ -75,6 +76,19 @@ const routes = [
             layout: 'default',
         },
         children: [
+            {
+                name: 'ProductDetail',
+                path: ':id',
+                component: ProductDetail,
+                meta: {
+                    title: 'Chi tiết sản phẩm',
+                    breadCrumb: 'Chi tiết sản phẩm',
+                    authRequired: true,
+                    layout: 'default',
+                    // subMenuKey: '2',
+                    // menuKey: '2.1',
+                },
+            },
             {
                 name: 'ProductCreate',
                 path: 'create',

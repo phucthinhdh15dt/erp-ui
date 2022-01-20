@@ -74,6 +74,62 @@ const setAttributes = (context, data) => {
     context.commit('setAttributes', result);
 };
 
+const prepareVariants = data => {
+    const variants = JSON.parse(data);
+
+    return variants.map(variant => {
+        const { productCode, status, attributes } = variant;
+        const _attributes = JSON.parse(attributes);
+
+        return {
+            productCode,
+            status,
+            attributes: _attributes.map(_ => _.value),
+        };
+    });
+};
+
+const setProductDetail = (context, data) => {
+    // a = {
+    //     attributes: collectAttributes(attributes),
+    //     avatar: 'string',
+    //     brandCode: general.brand,
+    //     categoryCode: general.category,
+    //     code: 'string',
+    //     description: 'string',
+    //     englishName: general.englishName,
+    //     gallery: ['string'],
+    //     id: 0,
+    //     listedPrice: 0,
+    //     name: general.productName,
+    //     originalPrice: 0,
+    //     registedName: general.registerName,
+    //     salesChannel: ['string'],
+    //     seoDescription: 'string',
+    //     seoTitle: 'string',
+    //     status: 'IN_PRODUCTION',
+    //     url: general.url,
+    //     userManual: 'string',
+    //     uses: 'string',
+    //     variantCodes: variants,
+    // };
+
+    const result = {
+        general: {
+            brand: pathOr('', 'brand.code')(data),
+            category: pathOr('', 'categories[0].code')(data),
+            name: data.name,
+            englishName: data.englishName,
+            registedName: data.registedName,
+            url: data.url,
+        },
+        variants: prepareVariants(data.variants),
+    };
+
+    context.commit('setProductDetail', result);
+};
+
 export default {
     setAttributes,
+    setProductDetail,
 };

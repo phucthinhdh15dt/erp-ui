@@ -1,7 +1,7 @@
 import { reactive, inject, ref } from 'vue';
 import { useLayoutLoading } from '@/composables/common/layout';
 import { useStore } from 'vuex';
-import { isPlainObject } from 'lodash/fp';
+import { isPlainObject, groupBy, pathOr, pick, flow, map, reduce, path } from 'lodash/fp';
 
 export const modelRef = reactive({
     general: { category: '', brand: '', productName: '', registerName: '', englishName: '', url: '' },
@@ -62,12 +62,33 @@ export const useCreateProduct = () => {
         return value;
     };
 
+    const collectCertifications = map(_ => ({
+        certificateId: _.certificateId,
+        publishDate: normalize(_.publishDate),
+        images: ['https://some.images'],
+    }));
+
     const collectAttributes = attributes =>
         Object.keys(attributes).reduce((acc, cur) => {
-            acc.push({
-                attrCode: cur,
-                value: normalize(attributes[cur]),
-            });
+            let attr = {};
+            if (cur === 'certifications') {
+                attr = {
+                    attrCode: 'giay_chung_nhan',
+                    value: JSON.stringify(collectCertifications(attributes[cur])),
+                };
+            } else if (cur === 'distributors') {
+                attr = {
+                    attrCode: 'nha_phan_phoi',
+                    value: JSON.stringify(attributes[cur]),
+                };
+            } else {
+                attr = {
+                    attrCode: cur,
+                    value: normalize(attributes[cur]),
+                };
+            }
+
+            acc.push(attr);
 
             return acc;
         }, []);
@@ -77,25 +98,16 @@ export const useCreateProduct = () => {
         const { general, variants = [], ...attributes } = data;
         const payload = {
             attributes: collectAttributes(attributes),
-            avatar: 'string',
             brandCode: general.brand,
             categoryCode: general.category,
             code: 'string',
-            description: 'string',
             englishName: general.englishName,
-            gallery: ['string'],
-            id: 0,
-            listedPrice: 0,
+            manufacturerCodes: [],
             name: general.productName,
             originalPrice: 0,
             registedName: general.registerName,
-            salesChannel: ['string'],
-            seoDescription: 'string',
-            seoTitle: 'string',
             status: 'IN_PRODUCTION',
             url: general.url,
-            userManual: 'string',
-            uses: 'string',
             variantCodes: variants,
         };
 
@@ -116,6 +128,64 @@ export const useCreateProduct = () => {
 
     return {
         createProduct,
+        loading,
+        result,
+        errorMessage,
+    };
+};
+
+export const useGetProductDetail = () => {
+    const { layoutLoading, layoutDone } = useLayoutLoading();
+    const api = inject('api');
+    const store = useStore();
+    const loading = ref(false);
+    const result = ref(null);
+    const errorMessage = ref('');
+
+    const prepareVariants = data => {
+        const variants = JSON.parse(data);
+
+        return variants.map(variant => {
+            const { productCode, status, attributes } = variant;
+            const _attributes = JSON.parse(attributes);
+
+            return {
+                productCode,
+                status,
+                attributes: _attributes.map(_ => _.value),
+            };
+        });
+    };
+
+    const collectPayload = data => {
+        const result = {
+            general: {
+                brand: pathOr('', 'brand.code')(data),
+                category: pathOr('', 'categories[0].code')(data),
+                productName: data.name,
+                englishName: data.englishName,
+                registerName: data.registedName,
+                url: data.url,
+            },
+            variants: prepareVariants(data.variants),
+        };
+
+        return result;
+    };
+
+    const getProductDetail = async id => {
+        layoutLoading();
+        const response = await api.product.get(id);
+        console.log('response', response);
+        if (response.data) {
+            result.value = collectPayload(response.data[0]);
+            // store.dispatch('product/setProductDetail', response.data[0]);
+        }
+        layoutDone();
+    };
+
+    return {
+        getProductDetail,
         loading,
         result,
         errorMessage,
