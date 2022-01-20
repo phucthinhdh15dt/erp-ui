@@ -17,8 +17,9 @@
 import { defineComponent, provide, ref } from 'vue';
 import ActionArea from './list/actionArea.vue';
 import ResultTable from './list/resultTable.vue';
-import List from '@/components/list/index.vue';
+import List from '@/components/product/list/index.vue';
 import { formatToCurrency } from '@/utils/number';
+import { STATUS_PRODUCT } from '@/constants/product';
 
 export const columns = [
     {
@@ -83,11 +84,39 @@ export const columns = [
 ];
 
 const filters = [
-    // {
-    //     type: 'DateRange',
-    //     label: 'Thời gian',
-    //     name: 'createdAt',
-    // },
+    {
+        type: 'DateRange',
+        label: 'Thời gian',
+        name: 'createdAt',
+    },
+    {
+        type: 'Selection',
+        label: 'Ngành hàng',
+        key: 'category',
+        name: 'category.id',
+        configs: {
+            dataMapping: true,
+        },
+    },
+    {
+        type: 'Selection',
+        label: 'Thương hiệu',
+        key: 'brand',
+        name: 'brand.id',
+        configs: {
+            dataMapping: true,
+        },
+    },
+    {
+        type: 'Selection',
+        label: 'Trạng thái',
+        key: 'status',
+        name: 'status',
+        configs: {
+            dataMapping: true,
+            options: Object.values(STATUS_PRODUCT).map(_ => ({ value: _.code, label: _.label })),
+        },
+    },
 ];
 
 const searchConfigs = {
