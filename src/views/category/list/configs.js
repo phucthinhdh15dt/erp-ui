@@ -42,7 +42,7 @@ export const searchConfigs = {
 };
 
 export const sortConfigs = [
-    // {
-    //     createdAt: { order: 'desc', format: 'strict_date_optional_time_nanos' },
-    // },
+    {
+        idNum: 'desc',
+    },
 ];

@@ -64,9 +64,9 @@ const searchConfigs = {
 };
 
 const sortConfigs = [
-    // {
-    //     createdAt: { order: 'desc', format: 'strict_date_optional_time_nanos' },
-    // },
+    {
+        idNum: 'desc',
+    },
 ];
 
 export default defineComponent({
