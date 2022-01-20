@@ -25,6 +25,7 @@ export const API_NAME = {
 
     //MODULE.PRODUCT
     CREATE_PRODUCT: 'CREATE_PRODUCT',
+    GET_PRODUCT: 'GET_PRODUCT',
 };
 
 const MODULE = {
@@ -109,13 +110,22 @@ export default {
         version: 'v1',
         method: 'POST',
     },
-    // MODULE.BRAND
+
+    // MODULE.PRODUCT
     [API_NAME.CREATE_PRODUCT]: {
         module: MODULE.PRODUCT,
         endpoint: '',
         version: 'v1',
         method: 'POST',
     },
+    [API_NAME.GET_PRODUCT]: {
+        module: MODULE.PRODUCT,
+        endpoint: '',
+        version: 'v1',
+        method: 'GET',
+    },
+
+    // MODULE.BRAND
     [API_NAME.PUT_ATTRIBUTE]: {
         module: MODULE.ATTRIBUTE,
         endpoint: '',
