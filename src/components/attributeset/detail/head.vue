@@ -72,7 +72,6 @@ export default {
             () => result.value,
             () => {
                 if (result.value) {
-                    debugger;
                     message.success('Xóa nhóm thuộc tính thành công');
                     setTimeout(() => {
                         router.push({ path: '/attributeSet/list' });
@@ -108,7 +107,6 @@ export default {
                 }
 
                 // kiểm tra attribute có chung group
-                debugger;
                 errorIds.value = [];
                 const key = 'group';
                 const listItems = groupByItem(modelRef.value.attributes, key);
