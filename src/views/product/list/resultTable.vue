@@ -10,11 +10,14 @@
             @change="onChange"
         >
             <template #bodyCell="{ column, text, record }">
+                <template v-if="column.dataIndex === 'createAt'">
+                    <Datetime :value="status" />
+                </template>
                 <template v-if="column.dataIndex === 'code'">
-                    <a class="id-style" @click="onEdit(record)">#{{ text }}</a>
+                    <a class="id-style" :href="`/${searchConfigs.urlParam}/${text}`">#{{ text }}</a>
                 </template>
                 <template v-if="column.dataIndex === 'status'">
-                    <Status :code="record.status ? record.status : 'DEACTIVE'" :list-status="STATUS_BRAND" />
+                    <Status v-if="record.status" :code="record.status" :list-status="STATUS_PRODUCT" />
                 </template>
             </template>
         </Table>
@@ -26,13 +29,14 @@ import { defineComponent, computed, inject, watch } from 'vue';
 import { Table } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import Status from '@/components/common/status.vue';
+import { STATUS_PRODUCT } from '@/constants/product';
+import Datetime from '@/components/common/datetime.vue';
 import { getOr } from 'lodash/fp';
-import { STATUS_BRAND } from '@/constants/index';
 import moment from 'moment';
 
 export default defineComponent({
     name: 'Result',
-    components: { Table, Status },
+    components: { Table, Status, Datetime },
     props: {
         columns: {
             type: Array,
@@ -116,7 +120,7 @@ export default defineComponent({
             progress,
             onSelectAll,
             onEdit,
-            STATUS_BRAND,
+            STATUS_PRODUCT,
         };
     },
 });

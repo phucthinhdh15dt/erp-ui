@@ -25,6 +25,7 @@ export const API_NAME = {
 
     //MODULE.PRODUCT
     CREATE_PRODUCT: 'CREATE_PRODUCT',
+    SEARCH_PRODUCT: 'SEARCH_PRODUCT',
 };
 
 const MODULE = {
@@ -63,14 +64,6 @@ export default {
         version: 'v1',
         method: 'POST',
     },
-    // MODULE.BRAND
-    [API_NAME.SEARCH_BRAND]: {
-        module: MODULE.BRAND,
-        endpoint: 'search',
-        version: 'v1',
-        method: 'POST',
-    },
-    // MODULE.ATTRIBUTE_SET
     [API_NAME.GET_ATTRIBUTE_SET]: {
         module: MODULE.ATTRIBUTE_SET,
         endpoint: '${ id }',
@@ -109,13 +102,7 @@ export default {
         version: 'v1',
         method: 'POST',
     },
-    // MODULE.BRAND
-    [API_NAME.CREATE_PRODUCT]: {
-        module: MODULE.PRODUCT,
-        endpoint: '',
-        version: 'v1',
-        method: 'POST',
-    },
+
     [API_NAME.PUT_ATTRIBUTE]: {
         module: MODULE.ATTRIBUTE,
         endpoint: '',
@@ -154,5 +141,19 @@ export default {
         endpoint: '',
         version: 'v1',
         method: 'PUT',
+    },
+
+    // MODULE.PRODUCT
+    [API_NAME.CREATE_PRODUCT]: {
+        module: MODULE.PRODUCT,
+        endpoint: '',
+        version: 'v1',
+        method: 'POST',
+    },
+    [API_NAME.SEARCH_PRODUCT]: {
+        module: MODULE.PRODUCT,
+        endpoint: 'search',
+        version: 'v1',
+        method: 'POST',
     },
 };

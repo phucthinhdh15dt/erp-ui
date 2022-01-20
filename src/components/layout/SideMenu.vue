@@ -16,13 +16,13 @@
                     Quản lý ngành hàng
                 </MenuItem>
             </router-link>
-            <SubMenu key="sub1">
+            <SubMenu key="2">
                 <template #icon>
                     <CodeSandboxOutlined />
                 </template>
                 <template #title>Quản lý sản phẩm</template>
                 <router-link to="/product/create">
-                    <MenuItem key="1.1">
+                    <MenuItem key="2.1">
                         <template #icon>
                             <PlusOutlined />
                         </template>
@@ -30,7 +30,7 @@
                     </MenuItem>
                 </router-link>
                 <router-link to="/product/list">
-                    <MenuItem key="1.2">
+                    <MenuItem key="2.2">
                         <template #icon>
                             <UnorderedListOutlined />
                         </template>

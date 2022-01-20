@@ -18,4 +18,8 @@ export default axios => ({
         const api = apiGenerator(axios, API_NAME.SEARCH_ATTRIBUTE, { payload });
         return api.call();
     },
+    searchProduct(payload) {
+        const api = apiGenerator(axios, API_NAME.SEARCH_PRODUCT, { payload });
+        return api.call();
+    },
 });
