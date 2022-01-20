@@ -35,7 +35,7 @@ export const columns = [
         align: 'center',
     },
     {
-        title: 'Tính chât',
+        title: 'Tính chất',
         dataIndex: 'uiComponentType',
         key: 'uiComponentType',
         width: 300,

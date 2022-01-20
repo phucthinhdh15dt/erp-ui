@@ -1,6 +1,6 @@
 export const columns = [
     {
-        title: 'Mã thương hiệu',
+        title: 'Mã ngành hàng',
         dataIndex: 'code',
         key: 'code',
         width: 200,
