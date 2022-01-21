@@ -38,7 +38,7 @@ const useCommon = () => {
         resultBrand.value = [];
         const query = {
             from: 0,
-            size: 10,
+            size: 1000,
             query: {
                 bool: {
                     must: [
