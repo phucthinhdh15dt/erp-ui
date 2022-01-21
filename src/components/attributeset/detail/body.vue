@@ -110,11 +110,11 @@ export default {
             () => {
                 if (resultBrand.value && modelRef.value) {
                     if (modelRef.value.category) {
-                        const cate = resultCate.value.find(f => f.id === modelRef.value.category.id);
+                        const cate = resultCate.value.find(f => f.id === modelRef.value.category.id.toString());
                         if (cate) {
                             state.categoryName = cate.label;
                         }
-                        const brand = resultBrand.value.find(f => f.id === modelRef.value.brand.id);
+                        const brand = resultBrand.value.find(f => f.id === modelRef.value.brand.id.toString());
                         if (brand) {
                             state.brandName = brand.label;
                         }
