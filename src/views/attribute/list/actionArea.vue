@@ -24,17 +24,13 @@
                         message: 'Vui lòng nhập mã thuộc tính',
                     }"
                 >
-                    <InputNumber
+                    <Input
                         v-model:value="formState.code"
                         :disabled="progress.total > 0 || (processingItem && processingItem.id)"
-                        :min="1"
-                        :max="10000"
                         style="width: 100%"
-                        :formatter="value => `${value}`.replace('.', '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
-                        :parser="value => value.replace('.', '').replace(/\$\s?|(,*)/g, '')"
-                        :step="1"
+                        @keypress="onlyNumber"
                     >
-                    </InputNumber>
+                    </Input>
                 </FormItem>
                 <FormItem
                     label="Tên thuộc tính"
@@ -95,12 +91,13 @@
 
 <script>
 import { defineComponent, watch, computed, inject, toRaw, ref, reactive, createVNode } from 'vue';
-import { Button, message, Modal, Progress, Form, Input, Select, InputNumber } from 'ant-design-vue';
+import { Button, message, Modal, Progress, Form, Input, Select } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { useCreateAttribute, useUpdateAttribute } from '@/composables/attribute/index';
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import { filterOption } from '@/utils/common';
 import { AttributeItemType } from '@/constants/attributeItem';
+import { onlyNumber } from '@/utils/common';
 
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
@@ -118,7 +115,6 @@ export default defineComponent({
         // Row,
         // Col,
         Select,
-        InputNumber,
     },
     setup() {
         const store = useStore();
@@ -167,7 +163,6 @@ export default defineComponent({
             formRef.value
                 .validateFields()
                 .then(values => {
-                    debugger;
                     console.log('Received values of form: ', values);
                     console.log('formState: ', toRaw(formState));
                     const payload = toRaw(formState);
@@ -280,6 +275,7 @@ export default defineComponent({
             filterOption,
             processingItem,
             isSelectValue,
+            onlyNumber,
         };
     },
 });

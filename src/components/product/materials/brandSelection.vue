@@ -1,6 +1,13 @@
 <template>
     <div>
-        <Select :value="value" :options="brands" :filter-option="filterOption" show-search @change="onChange"></Select>
+        <Select
+            :value="value"
+            :options="brands"
+            :filter-option="filterOption"
+            allow-clear
+            show-search
+            @change="onChange"
+        ></Select>
     </div>
 </template>
 

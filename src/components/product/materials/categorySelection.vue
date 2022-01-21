@@ -5,6 +5,7 @@
             :options="categories"
             :filter-option="filterOption"
             show-search
+            allow-clear
             @change="onChange"
         ></Select>
     </div>
