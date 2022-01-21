@@ -24,8 +24,8 @@ import { STATUS_PRODUCT } from '@/constants/product';
 export const columns = [
     {
         title: 'STT',
-        dataIndex: 'index',
-        key: 'index',
+        dataIndex: 'numberIndex',
+        key: 'numberIndex',
         width: 100,
         align: 'center',
     },
@@ -52,22 +52,22 @@ export const columns = [
     },
     {
         title: 'Ngành hàng',
-        dataIndex: 'category.name',
-        key: 'category.name',
-        width: 200,
+        dataIndex: 'category',
+        key: 'category',
+        width: 250,
         align: 'center',
     },
     {
         title: 'Thương hiệu',
-        dataIndex: 'brand.name',
+        dataIndex: 'brand',
         key: 'brand.name',
-        width: 200,
+        width: 150,
         align: 'center',
     },
     {
         title: 'Giá VAT',
-        dataIndex: 'priceVat',
-        key: 'priceVat',
+        dataIndex: 'originalPrice',
+        key: 'originalPrice',
         width: 150,
         align: 'center',
         customRender({ text }) {
