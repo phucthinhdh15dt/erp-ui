@@ -24,8 +24,8 @@ import { STATUS_PRODUCT } from '@/constants/product';
 export const columns = [
     {
         title: 'STT',
-        dataIndex: 'index',
-        key: 'index',
+        dataIndex: 'numberIndex',
+        key: 'numberIndex',
         width: 100,
         align: 'center',
     },

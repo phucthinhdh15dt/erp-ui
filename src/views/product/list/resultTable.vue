@@ -9,10 +9,10 @@
             :scroll="{ x: 1000 }"
             @change="onChange"
         >
-            <template #bodyCell="{ column, text, record, pagination }">
-                <template v-if="column.dataIndex === 'index'">
+            <template #bodyCell="{ column, text, record, index }">
+                <template v-if="column.dataIndex === 'numberIndex'">
                     <span>
-                        {{ pagination }}
+                        {{ index + 1 }}
                     </span>
                 </template>
                 <template v-if="column.dataIndex === 'createAt'">
