@@ -1,7 +1,7 @@
 <template>
     <div>
         <Certification v-if="code === 'giay_chung_nhan'">ahiih</Certification>
-        <Distributors v-else-if="code === 'nha_phan_phoi'" />
+        <Distributors v-else-if="code === 'nha_phan_phoi'" :attributes="attributes" />
         <div v-else-if="isVariant">
             <div class="card-head-title">{{ name }}</div>
             <Card body-style="padding: 20px 20px 0 20px">
