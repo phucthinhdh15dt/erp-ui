@@ -29,13 +29,13 @@ export const columns = [
         width: 100,
         align: 'center',
     },
-    {
-        title: 'Thời gian tạo',
-        dataIndex: 'createAt',
-        key: 'createAt',
-        width: 150,
-        align: 'center',
-    },
+    // {
+    //     title: 'Thời gian tạo',
+    //     dataIndex: 'createAt',
+    //     key: 'createAt',
+    //     width: 150,
+    //     align: 'center',
+    // },
     {
         title: 'Mã sản phẩm',
         dataIndex: 'code',
