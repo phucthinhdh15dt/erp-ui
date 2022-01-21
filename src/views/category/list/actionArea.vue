@@ -47,7 +47,9 @@
                     <TextArea v-model:value="formState.description" :rows="4" :disabled="progress.total > 0"></TextArea>
                 </FormItem>
                 <FormItem label="Ngành hàng cha" name="parent">
-                    <CategorySelection :value="formState.parent" @change="value => (formState.parent = value)" />
+                    <Select v-model:value="formState.parent" label-in-value show-search allow-clear>
+                        <Option v-for="item in categories" :key="item.id" :value="item.id"> {{ item.label }}</Option>
+                    </Select>
                 </FormItem>
 
                 <!-- <h3>Ngành hàng con</h3>
@@ -98,15 +100,16 @@
 
 <script setup>
 import { watch, computed, inject, toRaw, ref, reactive, createVNode } from 'vue';
-import { Button, message, Modal, Progress, Form, Input } from 'ant-design-vue';
+import { Button, message, Modal, Progress, Form, Input, Select } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { useCreateCategory, useUpdateCategory, useGetAllCategory } from '@/composables/product/category';
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
-import CategorySelection from '@/components/product/materials/categorySelection.vue';
 import { onlyNumber } from '@/utils/common';
+import { filterOption } from '@/utils/common';
 
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
+const { Option } = Select;
 
 const store = useStore();
 const onSearch = inject('onSearch');
@@ -123,7 +126,7 @@ const formState = reactive({
     name: '',
     code: undefined,
     description: '',
-    parent: '',
+    parent: null,
 });
 const formRef = ref();
 
@@ -163,7 +166,7 @@ const onConfirm = async () => {
             const { parent, ...rest } = toRaw(formState);
             const payload = {
                 ...rest,
-                parentID: parent || 0,
+                parentID: parent ? parent.key : 0,
                 categoryType: 'CAMPAIGN',
             };
             if (processingItem.value) {
@@ -206,18 +209,18 @@ watch(processingItem, () => {
                 v => v.id === (processingItem.value.parentID ? processingItem.value.parentID.toString() : 0)
             );
             if (parentName) {
-                formState.parent = parentName.label;
+                formState.parent = parentName;
             }
         } else {
             formState.parent = '';
         }
-
+        //formState.parent = processingItem.value.parentID;
         visible.value = true;
     } else {
         // formRef.value.resetFields();
         formState.name = '';
         formState.description = '';
-        formState.parent = '';
+        formState.parent = null;
         formState.code = undefined;
     }
 });

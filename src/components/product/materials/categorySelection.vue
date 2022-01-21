@@ -25,6 +25,7 @@ const { value } = toRefs(props);
 const { result: categories } = useGetAllCategory();
 
 const onChange = val => {
+    debugger;
     emits('change', val);
 };
 </script>
