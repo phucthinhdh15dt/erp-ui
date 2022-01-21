@@ -167,7 +167,6 @@ export default defineComponent({
             formRef.value
                 .validateFields()
                 .then(values => {
-                    debugger;
                     console.log('Received values of form: ', values);
                     console.log('formState: ', toRaw(formState));
                     const payload = toRaw(formState);
