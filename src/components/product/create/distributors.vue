@@ -11,7 +11,7 @@
                         <FormItem style="margin-bottom: 0">
                             <Select
                                 v-model:value="modelRef.distributors[index].organization"
-                                :options="[{ label: 'NPP', value: 'NPP' }]"
+                                :options="attributes[0].options"
                             />
                         </FormItem>
                     </template>
@@ -19,10 +19,7 @@
                         <FormItem style="margin-bottom: 0">
                             <Select
                                 v-model:value="modelRef.distributors[index].channel"
-                                :options="[
-                                    { label: 'KPP1', value: 'KPP1' },
-                                    { label: 'KPP2', value: 'KPP2' },
-                                ]"
+                                :options="attributes[1].options"
                                 mode="multiple"
                             />
                         </FormItem>
@@ -61,6 +58,12 @@ const modelRef = inject('modelRef');
 // const form = inject('form');
 // const modelRef = inject('modelRef');
 // const { validateInfos } = form;
+const props = defineProps({
+    attributes: {
+        type: Object,
+        default: () => {},
+    },
+});
 
 const columns = [
     {
