@@ -47,13 +47,7 @@
                     <TextArea v-model:value="formState.description" :rows="4" :disabled="progress.total > 0"></TextArea>
                 </FormItem>
                 <FormItem label="Ngành hàng cha" name="parent">
-                    <Select
-                        v-model="formState.parent"
-                        :options="categories"
-                        :filter-option="filterOption"
-                        show-search
-                        allow-clear
-                    ></Select>
+                    <CategorySelection :value="formState.parent" @change="value => (formState.parent = value)" />
                 </FormItem>
 
                 <!-- <h3>Ngành hàng con</h3>
@@ -104,12 +98,12 @@
 
 <script setup>
 import { watch, computed, inject, toRaw, ref, reactive, createVNode } from 'vue';
-import { Button, message, Modal, Progress, Form, Input, Select } from 'ant-design-vue';
+import { Button, message, Modal, Progress, Form, Input } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { useCreateCategory, useUpdateCategory, useGetAllCategory } from '@/composables/product/category';
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import CategorySelection from '@/components/product/materials/categorySelection.vue';
 import { onlyNumber } from '@/utils/common';
-import { filterOption } from '@/utils/common';
 
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
@@ -129,7 +123,7 @@ const formState = reactive({
     name: '',
     code: undefined,
     description: '',
-    parent: null,
+    parent: '',
 });
 const formRef = ref();
 
@@ -161,7 +155,6 @@ const onCancel = () => {
 // };
 
 const onConfirm = async () => {
-    debugger;
     formRef.value
         .validateFields()
         .then(values => {
@@ -170,7 +163,7 @@ const onConfirm = async () => {
             const { parent, ...rest } = toRaw(formState);
             const payload = {
                 ...rest,
-                parentID: parent ? parent.id : 0,
+                parentID: parent || 0,
                 categoryType: 'CAMPAIGN',
             };
             if (processingItem.value) {
@@ -209,16 +202,22 @@ watch(processingItem, () => {
         formState.code = processingItem.value.code;
         formState.description = processingItem.value.description;
         if (categories.value && categories.value.length > 0) {
-            formState.parent = categories.value.find(v => v.id === processingItem.value.parentID.toString());
+            const parentName = categories.value.find(
+                v => v.id === (processingItem.value.parentID ? processingItem.value.parentID.toString() : 0)
+            );
+            if (parentName) {
+                formState.parent = parentName.label;
+            }
         } else {
-            formState.parent = null;
+            formState.parent = '';
         }
+
         visible.value = true;
     } else {
         // formRef.value.resetFields();
         formState.name = '';
         formState.description = '';
-        formState.parent = null;
+        formState.parent = '';
         formState.code = undefined;
     }
 });
