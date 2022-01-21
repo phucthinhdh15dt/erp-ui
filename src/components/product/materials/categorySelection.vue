@@ -22,7 +22,6 @@ const props = defineProps({
 });
 const emits = defineEmits(['change']);
 const { value } = toRefs(props);
-
 const { result: categories } = useGetAllCategory();
 
 const onChange = val => {

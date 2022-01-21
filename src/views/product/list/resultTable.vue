@@ -18,6 +18,12 @@
                 <template v-if="column.dataIndex === 'createAt'">
                     <Datetime :value="status" />
                 </template>
+                <template v-if="column.dataIndex === 'category'">
+                    <span v-if="record.categoryNames">{{ record.categoryNames.join(', ') }}</span>
+                </template>
+                <template v-if="column.dataIndex === 'brand'">
+                    <span v-if="record.brand">{{ record.brand.name }}</span>
+                </template>
                 <template v-if="column.dataIndex === 'code'">
                     <a class="id-style" :href="`/${searchConfigs.urlParam}/${text}`">#{{ text }}</a>
                 </template>
