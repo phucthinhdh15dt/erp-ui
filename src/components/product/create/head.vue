@@ -26,7 +26,7 @@ const onCreate = () => {
     validate()
         .then(() => {
             const data = toRaw(modelRef);
-            console.log(data);
+
             Modal.confirm({
                 title: 'Xác nhận tạo sản phẩm',
                 content: '',

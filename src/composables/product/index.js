@@ -55,29 +55,52 @@ export const useUpsertProduct = () => {
     const errorMessage = ref('');
 
     const normalize = value => {
-        console.log(value);
         if (isPlainObject(value)) {
             return value.toISOString();
         }
 
         return value;
     };
+    const createCertificationPromise = data =>
+        new Promise(resolve => {
+            api.certification
+                .create(data)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(() => {
+                    resolve(null);
+                });
+        });
 
-    const collectCertifications = map(_ => ({
-        certificateId: _.certificateId,
-        publishDate: normalize(_.publishDate),
-        images: ['https://some.images'],
-    }));
+    const collectCertificationPromises = map(_ => {
+        const payload = {
+            numberDisclosure: _.certificateId,
+            disclosureDate: normalize(_.publishDate),
+            imageUrl: 'https://some.images',
+        };
+
+        return createCertificationPromise(payload);
+    });
+
+    const collectCertifications = async data => {
+        if (!data) {
+            return null;
+        }
+
+        const certificationsPromise = collectCertificationPromises(data);
+        const listCertification = await Promise.all(certificationsPromise);
+
+        return {
+            attrCode: '12',
+            value: JSON.stringify(listCertification.filter(_ => _)),
+        };
+    };
 
     const collectAttributes = attributes =>
         Object.keys(attributes).reduce((acc, cur) => {
             let attr = {};
-            if (cur === 'certifications') {
-                attr = {
-                    attrCode: '12',
-                    value: JSON.stringify(collectCertifications(attributes[cur])),
-                };
-            } else if (cur === 'distributors') {
+            if (cur === 'distributors') {
                 attr = {
                     attrCode: 'distribution',
                     value: JSON.stringify(attributes[cur]),
@@ -94,11 +117,18 @@ export const useUpsertProduct = () => {
             return acc;
         }, []);
 
-    const collectPayload = data => {
+    const collectPayload = async data => {
         console.log('data', data);
-        const { general, variants = [], ...attributes } = data;
+        const { general, variants = [], certifications, ...attributes } = data;
+        const attributesCollected = collectAttributes(attributes);
+
+        const certificationsCollected = await collectCertifications(certifications);
+        if (certificationsCollected) {
+            attributesCollected.push(certificationsCollected);
+        }
+
         const payload = {
-            attributes: collectAttributes(attributes),
+            attributes: attributesCollected,
             brandCode: general.brand,
             categoryCode: general.category,
             code: 'string',
@@ -117,7 +147,7 @@ export const useUpsertProduct = () => {
 
     const createProduct = async data => {
         layoutLoading();
-        const payload = collectPayload(data);
+        const payload = await collectPayload(data);
         console.log('payload', payload);
         const response = await api.product.create(payload);
         console.log('response', response);

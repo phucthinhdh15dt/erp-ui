@@ -94,7 +94,8 @@ const prepareVariants = data => {
 const prepareAttributes = reduce((acc, cur) => {
     if (cur.attribute.label === 'Giấy chứng nhận') {
         const parseValue = JSON.parse(cur.value);
-        acc.certifications = parseValue.map(_ => ({ ..._, publishDate: moment(_.publishDate) }));
+
+        acc.certifications = parseValue;
     } else {
         acc[cur.attribute.code] = cur.value;
     }
