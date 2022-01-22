@@ -36,6 +36,11 @@ export const API_NAME = {
     //MODULE.DISTRIBUTOR
     SEARCH_DISTRIBUTOR: 'SEARCH_DISTRIBUTOR',
     //  GET_PRODUCT: 'GET_PRODUCT',
+
+    // MODULE.CERTIFICATION
+    SEARCH_CERTIFICATION: 'SEARCH_CERTIFICATION',
+    CREATE_CERTIFICATION: 'CREATE_CERTIFICATION',
+    GET_CERTIFICATION: 'GET_CERTIFICATION',
 };
 
 const MODULE = {
@@ -46,6 +51,7 @@ const MODULE = {
     PRODUCT: 'product',
     MANUFACTURER: 'product-manufacturer',
     DISTRIBUTOR: 'distribution-channel',
+    CERTIFICATION: 'product-disclosure',
 };
 
 export default {
@@ -196,5 +202,24 @@ export default {
         endpoint: 'search',
         version: 'v1',
         method: 'POST',
+    },
+    //MODULE.CERTIFICATION
+    [API_NAME.SEARCH_CERTIFICATION]: {
+        module: MODULE.CERTIFICATION,
+        endpoint: 'search',
+        version: 'v1',
+        method: 'POST',
+    },
+    [API_NAME.CREATE_CERTIFICATION]: {
+        module: MODULE.CERTIFICATION,
+        endpoint: '',
+        version: 'v1',
+        method: 'POST',
+    },
+    [API_NAME.GET_CERTIFICATION]: {
+        module: MODULE.CERTIFICATION,
+        endpoint: '${id}',
+        version: 'v1',
+        method: 'GET',
     },
 };

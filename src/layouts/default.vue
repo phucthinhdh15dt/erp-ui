@@ -75,6 +75,7 @@ export default defineComponent({
     &__Content {
         margin: $primary-margin;
         margin-right: 0 !important;
+        min-height: 100vh;
     }
 
     &__Breadcrumb {

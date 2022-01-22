@@ -74,12 +74,12 @@ export const useUpsertProduct = () => {
             let attr = {};
             if (cur === 'certifications') {
                 attr = {
-                    attrCode: 'giay_chung_nhan',
+                    attrCode: '12',
                     value: JSON.stringify(collectCertifications(attributes[cur])),
                 };
             } else if (cur === 'distributors') {
                 attr = {
-                    attrCode: 'nha_phan_phoi',
+                    attrCode: 'distribution',
                     value: JSON.stringify(attributes[cur]),
                 };
             } else {
@@ -109,7 +109,7 @@ export const useUpsertProduct = () => {
             registedName: general.registerName,
             status: 'IN_PRODUCTION',
             url: general.url,
-            variants,
+            // variants,
         };
 
         return payload;
@@ -119,11 +119,11 @@ export const useUpsertProduct = () => {
         layoutLoading();
         const payload = collectPayload(data);
         console.log('payload', payload);
-        // const response = await api.product.create(payload);
-        // console.log('response', response);
-        // if (response.data) {
-        //     result.value = response.data;
-        // }
+        const response = await api.product.create(payload);
+        console.log('response', response);
+        if (response.data) {
+            result.value = response.data;
+        }
         layoutDone();
     };
 
@@ -158,7 +158,8 @@ export const useGetProductDetail = () => {
     const errorMessage = ref('');
 
     const prepareVariants = data => {
-        const variants = JSON.parse(data);
+        console.log('🚀 ~ file: index.js ~ line 161 ~ useGetProductDetail ~ data', data);
+        const variants = data ? JSON.parse(data) : [];
 
         return variants.map(variant => {
             const { productCode, status, attributes } = variant;

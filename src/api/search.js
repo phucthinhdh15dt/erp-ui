@@ -30,4 +30,8 @@ export default axios => ({
         const api = apiGenerator(axios, API_NAME.SEARCH_DISTRIBUTOR, { payload });
         return api.call();
     },
+    searchCertification(payload) {
+        const api = apiGenerator(axios, API_NAME.SEARCH_CERTIFICATION, { payload });
+        return api.call();
+    },
 });

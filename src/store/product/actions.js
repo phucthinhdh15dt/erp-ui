@@ -1,5 +1,6 @@
 import { groupBy, pathOr, pick, flow, map, reduce, path } from 'lodash/fp';
 import { removeAscent } from '@/utils/common';
+import moment from 'moment';
 
 const collectAttributes = (groupByAttributes, type) =>
     flow(
@@ -76,7 +77,7 @@ const setAttributes = (context, data) => {
 
 const prepareVariants = data => {
     console.log('🚀 ~ file: actions.js ~ line 78 ~ data', data);
-    const variants = JSON.parse(data);
+    const variants = data ? JSON.parse(data) : [];
     return variants;
     // return variants.map(variant => {
     //     const { productCode, status, attributes } = variant;
@@ -91,7 +92,12 @@ const prepareVariants = data => {
 };
 
 const prepareAttributes = reduce((acc, cur) => {
-    acc[cur.attribute.code] = cur.value;
+    if (cur.attribute.label === 'Giấy chứng nhận') {
+        const parseValue = JSON.parse(cur.value);
+        acc.certifications = parseValue.map(_ => ({ ..._, publishDate: moment(_.publishDate) }));
+    } else {
+        acc[cur.attribute.code] = cur.value;
+    }
 
     return acc;
 }, {});

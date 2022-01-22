@@ -10,13 +10,13 @@
 <script setup>
 import { h, watch, inject, ref, toRaw } from 'vue';
 import { Row, Button, Modal } from 'ant-design-vue';
-import { useCreateProduct } from '@/composables/product';
+import { useUpsertProduct } from '@/composables/product';
 import { without } from 'lodash/fp';
 
 const form = inject('form');
 const modelRef = inject('modelRef');
 const { validate, clearValidate } = form;
-const { createProduct, result } = useCreateProduct();
+const { createProduct, result } = useUpsertProduct();
 
 const fixed = ref(false);
 
