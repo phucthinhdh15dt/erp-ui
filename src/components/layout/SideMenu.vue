@@ -145,14 +145,10 @@ export default defineComponent({
 .LayoutSider {
     background: #fff;
     border-right: 1px solid #ddd;
-    min-height: 100vh;
+    height: 100vh;
     z-index: 3;
-
-    &__Wrapper {
-        position: fixed;
-        left: 0;
-        // overflow: auto;
-    }
+    position: fixed;
+    overflow: auto;
 
     &__Logo {
         height: 48px;
