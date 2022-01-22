@@ -24,6 +24,8 @@ import Head from '@/components/product/create/head.vue';
 import General from '@/components/product/create/general.vue';
 import AttributeWrapper from '@/components/product/create/attributeWrapper.vue';
 import { modelRef, rulesRef } from '@/composables/product/';
+import { useGetAllManufacturer } from '@/composables/manufacturer';
+import { useGetAllDistributor } from '@/composables/distributor';
 
 const store = useStore();
 
@@ -33,6 +35,9 @@ const form = useForm(modelRef, rulesRef);
 provide('form', form);
 provide('modelRef', modelRef);
 provide('rulesRef', rulesRef);
+
+useGetAllManufacturer();
+useGetAllDistributor();
 
 const attributeSets = computed(() => store.state.product.attributes);
 // for dev
