@@ -27,6 +27,14 @@ export const API_NAME = {
     CREATE_PRODUCT: 'CREATE_PRODUCT',
     SEARCH_PRODUCT: 'SEARCH_PRODUCT',
     GET_PRODUCT: 'GET_PRODUCT',
+
+    //MODULE.MANUFACTURER
+    SEARCH_MANUFACTURER: 'SEARCH_MANUFACTURER',
+    //  GET_PRODUCT: 'GET_PRODUCT',
+
+    //MODULE.DISTRIBUTOR
+    SEARCH_DISTRIBUTOR: 'SEARCH_DISTRIBUTOR',
+    //  GET_PRODUCT: 'GET_PRODUCT',
 };
 
 const MODULE = {
@@ -35,6 +43,8 @@ const MODULE = {
     ATTRIBUTE: 'attribute',
     BRAND: 'brand',
     PRODUCT: 'product',
+    MANUFACTURER: 'product-manufacturer',
+    DISTRIBUTOR: 'distribution-channel',
 };
 
 export default {
@@ -158,11 +168,26 @@ export default {
         version: 'v1',
         method: 'POST',
     },
-
     [API_NAME.GET_PRODUCT]: {
         module: MODULE.PRODUCT,
         endpoint: '',
         version: 'v1',
         method: 'GET',
+    },
+
+    //MODULE.MANUFACTURER
+    [API_NAME.SEARCH_MANUFACTURER]: {
+        module: MODULE.MANUFACTURER,
+        endpoint: 'search',
+        version: 'v1',
+        method: 'POST',
+    },
+
+    //MODULE.DISTRIBUTOR
+    [API_NAME.SEARCH_DISTRIBUTOR]: {
+        module: MODULE.DISTRIBUTOR,
+        endpoint: 'search',
+        version: 'v1',
+        method: 'POST',
     },
 };
