@@ -122,7 +122,7 @@ const filters = [
 const searchConfigs = {
     fields: ['code', 'name'],
     placeholder: 'Nhập mã hoặc tên sản phẩm',
-    rowKey: 'code',
+    rowKey: 'id',
     urlParam: 'product',
 };
 

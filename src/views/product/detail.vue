@@ -24,7 +24,7 @@ import { Row, Col, Form } from 'ant-design-vue';
 import Head from '@/components/product/detail/head.vue';
 import General from '@/components/product/detail/general.vue';
 import AttributeWrapper from '@/components/product/create/attributeWrapper.vue';
-import { modelRef, rulesRef, useGetProductDetail } from '@/composables/product/';
+import { rulesRef, useGetProductDetail } from '@/composables/product/';
 
 const store = useStore();
 const route = useRoute();
@@ -33,7 +33,7 @@ const { getProductDetail, result } = useGetProductDetail();
 
 const productId = computed(() => route.params.id);
 const attributeSets = computed(() => store.state.product.attributes);
-// const modelRef = computed(() => store.state.product.detail);
+const modelRef = computed(() => store.state.product.detail);
 const form = useForm(modelRef, rulesRef);
 
 provide('form', form);

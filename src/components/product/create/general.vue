@@ -67,7 +67,6 @@ watch(
     () => [modelRef.general.category, modelRef.general.brand],
     () => {
         if (modelRef.general.category && modelRef.general.brand) {
-            message.info('di lay attribute set di ban');
             searchAttributeSet(modelRef.general.category, modelRef.general.brand);
         }
     }

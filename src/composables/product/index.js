@@ -46,7 +46,7 @@ export const rulesRef = reactive({
     ],
 });
 
-export const useCreateProduct = () => {
+export const useUpsertProduct = () => {
     const { layoutLoading, layoutDone } = useLayoutLoading();
     const api = inject('api');
     const store = useStore();
@@ -55,6 +55,7 @@ export const useCreateProduct = () => {
     const errorMessage = ref('');
 
     const normalize = value => {
+        console.log(value);
         if (isPlainObject(value)) {
             return value.toISOString();
         }
@@ -108,7 +109,7 @@ export const useCreateProduct = () => {
             registedName: general.registerName,
             status: 'IN_PRODUCTION',
             url: general.url,
-            variantCodes: variants,
+            variants,
         };
 
         return payload;
@@ -118,16 +119,30 @@ export const useCreateProduct = () => {
         layoutLoading();
         const payload = collectPayload(data);
         console.log('payload', payload);
-        const response = await api.product.create(payload);
+        // const response = await api.product.create(payload);
+        // console.log('response', response);
+        // if (response.data) {
+        //     result.value = response.data;
+        // }
+        layoutDone();
+    };
+
+    const updateProduct = async data => {
+        layoutLoading();
+        console.log('data', data);
+        const payload = collectPayload(data);
+        console.log('payload', payload);
+        const response = await api.product.update(payload);
         console.log('response', response);
-        if (response.data) {
-            result.value = response.data;
-        }
+        // if (response.data) {
+        //     result.value = response.data;
+        // }
         layoutDone();
     };
 
     return {
         createProduct,
+        updateProduct,
         loading,
         result,
         errorMessage,
@@ -178,8 +193,8 @@ export const useGetProductDetail = () => {
         const response = await api.product.get(id);
         console.log('response', response);
         if (response.data) {
-            result.value = collectPayload(response.data[0]);
-            // store.dispatch('product/setProductDetail', response.data[0]);
+            // result.value = collectPayload(response.data[0]);
+            store.dispatch('product/setProductDetail', response.data[0]);
         }
         layoutDone();
     };

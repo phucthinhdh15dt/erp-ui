@@ -25,6 +25,7 @@ export const API_NAME = {
 
     //MODULE.PRODUCT
     CREATE_PRODUCT: 'CREATE_PRODUCT',
+    UPDATE_PRODUCT: 'UPDATE_PRODUCT',
     SEARCH_PRODUCT: 'SEARCH_PRODUCT',
     GET_PRODUCT: 'GET_PRODUCT',
 
@@ -157,6 +158,12 @@ export default {
 
     // MODULE.PRODUCT
     [API_NAME.CREATE_PRODUCT]: {
+        module: MODULE.PRODUCT,
+        endpoint: '',
+        version: 'v1',
+        method: 'POST',
+    },
+    [API_NAME.UPDATE_PRODUCT]: {
         module: MODULE.PRODUCT,
         endpoint: '',
         version: 'v1',
