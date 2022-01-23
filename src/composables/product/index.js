@@ -97,6 +97,37 @@ export const useUpsertProduct = () => {
         };
     };
 
+    const collectVariant = items => {
+        const groupVariants = store.state.product.attributes.right;
+        return items.reduce((acc, cur) => {
+            let attrVariant = {};
+
+            const groupIndex = groupVariants.findIndex(
+                v => v.isVariant && v.attributes && v.attributes.map(m => m.code).includes(cur)
+            );
+            if (groupIndex >= 0) {
+                const groupVariant = groupVariants[groupIndex];
+                const attribute = groupVariant.attributes.find(f => f.code === cur);
+                if (attribute) {
+                    attrVariant = {
+                        attributes: [
+                            {
+                                code: cur,
+                                value: attribute.label,
+                            },
+                        ],
+                        productCode: '',
+                        status: 'IN_PRODUCTION',
+                    };
+
+                    acc.push(attrVariant);
+                }
+            }
+
+            return acc;
+        }, []);
+    };
+
     const collectAttributes = attributes =>
         Object.keys(attributes).reduce((acc, cur) => {
             let attr = {};
@@ -120,13 +151,15 @@ export const useUpsertProduct = () => {
     const collectPayload = async data => {
         console.log('data', data);
         const { general, variants = [], certifications, ...attributes } = data;
+
+        const lstVariant = collectVariant(variants);
+
         const attributesCollected = collectAttributes(attributes);
 
         const certificationsCollected = await collectCertifications(certifications);
         if (certificationsCollected) {
             attributesCollected.push(certificationsCollected);
         }
-
         const payload = {
             attributes: attributesCollected,
             brandCode: general.brand,
@@ -139,7 +172,7 @@ export const useUpsertProduct = () => {
             registedName: general.registerName,
             status: 'IN_PRODUCTION',
             url: general.url,
-            // variants,
+            variants: lstVariant,
         };
 
         return payload;
