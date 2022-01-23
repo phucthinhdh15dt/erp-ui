@@ -10,7 +10,7 @@
                     <template v-if="column.dataIndex === 'manufacturer'">
                         <FormItem style="margin-bottom: 0">
                             <Select
-                                v-model:value="modelRef.distributors[index].manufacturer"
+                                :value="modelRef.distributors[index].manufacturer"
                                 :options="manufacturerOptions"
                                 @change="value => onChange('manufacturer', index, value)"
                             />
@@ -19,7 +19,7 @@
                     <template v-if="column.dataIndex === 'distributor'">
                         <FormItem style="margin-bottom: 0">
                             <Select
-                                v-model:value="modelRef.distributors[index].distributor"
+                                :value="modelRef.distributors[index].distributor"
                                 mode="multiple"
                                 :options="distributorOptions"
                                 @change="value => onChange('distributor', index, value)"

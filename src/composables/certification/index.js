@@ -25,7 +25,7 @@ export const useGetProductCertifications = () => {
         const response = await api.search.searchCertification(payload);
         console.log('response', response);
         if (response.data) {
-            store.dispatch('product/setCertifications', response.data.hits);
+            store.dispatch('product/setProductCertifications', response.data.hits);
         }
 
         loading.value = false;

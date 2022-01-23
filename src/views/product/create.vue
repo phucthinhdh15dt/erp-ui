@@ -21,8 +21,8 @@ import { provide, computed, watch, toRaw, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { Row, Col, Form } from 'ant-design-vue';
 import Head from '@/components/product/create/head.vue';
-import General from '@/components/product/create/general.vue';
-import AttributeWrapper from '@/components/product/create/attributeWrapper.vue';
+import General from '@/components/product/form/general.vue';
+import AttributeWrapper from '@/components/product/form/attributeWrapper.vue';
 import { rulesRef } from '@/composables/product/';
 import { useGetAllManufacturer } from '@/composables/manufacturer';
 import { useGetAllDistributor } from '@/composables/distributor';
@@ -41,20 +41,7 @@ useGetAllManufacturer();
 useGetAllDistributor();
 
 const attributeSets = computed(() => store.state.product.attributes);
-// for dev
-// modelRef.distributors = [
-//     {
-//         organization: null,
-//         channel: [],
-//     },
-// ];
-// modelRef.certifications = [
-//     {
-//         certificateId: '',
-//         publishDate: null,
-//         images: [],
-//     },
-// ];
+
 watch(
     attributeSets,
     () => {
@@ -62,7 +49,6 @@ watch(
         console.log('_attributeSets', _attributeSets);
 
         for (const _attributeSet of _attributeSets) {
-            console.log('modelRef', modelRef);
             // giay_chung_nhan
             if (_attributeSet.groupCode === 'giay_chung_nhan') {
                 modelRef.certifications = [

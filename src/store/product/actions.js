@@ -70,6 +70,7 @@ const setAttributes = (context, data) => {
     const result = {
         left: leftAttributes,
         right: rightAttributes,
+        all: attributes,
     };
 
     context.commit('setAttributes', result);
@@ -79,19 +80,18 @@ const setProductDetail = (context, data) => {
     context.commit('setProductDetail', data);
 };
 
-const setCertifications = (context, data) => {
-    console.log('🚀 ~ file: actions.js ~ line 148 ~ setCertifications ~ data', data);
+const setProductCertifications = (context, data) => {
     const results = data.map(_ => ({
         certificateId: _.numberDisclosure,
         publishDate: moment(_.disclosureDate),
         images: [_.imageUrl],
     }));
 
-    context.commit('setCertifications', results);
+    context.commit('setProductCertifications', results);
 };
 
 export default {
     setAttributes,
     setProductDetail,
-    setCertifications,
+    setProductCertifications,
 };

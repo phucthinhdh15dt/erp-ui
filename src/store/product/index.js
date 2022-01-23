@@ -8,11 +8,12 @@ export default {
         attributes: {
             left: [],
             right: [],
+            all: [],
         },
         detail: {
             general: {
-                brand: '',
-                category: '',
+                brand: null,
+                category: null,
                 name: '',
                 englishName: '',
                 registedName: '',

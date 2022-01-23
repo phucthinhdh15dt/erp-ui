@@ -45,7 +45,7 @@ const removeDistributor = (state, { index }) => {
     state.detail.distributors.splice(index, 1);
 };
 
-const setCertifications = (state, data) => {
+const setProductCertifications = (state, data) => {
     state.detail.certifications = data;
 };
 
@@ -53,7 +53,7 @@ export default {
     setAttributes,
     setProductDetail,
     setGeneralData,
-    setCertifications,
+    setProductCertifications,
     setAttributeData,
     setCertificationData,
     addCertification,

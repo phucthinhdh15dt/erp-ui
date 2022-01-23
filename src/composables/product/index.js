@@ -1,11 +1,7 @@
 import { reactive, inject, ref } from 'vue';
 import { useLayoutLoading } from '@/composables/common/layout';
 import { useStore } from 'vuex';
-import { isPlainObject, groupBy, pathOr, pick, flow, map, reduce, path } from 'lodash/fp';
-
-export const modelRef = reactive({
-    general: { category: '', brand: '', name: '', registedName: '', englishName: '', url: '' },
-});
+import { isPlainObject, pathOr, map, reduce } from 'lodash/fp';
 
 export const rulesRef = reactive({
     'general.category': [
@@ -25,24 +21,6 @@ export const rulesRef = reactive({
             required: true,
             message: 'Nhập tên sản phẩm',
         },
-    ],
-    'general.registedName': [
-        // {
-        //     required: true,
-        //     message: 'Please input product registerName',
-        // },
-    ],
-    'general.englishName': [
-        // {
-        //     required: true,
-        //     message: 'Please input english englishName',
-        // },
-    ],
-    'general.url': [
-        // {
-        //     required: true,
-        //     message: 'Please input url',
-        // },
     ],
 });
 
@@ -172,6 +150,7 @@ export const useUpsertProduct = () => {
             registedName: general.registedName,
             status: 'IN_PRODUCTION',
             url: general.url,
+            // variants
         };
 
         return payload;
