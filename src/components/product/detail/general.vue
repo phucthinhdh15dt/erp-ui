@@ -8,15 +8,15 @@
             <FormItem label="Thương hiệu" class="form-label-w-18" v-bind="validateInfos['general.brand']">
                 <BrandSelection v-model:value="modelRef.general.brand" @change="onChangeBrand" />
             </FormItem>
-            <FormItem label="Tên sản phẩm" class="form-label-w-18" v-bind="validateInfos['general.productName']">
-                <Input v-model:value="modelRef.general.productName" />
+            <FormItem label="Tên sản phẩm" class="form-label-w-18" v-bind="validateInfos['general.name']">
+                <Input v-model:value="modelRef.general.name" />
             </FormItem>
             <FormItem
                 label="Tên sản phẩm đăng ký"
                 class="form-label-w-18"
-                v-bind="validateInfos['general.registerName']"
+                v-bind="validateInfos['general.registedName']"
             >
-                <Input v-model:value="modelRef.general.registerName" />
+                <Input v-model:value="modelRef.general.registedName" />
             </FormItem>
             <FormItem label="Tên tiếng anh" class="form-label-w-18" v-bind="validateInfos['general.englishName']">
                 <Input v-model:value="modelRef.general.englishName" />
@@ -29,9 +29,9 @@
 </template>
 
 <script setup>
-import { computed, inject } from 'vue';
+import { computed, inject, watch } from 'vue';
 import { useStore } from 'vuex';
-import { Card, Input, Form } from 'ant-design-vue';
+import { Card, Input, Form, message } from 'ant-design-vue';
 import CategorySelection from '@/components/product/materials/categorySelection.vue';
 import BrandSelection from '@/components/product/materials/brandSelection.vue';
 import { useSearchAttributeSet } from '@/composables/product/attribute';
@@ -57,21 +57,20 @@ const onChangeDescription = e => {
 
 const onChangeCategory = value => {
     console.log('value1', value);
-    modelRef.general.category = value;
+    store.commit('product/setGeneralData', { data: value, field: 'category' });
 };
 
 const onChangeBrand = value => {
     console.log('value1', value);
-    modelRef.general.brand = value;
+    store.commit('product/setGeneralData', { data: value, field: 'brand' });
 };
 
-// watch(
-//     () => [modelRef.general.category, modelRef.general.brand],
-//     () => {
-//         if (modelRef.general.category && modelRef.general.brand) {
-//             message.info('di lay attribute set di ban');
-//             searchAttributeSet(modelRef.general.category, modelRef.general.brand);
-//         }
-//     }
-// );
+watch(
+    () => [general.value.category, general.value.brand],
+    () => {
+        if (general.value.category && general.value.brand) {
+            searchAttributeSet(general.value.category, general.value.brand);
+        }
+    }
+);
 </script>

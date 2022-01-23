@@ -1,6 +1,6 @@
 export const columns = [
     {
-        title: 'Mã thương hiệu',
+        title: 'Mã ngành hàng',
         dataIndex: 'code',
         key: 'code',
         width: 200,
@@ -42,7 +42,7 @@ export const searchConfigs = {
 };
 
 export const sortConfigs = [
-    // {
-    //     createdAt: { order: 'desc', format: 'strict_date_optional_time_nanos' },
-    // },
+    {
+        idNum: 'desc',
+    },
 ];

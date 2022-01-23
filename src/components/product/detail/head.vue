@@ -2,42 +2,50 @@
     <Row justify="space-between">
         <div class="card-head-title font-18 font-bold">Tạo sản phẩm</div>
         <div class="mt-12">
-            <Button type="primary" class="confirm" :class="fixed ? 'fixed' : ''" @click="onCreate">Tạo sản phẩm</Button>
+            <Space>
+                <!-- <Button type="primary" :class="fixed ? 'fixed' : ''" @click="onReset">Khôi phục</Button> -->
+                <Button type="primary" class="confirm" :class="fixed ? 'fixed' : ''" @click="onUpdate">
+                    Cập nhật sản phẩm
+                </Button>
+            </Space>
         </div>
     </Row>
 </template>
 
 <script setup>
 import { h, watch, inject, ref, toRaw } from 'vue';
-import { Row, Button, Modal } from 'ant-design-vue';
-import { useCreateProduct } from '@/composables/product';
+import { Row, Button, Modal, message, Space } from 'ant-design-vue';
+import { useUpsertProduct } from '@/composables/product';
 
 const form = inject('form');
 const modelRef = inject('modelRef');
 const { validate, clearValidate } = form;
-const { createProduct, result } = useCreateProduct();
+const { updateProduct, result } = useUpsertProduct();
 
 const fixed = ref(false);
 
-const onCreate = () => {
+const onUpdate = () => {
     clearValidate();
 
     validate()
         .then(() => {
-            const data = toRaw(modelRef);
-            console.log(data);
+            const data = toRaw(modelRef.value);
             Modal.confirm({
-                title: 'Xác nhận tạo sản phẩm',
+                title: 'Xác nhận cập nhật sản phẩm',
                 content: '',
                 okText: 'Xác nhận',
                 cancelText: 'Đóng',
                 centered: true,
-                onOk: () => createProduct(data),
+                onOk: () => updateProduct(data),
             });
         })
         .catch(error => {
             console.log('error', error);
         });
+};
+
+const onReset = () => {
+    message.warn('reset nè ahihi');
 };
 
 const handleScroll = () => {

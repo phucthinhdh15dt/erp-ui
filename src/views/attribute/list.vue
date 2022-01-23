@@ -35,7 +35,7 @@ export const columns = [
         align: 'center',
     },
     {
-        title: 'Tính chât',
+        title: 'Tính chất',
         dataIndex: 'uiComponentType',
         key: 'uiComponentType',
         width: 300,
@@ -64,9 +64,9 @@ const searchConfigs = {
 };
 
 const sortConfigs = [
-    // {
-    //     createdAt: { order: 'desc', format: 'strict_date_optional_time_nanos' },
-    // },
+    {
+        idNum: 'desc',
+    },
 ];
 
 export default defineComponent({

@@ -8,6 +8,7 @@ const CategoryList = () => import('@/views/category/list.vue');
 
 const Product = () => import('@/views/product/index.vue');
 const ProductCreate = () => import('@/views/product/create.vue');
+const ProductList = () => import('@/views/product/list.vue');
 const ProductDetail = () => import('@/views/product/detail.vue');
 
 const AttributeSet = () => import('@/views/attributeset/index.vue');
@@ -49,19 +50,6 @@ const routes = [
             layout: 'default',
         },
         children: [
-            // {
-            //     name: 'OrderDetail',
-            //     path: ':id',
-            //     component: OrderDetail,
-            //     meta: {
-            //         title: 'Đơn hàng',
-            //         breadCrumb: 'Chi tiết đơn hàng',
-            //         authRequired: true,
-            //         layout: 'default',
-            //         subMenuKey: '1',
-            //         menuKey: '1.3',
-            //     },
-            // },
             {
                 name: 'OrderList',
                 path: 'list',
@@ -75,19 +63,6 @@ const routes = [
                     menuKey: '1.2',
                 },
             },
-            // {
-            //     name: 'OrderCreate',
-            //     path: 'create',
-            //     component: OrderCreate,
-            //     meta: {
-            //         title: 'Đơn hàng',
-            //         breadCrumb: 'Tạo đơn hàng',
-            //         authRequired: true,
-            //         layout: 'default',
-            //         subMenuKey: '1',
-            //         menuKey: '1.1',
-            //     },
-            // },
         ],
     },
     {
@@ -125,6 +100,19 @@ const routes = [
                     layout: 'default',
                     subMenuKey: '2',
                     menuKey: '2.1',
+                },
+            },
+            {
+                name: 'ProductList',
+                path: 'list',
+                component: ProductList,
+                meta: {
+                    title: 'Danh sách sản phẩm',
+                    breadCrumb: 'Danh sách sản phẩm',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '2',
+                    menuKey: '2.2',
                 },
             },
         ],

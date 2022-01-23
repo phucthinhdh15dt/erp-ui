@@ -65,7 +65,10 @@ export default defineComponent({
         FormItem,
         Row,
         Col,
-        Selection: defineAsyncComponent(() => import(`./filters/selection.vue`)),
+        Text: defineAsyncComponent(() => import(`@/components/list/filters/text.vue`)),
+        DateRange: defineAsyncComponent(() => import(`@/components/list/filters/dateRange.vue`)),
+        NumberRange: defineAsyncComponent(() => import(`@/components/list/filters/numberRange.vue`)),
+        Selection: defineAsyncComponent(() => import(`@/components/list/filters/selection.vue`)),
     },
     props: {
         filterConfigs: {
@@ -242,30 +245,5 @@ export default defineComponent({
             line-height: 38px !important;
         }
     }
-}
-
-.ant-drawer-close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 10;
-    display: block;
-    width: 56px;
-    height: 56px;
-    padding: 0;
-    color: #00000073;
-    font-weight: 700;
-    font-size: 16px;
-    font-style: normal;
-    line-height: 56px;
-    text-align: center;
-    text-transform: none;
-    text-decoration: none;
-    background: transparent;
-    border: 0;
-    outline: 0;
-    cursor: pointer;
-    transition: color 0.3s;
-    text-rendering: auto;
 }
 </style>

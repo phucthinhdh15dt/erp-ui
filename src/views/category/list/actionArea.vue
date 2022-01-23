@@ -24,17 +24,13 @@
                         message: 'Vui lòng nhập mã ngành hàng',
                     }"
                 >
-                    <InputNumber
+                    <Input
                         v-model:value="formState.code"
                         :disabled="progress.total > 0 || (processingItem && processingItem.id)"
-                        :min="1"
-                        :max="10000"
                         style="width: 100%"
-                        :formatter="value => `${value}`.replace('.', '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
-                        :parser="value => value.replace('.', '').replace(/\$\s?|(,*)/g, '')"
-                        :step="1"
+                        @keypress="onlyNumber"
                     >
-                    </InputNumber>
+                    </Input>
                 </FormItem>
                 <FormItem
                     label="Tên ngành"
@@ -51,7 +47,9 @@
                     <TextArea v-model:value="formState.description" :rows="4" :disabled="progress.total > 0"></TextArea>
                 </FormItem>
                 <FormItem label="Ngành hàng cha" name="parent">
-                    <CategorySelection :value="formState.parent" @change="value => (formState.parent = value)" />
+                    <Select v-model:value="formState.parent" label-in-value show-search allow-clear>
+                        <Option v-for="item in categories" :key="item.id" :value="item.id"> {{ item.label }}</Option>
+                    </Select>
                 </FormItem>
 
                 <!-- <h3>Ngành hàng con</h3>
@@ -102,14 +100,16 @@
 
 <script setup>
 import { watch, computed, inject, toRaw, ref, reactive, createVNode } from 'vue';
-import { Button, message, Modal, Progress, Form, Input, InputNumber } from 'ant-design-vue';
+import { Button, message, Modal, Progress, Form, Input, Select } from 'ant-design-vue';
 import { useStore } from 'vuex';
-import { useCreateCategory, useUpdateCategory } from '@/composables/product/category';
+import { useCreateCategory, useUpdateCategory, useGetAllCategory } from '@/composables/product/category';
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
-import CategorySelection from '@/components/product/materials/categorySelection.vue';
+import { onlyNumber } from '@/utils/common';
+import { filterOption } from '@/utils/common';
 
 const { Item: FormItem } = Form;
 const { TextArea } = Input;
+const { Option } = Select;
 
 const store = useStore();
 const onSearch = inject('onSearch');
@@ -119,6 +119,7 @@ const processingItem = inject('processingItem');
 
 const { createCategory, result: resultCreate } = useCreateCategory();
 const { updateCategory, result: resultUpdate } = useUpdateCategory();
+const { result: categories } = useGetAllCategory();
 
 const visible = ref(false);
 const formState = reactive({
@@ -130,7 +131,7 @@ const formState = reactive({
 const formRef = ref();
 
 const title = computed(() =>
-    processingItem.value ? `Chỉnh sửa ngành hàng ${processingItem.value.id}` : 'Tạo ngành hàng mới'
+    processingItem.value ? `Chỉnh sửa ngành hàng: ${processingItem.value.name}` : 'Tạo ngành hàng mới'
 );
 
 const progress = computed(() => store.state.list.progress);
@@ -165,7 +166,7 @@ const onConfirm = async () => {
             const { parent, ...rest } = toRaw(formState);
             const payload = {
                 ...rest,
-                parentID: parent || 0,
+                parentID: parent ? parent.key : 0,
                 categoryType: 'CAMPAIGN',
             };
             if (processingItem.value) {
@@ -203,7 +204,17 @@ watch(processingItem, () => {
         formState.name = processingItem.value.name;
         formState.code = processingItem.value.code;
         formState.description = processingItem.value.description;
-        formState.parent = processingItem.value.parentID || null;
+        if (categories.value && categories.value.length > 0) {
+            const parentName = categories.value.find(
+                v => v.id === (processingItem.value.parentID ? processingItem.value.parentID.toString() : 0)
+            );
+            if (parentName) {
+                formState.parent = parentName;
+            }
+        } else {
+            formState.parent = '';
+        }
+        //formState.parent = processingItem.value.parentID;
         visible.value = true;
     } else {
         // formRef.value.resetFields();
@@ -227,7 +238,10 @@ watch(
     () => {
         if (resultCreate.value) {
             message.success(resultCreate.value);
-            onSearch();
+            const timeout = setTimeout(() => {
+                onSearch();
+                clearTimeout(timeout);
+            }, 1000);
         }
     },
     { deep: true }
@@ -238,7 +252,10 @@ watch(
     () => {
         if (resultUpdate.value) {
             message.success(resultUpdate.value);
-            onSearch();
+            const timeout = setTimeout(() => {
+                onSearch();
+                clearTimeout(timeout);
+            }, 1000);
         }
     },
     { deep: true }

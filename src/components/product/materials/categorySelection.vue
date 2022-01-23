@@ -5,6 +5,7 @@
             :options="categories"
             :filter-option="filterOption"
             show-search
+            allow-clear
             @change="onChange"
         ></Select>
     </div>
@@ -21,7 +22,6 @@ const props = defineProps({
 });
 const emits = defineEmits(['change']);
 const { value } = toRefs(props);
-
 const { result: categories } = useGetAllCategory();
 
 const onChange = val => {

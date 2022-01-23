@@ -57,7 +57,7 @@ export const useCreateBrand = () => {
 
         const response = await api.brand.createBrand(data);
         if (response && response.data) {
-            result.value = 'tạo mới thương hiệu thành công';
+            result.value = 'Tạo thương hiệu mới thành công';
         }
         loading.value = false;
     };
@@ -83,7 +83,7 @@ export const useUpdateBrand = () => {
         result.value = '';
         const response = await api.brand.updateBrand(data);
         if (response && response.success) {
-            result.value = 'Cập nhật thông tin thương hiệu thành công';
+            result.value = 'Cập nhật thông tin thương hiệu thành công.';
         }
         loading.value = false;
     };
@@ -103,8 +103,22 @@ export const useGetAllBrand = () => {
 
     const getAllBrand = async () => {
         loading.value = true;
-
-        const response = await api.search.searchBrand({ from: 0, size: 10000 });
+        const query = {
+            from: 0,
+            size: 10,
+            query: {
+                bool: {
+                    must: [
+                        {
+                            match: {
+                                status: 'ACTIVE',
+                            },
+                        },
+                    ],
+                },
+            },
+        };
+        const response = await api.search.searchBrand(query);
         if (response.data) {
             result.value = response.data.hits.map(_ => ({ value: _.code, label: _.name }));
         }

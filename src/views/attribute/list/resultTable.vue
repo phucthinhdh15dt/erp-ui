@@ -16,6 +16,9 @@
                 <template v-if="column.dataIndex === 'subCategory'">
                     <span v-if="text">{{ text.map(_ => _.subCategoryName).join(', ') }}</span>
                 </template>
+                <template v-if="column.dataIndex === 'uiComponentType'">
+                    <span v-if="text">{{ getType(record) }}</span>
+                </template>
             </template>
             <!-- <template #radio="{ record }">
                 <span style="color: #53459b"> <Radio :value="record.id" /> </span>
@@ -44,9 +47,7 @@
 import { defineComponent, computed, inject, watch } from 'vue';
 import { Table } from 'ant-design-vue';
 import { useStore } from 'vuex';
-import { STATUS } from '@/constants';
-import { getOr } from 'lodash/fp';
-import moment from 'moment';
+import { AttributeItemType } from '@/constants/attributeItem';
 
 export default defineComponent({
     name: 'Result',
@@ -101,14 +102,6 @@ export default defineComponent({
             store.commit('list/setSearchSelectedRow', value);
         };
 
-        const getStatusColor = record => {
-            let color = getOr('#000', 'color', STATUS[record.status]);
-            if (record.status === STATUS.PUBLISHED.code && moment(record.publishFromDate).isAfter(moment())) {
-                color = '#52c41a';
-            }
-            return color;
-        };
-
         const onSelectChange = selectedRowKeys => {
             store.commit('list/setSearchSelectedRow', selectedRowKeys);
             store.commit('list/setSearchSelectedAll', false);
@@ -122,11 +115,17 @@ export default defineComponent({
             processingItem.value = record;
         };
 
+        const getType = item => {
+            const data = AttributeItemType.find(v => v.value === item.uiComponentType);
+            if (data) {
+                return data.text;
+            }
+            return 'Không rõ';
+        };
+
         return {
-            STATUS,
             searchResult,
             pagination,
-            getStatusColor,
             isLoading,
             onChange,
             selectedRowKeys,
@@ -135,6 +134,7 @@ export default defineComponent({
             progress,
             onSelectAll,
             onEdit,
+            getType,
         };
     },
 });

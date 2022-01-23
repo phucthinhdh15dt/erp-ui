@@ -78,7 +78,7 @@ const filters = [
 
 const sortConfigs = [
     {
-        'id.keyword': 'desc',
+        idNum: 'desc',
     },
 ];
 

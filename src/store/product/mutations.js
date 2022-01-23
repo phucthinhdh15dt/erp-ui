@@ -6,6 +6,10 @@ const setProductDetail = (state, data) => {
     state.detail = data;
 };
 
+const setGeneralData = (state, { data, field }) => {
+    state.detail.general[field] = data;
+};
+
 const setFilters = (state, data) => {
     state.filters = data;
 };
@@ -71,6 +75,8 @@ const resetProgress = state => {
 export default {
     setAttributes,
     setProductDetail,
+    setGeneralData,
+    //nope
     setFilters,
     setFilterCollected,
     setSearchResults,

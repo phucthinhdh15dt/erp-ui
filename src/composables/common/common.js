@@ -37,10 +37,19 @@ const useCommon = () => {
         loading.value = true;
         resultBrand.value = [];
         const query = {
-            query: {
-                match_all: {},
-            },
+            from: 0,
             size: 1000,
+            query: {
+                bool: {
+                    must: [
+                        {
+                            match: {
+                                status: 'ACTIVE',
+                            },
+                        },
+                    ],
+                },
+            },
         };
         const response = await api.common.getBrand(query);
         if (response.data) {

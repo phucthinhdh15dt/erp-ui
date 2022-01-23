@@ -16,13 +16,13 @@
                     Quản lý ngành hàng
                 </MenuItem>
             </router-link>
-            <SubMenu key="sub1">
+            <SubMenu key="2">
                 <template #icon>
                     <CodeSandboxOutlined />
                 </template>
                 <template #title>Quản lý sản phẩm</template>
                 <router-link to="/product/create">
-                    <MenuItem key="1.1">
+                    <MenuItem key="2.1">
                         <template #icon>
                             <PlusOutlined />
                         </template>
@@ -30,7 +30,7 @@
                     </MenuItem>
                 </router-link>
                 <router-link to="/product/list">
-                    <MenuItem key="1.2">
+                    <MenuItem key="2.2">
                         <template #icon>
                             <UnorderedListOutlined />
                         </template>
@@ -145,14 +145,10 @@ export default defineComponent({
 .LayoutSider {
     background: #fff;
     border-right: 1px solid #ddd;
-    min-height: 100vh;
+    height: 100vh;
     z-index: 3;
-
-    &__Wrapper {
-        position: fixed;
-        left: 0;
-        // overflow: auto;
-    }
+    position: fixed;
+    overflow: auto;
 
     &__Logo {
         height: 48px;

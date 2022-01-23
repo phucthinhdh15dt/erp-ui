@@ -46,7 +46,7 @@ export const rulesRef = reactive({
     ],
 });
 
-export const useCreateProduct = () => {
+export const useUpsertProduct = () => {
     const { layoutLoading, layoutDone } = useLayoutLoading();
     const api = inject('api');
     const store = useStore();
@@ -61,24 +61,79 @@ export const useCreateProduct = () => {
 
         return value;
     };
+    const createCertificationPromise = data =>
+        new Promise(resolve => {
+            api.certification
+                .create(data)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(() => {
+                    resolve(null);
+                });
+        });
 
-    const collectCertifications = map(_ => ({
-        certificateId: _.certificateId,
-        publishDate: normalize(_.publishDate),
-        images: ['https://some.images'],
-    }));
+    const collectCertificationPromises = map(_ => {
+        const payload = {
+            numberDisclosure: _.certificateId,
+            disclosureDate: normalize(_.publishDate),
+            imageUrl: 'https://some.images',
+        };
+
+        return createCertificationPromise(payload);
+    });
+
+    const collectCertifications = async data => {
+        if (!data) {
+            return null;
+        }
+
+        const certificationsPromise = collectCertificationPromises(data);
+        const listCertification = await Promise.all(certificationsPromise);
+
+        return {
+            attrCode: '12',
+            value: JSON.stringify(listCertification.filter(_ => _)),
+        };
+    };
+
+    const collectVariant = items => {
+        const groupVariants = store.state.product.attributes.right;
+        return items.reduce((acc, cur) => {
+            let attrVariant = {};
+
+            const groupIndex = groupVariants.findIndex(
+                v => v.isVariant && v.attributes && v.attributes.map(m => m.code).includes(cur)
+            );
+            if (groupIndex >= 0) {
+                const groupVariant = groupVariants[groupIndex];
+                const attribute = groupVariant.attributes.find(f => f.code === cur);
+                if (attribute) {
+                    attrVariant = {
+                        attributes: [
+                            {
+                                code: cur,
+                                value: attribute.label,
+                            },
+                        ],
+                        productCode: '',
+                        status: 'IN_PRODUCTION',
+                    };
+
+                    acc.push(attrVariant);
+                }
+            }
+
+            return acc;
+        }, []);
+    };
 
     const collectAttributes = attributes =>
         Object.keys(attributes).reduce((acc, cur) => {
             let attr = {};
-            if (cur === 'certifications') {
+            if (cur === 'distributors') {
                 attr = {
-                    attrCode: 'giay_chung_nhan',
-                    value: JSON.stringify(collectCertifications(attributes[cur])),
-                };
-            } else if (cur === 'distributors') {
-                attr = {
-                    attrCode: 'nha_phan_phoi',
+                    attrCode: 'distribution',
                     value: JSON.stringify(attributes[cur]),
                 };
             } else {
@@ -93,15 +148,20 @@ export const useCreateProduct = () => {
             return acc;
         }, []);
 
-    const collectVariant = variants => {
-        return variants;
-    };
-
-    const collectPayload = data => {
+    const collectPayload = async data => {
         console.log('data', data);
-        const { general, variants = [], ...attributes } = data;
+        const { general, variants = [], certifications, ...attributes } = data;
+
+        const lstVariant = collectVariant(variants);
+
+        const attributesCollected = collectAttributes(attributes);
+
+        const certificationsCollected = await collectCertifications(certifications);
+        if (certificationsCollected) {
+            attributesCollected.push(certificationsCollected);
+        }
         const payload = {
-            attributes: collectAttributes(attributes),
+            attributes: attributesCollected,
             brandCode: general.brand,
             categoryCode: general.category,
             code: 'string',
@@ -112,17 +172,15 @@ export const useCreateProduct = () => {
             registedName: general.registerName,
             status: 'IN_PRODUCTION',
             url: general.url,
-            variantCodes: collectVariant(variants),
+            variants: lstVariant,
         };
-
-        return null;
 
         return payload;
     };
 
     const createProduct = async data => {
         layoutLoading();
-        const payload = collectPayload(data);
+        const payload = await collectPayload(data);
         console.log('payload', payload);
         const response = await api.product.create(payload);
         console.log('response', response);
@@ -132,8 +190,22 @@ export const useCreateProduct = () => {
         layoutDone();
     };
 
+    const updateProduct = async data => {
+        layoutLoading();
+        console.log('data', data);
+        const payload = collectPayload(data);
+        console.log('payload', payload);
+        const response = await api.product.update(payload);
+        console.log('response', response);
+        // if (response.data) {
+        //     result.value = response.data;
+        // }
+        layoutDone();
+    };
+
     return {
         createProduct,
+        updateProduct,
         loading,
         result,
         errorMessage,
@@ -149,7 +221,8 @@ export const useGetProductDetail = () => {
     const errorMessage = ref('');
 
     const prepareVariants = data => {
-        const variants = JSON.parse(data);
+        console.log('🚀 ~ file: index.js ~ line 161 ~ useGetProductDetail ~ data', data);
+        const variants = data ? JSON.parse(data) : [];
 
         return variants.map(variant => {
             const { productCode, status, attributes } = variant;
@@ -184,8 +257,8 @@ export const useGetProductDetail = () => {
         const response = await api.product.get(id);
         console.log('response', response);
         if (response.data) {
-            result.value = collectPayload(response.data[0]);
-            // store.dispatch('product/setProductDetail', response.data[0]);
+            // result.value = collectPayload(response.data[0]);
+            store.dispatch('product/setProductDetail', response.data[0]);
         }
         layoutDone();
     };

@@ -63,7 +63,7 @@ export const useGetAllCategory = () => {
 
         const response = await api.search.searchProductCategory({ from: 0, size: 10000 });
         if (response.data) {
-            result.value = response.data.hits.map(_ => ({ value: _.code, label: _.name }));
+            result.value = response.data.hits.map(_ => ({ id: _.id, value: _.code, label: _.name }));
         }
 
         layoutDone();

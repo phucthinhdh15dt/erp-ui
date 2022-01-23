@@ -1,5 +1,6 @@
 import { groupBy, pathOr, pick, flow, map, reduce, path } from 'lodash/fp';
 import { removeAscent } from '@/utils/common';
+import moment from 'moment';
 
 const collectAttributes = (groupByAttributes, type) =>
     flow(
@@ -75,19 +76,32 @@ const setAttributes = (context, data) => {
 };
 
 const prepareVariants = data => {
-    const variants = JSON.parse(data);
+    console.log('🚀 ~ file: actions.js ~ line 78 ~ data', data);
+    const variants = data ? JSON.parse(data) : [];
+    return variants;
+    // return variants.map(variant => {
+    //     const { productCode, status, attributes } = variant;
+    //     // const _attributes = JSON.parse(attributes);
 
-    return variants.map(variant => {
-        const { productCode, status, attributes } = variant;
-        const _attributes = JSON.parse(attributes);
-
-        return {
-            productCode,
-            status,
-            attributes: _attributes.map(_ => _.value),
-        };
-    });
+    //     return {
+    //         productCode,
+    //         status,
+    //         attributes: attributes.map(_ => _.value),
+    //     };
+    // });
 };
+
+const prepareAttributes = reduce((acc, cur) => {
+    if (cur.attribute.label === 'Giấy chứng nhận') {
+        const parseValue = JSON.parse(cur.value);
+
+        acc.certifications = parseValue;
+    } else {
+        acc[cur.attribute.code] = cur.value;
+    }
+
+    return acc;
+}, {});
 
 const setProductDetail = (context, data) => {
     // a = {
@@ -123,7 +137,8 @@ const setProductDetail = (context, data) => {
             registedName: data.registedName,
             url: data.url,
         },
-        variants: prepareVariants(data.variants),
+        variants: prepareVariants(data.variantJson),
+        ...prepareAttributes(data.attributes),
     };
 
     context.commit('setProductDetail', result);

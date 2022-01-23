@@ -1,25 +1,25 @@
 <template>
     <div>
         <Row>
-            <Col><div class="card-head-title">Nhà phân phối và kênh phân phối</div></Col>
+            <Col><div class="card-head-title">Nhà sản xuất và kênh phân phối</div></Col>
         </Row>
         <!-- <div v-for="(cert, idx) in modelRef.certifications" :key="idx"> -->
         <Card body-style="padding: 20px ">
             <Table :data-source="modelRef.distributors" :columns="columns" :pagination="false">
                 <template #bodyCell="{ column, index }">
-                    <template v-if="column.dataIndex === 'organization'">
+                    <template v-if="column.dataIndex === 'manufacturer'">
                         <FormItem style="margin-bottom: 0">
                             <Select
-                                v-model:value="modelRef.distributors[index].organization"
-                                :options="attributes[0].options"
+                                v-model:value="modelRef.distributors[index].manufacturer"
+                                :options="manufacturerOptions"
                             />
                         </FormItem>
                     </template>
-                    <template v-if="column.dataIndex === 'channel'">
+                    <template v-if="column.dataIndex === 'distributor'">
                         <FormItem style="margin-bottom: 0">
                             <Select
-                                v-model:value="modelRef.distributors[index].channel"
-                                :options="attributes[1].options"
+                                v-model:value="modelRef.distributors[index].distributor"
+                                :options="distributorOptions"
                                 mode="multiple"
                             />
                         </FormItem>
@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { inject } from 'vue';
+import { computed, inject } from 'vue';
 import { useStore } from 'vuex';
 import { Card, Input, Form, Upload, DatePicker, Row, Col, Button, Select, Table } from 'ant-design-vue';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue';
@@ -65,16 +65,19 @@ const props = defineProps({
     },
 });
 
+const manufacturerOptions = computed(() => store.state.manufacturer.list);
+const distributorOptions = computed(() => store.state.distributor.list);
+
 const columns = [
     {
-        title: 'Nhà phân phối',
-        dataIndex: 'organization',
-        key: 'organization',
+        title: 'Nhà sản xuất',
+        dataIndex: 'manufacturer',
+        key: 'manufacturer',
     },
     {
         title: 'Kênh phân phối',
-        dataIndex: 'channel',
-        key: 'channel',
+        dataIndex: 'distributor',
+        key: 'distributor',
     },
     {
         title: '',
@@ -84,8 +87,8 @@ const columns = [
 ];
 const add = () => {
     modelRef.distributors.push({
-        organization: null,
-        channel: [],
+        manufacturer: null,
+        distributor: [],
     });
 };
 const remove = index => {

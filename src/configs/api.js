@@ -25,7 +25,22 @@ export const API_NAME = {
 
     //MODULE.PRODUCT
     CREATE_PRODUCT: 'CREATE_PRODUCT',
+    UPDATE_PRODUCT: 'UPDATE_PRODUCT',
+    SEARCH_PRODUCT: 'SEARCH_PRODUCT',
     GET_PRODUCT: 'GET_PRODUCT',
+
+    //MODULE.MANUFACTURER
+    SEARCH_MANUFACTURER: 'SEARCH_MANUFACTURER',
+    //  GET_PRODUCT: 'GET_PRODUCT',
+
+    //MODULE.DISTRIBUTOR
+    SEARCH_DISTRIBUTOR: 'SEARCH_DISTRIBUTOR',
+    //  GET_PRODUCT: 'GET_PRODUCT',
+
+    // MODULE.CERTIFICATION
+    SEARCH_CERTIFICATION: 'SEARCH_CERTIFICATION',
+    CREATE_CERTIFICATION: 'CREATE_CERTIFICATION',
+    GET_CERTIFICATION: 'GET_CERTIFICATION',
 };
 
 const MODULE = {
@@ -34,6 +49,9 @@ const MODULE = {
     ATTRIBUTE: 'attribute',
     BRAND: 'brand',
     PRODUCT: 'product',
+    MANUFACTURER: 'product-manufacturer',
+    DISTRIBUTOR: 'distribution-channel',
+    CERTIFICATION: 'product-disclosure',
 };
 
 export default {
@@ -64,14 +82,6 @@ export default {
         version: 'v1',
         method: 'POST',
     },
-    // MODULE.BRAND
-    [API_NAME.SEARCH_BRAND]: {
-        module: MODULE.BRAND,
-        endpoint: 'search',
-        version: 'v1',
-        method: 'POST',
-    },
-    // MODULE.ATTRIBUTE_SET
     [API_NAME.GET_ATTRIBUTE_SET]: {
         module: MODULE.ATTRIBUTE_SET,
         endpoint: '${ id }',
@@ -109,20 +119,6 @@ export default {
         endpoint: '',
         version: 'v1',
         method: 'POST',
-    },
-
-    // MODULE.PRODUCT
-    [API_NAME.CREATE_PRODUCT]: {
-        module: MODULE.PRODUCT,
-        endpoint: '',
-        version: 'v1',
-        method: 'POST',
-    },
-    [API_NAME.GET_PRODUCT]: {
-        module: MODULE.PRODUCT,
-        endpoint: '',
-        version: 'v1',
-        method: 'GET',
     },
 
     // MODULE.BRAND
@@ -164,5 +160,66 @@ export default {
         endpoint: '',
         version: 'v1',
         method: 'PUT',
+    },
+
+    // MODULE.PRODUCT
+    [API_NAME.CREATE_PRODUCT]: {
+        module: MODULE.PRODUCT,
+        endpoint: '',
+        version: 'v1',
+        method: 'POST',
+    },
+    [API_NAME.UPDATE_PRODUCT]: {
+        module: MODULE.PRODUCT,
+        endpoint: '',
+        version: 'v1',
+        method: 'POST',
+    },
+    [API_NAME.SEARCH_PRODUCT]: {
+        module: MODULE.PRODUCT,
+        endpoint: 'search',
+        version: 'v1',
+        method: 'POST',
+    },
+    [API_NAME.GET_PRODUCT]: {
+        module: MODULE.PRODUCT,
+        endpoint: '',
+        version: 'v1',
+        method: 'GET',
+    },
+
+    //MODULE.MANUFACTURER
+    [API_NAME.SEARCH_MANUFACTURER]: {
+        module: MODULE.MANUFACTURER,
+        endpoint: 'search',
+        version: 'v1',
+        method: 'POST',
+    },
+
+    //MODULE.DISTRIBUTOR
+    [API_NAME.SEARCH_DISTRIBUTOR]: {
+        module: MODULE.DISTRIBUTOR,
+        endpoint: 'search',
+        version: 'v1',
+        method: 'POST',
+    },
+    //MODULE.CERTIFICATION
+    [API_NAME.SEARCH_CERTIFICATION]: {
+        module: MODULE.CERTIFICATION,
+        endpoint: 'search',
+        version: 'v1',
+        method: 'POST',
+    },
+    [API_NAME.CREATE_CERTIFICATION]: {
+        module: MODULE.CERTIFICATION,
+        endpoint: '',
+        version: 'v1',
+        method: 'POST',
+    },
+    [API_NAME.GET_CERTIFICATION]: {
+        module: MODULE.CERTIFICATION,
+        endpoint: '${id}',
+        version: 'v1',
+        method: 'GET',
     },
 };
