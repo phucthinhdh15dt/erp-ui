@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <Spin :spinning="loading">
         <Row>
             <Col><div class="card-head-title">Giấy chứng nhận</div></Col>
             <Col>
@@ -33,14 +33,20 @@
                         </template>
                         <Form label-align="left" style="width: 100%">
                             <FormItem label="Số công bố" class="form-label-w-18">
-                                <Input v-model:value="modelRef.certifications[index].certificateId" />
+                                <Input
+                                    :value="modelRef.certifications[index].certificateId"
+                                    @change="e => onChange('certificateId', index, e.target.value)"
+                                />
                             </FormItem>
                             <FormItem label="Ngày công bố" class="form-label-w-18">
-                                <DatePicker v-model:value="modelRef.certifications[index].publishDate" />
+                                <DatePicker
+                                    v-model:value="modelRef.certifications[index].publishDate"
+                                    @change="value => onChange('publishDate', index, value)"
+                                />
                             </FormItem>
                             <FormItem label="Hình ảnh" class="form-label-w-18 mb-0">
                                 <Upload
-                                    v-model:fileList="modelRef.certifications[index].images"
+                                    :file-list="modelRef.certifications[index].images"
                                     list-type="picture-card"
                                     name="files"
                                     action="/upload.do"
@@ -62,13 +68,27 @@
                 Thêm giấy chứng nhận
             </Button>
         </Card>
-    </div>
+    </Spin>
 </template>
 
 <script setup>
-import { inject } from 'vue';
+import { inject, toRaw, watch } from 'vue';
 import { useStore } from 'vuex';
-import { Card, Input, Form, Upload, DatePicker, Row, Col, Button, List, Space, Tooltip } from 'ant-design-vue';
+import {
+    Card,
+    Input,
+    Form,
+    Upload,
+    DatePicker,
+    Row,
+    Col,
+    Button,
+    List,
+    Space,
+    Tooltip,
+    message,
+    Spin,
+} from 'ant-design-vue';
 import { PlusOutlined, EditOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons-vue';
 import { useUpdateProductCertification } from '@/composables/certification';
 
@@ -77,24 +97,32 @@ const { Item: ListItem } = List;
 
 const store = useStore();
 const modelRef = inject('modelRef');
-// const form = inject('form');
-// const modelRef = inject('modelRef');
-// const { validateInfos } = form;
-const { updateProductCertification } = useUpdateProductCertification();
-const add = e => {
-    modelRef.certifications.push({
-        certificateId: '',
-        publishDate: null,
-        images: [],
-    });
+
+const { updateProductCertification, result, loading } = useUpdateProductCertification();
+
+const add = () => {
+    store.commit('product/addCertification');
 };
+
 const remove = index => {
-    console.log('index', index);
-    modelRef.certifications.splice(index, 1);
+    store.commit('product/removeCertification', { index });
 };
+
 const update = index => {
-    console.log('index', index);
-    // modelRef.certifications.splice(index, 1);
-    updateProductCertification();
+    updateProductCertification(toRaw(modelRef.value.certifications[index]));
 };
+
+const onChange = (field, index, value) => {
+    store.commit('product/setCertificationData', { field, index, value });
+};
+
+watch(
+    result,
+    () => {
+        if (result.value) {
+            message.success(result.value);
+        }
+    },
+    { deep: true }
+);
 </script>

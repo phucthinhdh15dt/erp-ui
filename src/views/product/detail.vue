@@ -43,6 +43,7 @@ const form = useForm(modelRef, rulesRef);
 provide('form', form);
 provide('modelRef', modelRef);
 provide('rulesRef', rulesRef);
+provide('isEdit', true);
 
 watch(
     productId,

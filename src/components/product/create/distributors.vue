@@ -12,6 +12,7 @@
                             <Select
                                 v-model:value="modelRef.distributors[index].manufacturer"
                                 :options="manufacturerOptions"
+                                @change="value => onChange('manufacturer', index, value)"
                             />
                         </FormItem>
                     </template>
@@ -19,8 +20,9 @@
                         <FormItem style="margin-bottom: 0">
                             <Select
                                 v-model:value="modelRef.distributors[index].distributor"
-                                :options="distributorOptions"
                                 mode="multiple"
+                                :options="distributorOptions"
+                                @change="value => onChange('distributor', index, value)"
                             />
                         </FormItem>
                     </template>
@@ -49,15 +51,13 @@
 <script setup>
 import { computed, inject } from 'vue';
 import { useStore } from 'vuex';
-import { Card, Input, Form, Upload, DatePicker, Row, Col, Button, Select, Table } from 'ant-design-vue';
+import { Card, Form, Row, Col, Button, Select, Table } from 'ant-design-vue';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue';
 const { Item: FormItem } = Form;
 
 const store = useStore();
 const modelRef = inject('modelRef');
-// const form = inject('form');
-// const modelRef = inject('modelRef');
-// const { validateInfos } = form;
+
 const props = defineProps({
     attributes: {
         type: Object,
@@ -85,14 +85,16 @@ const columns = [
         key: 'action',
     },
 ];
+
 const add = () => {
-    modelRef.distributors.push({
-        manufacturer: null,
-        distributor: [],
-    });
+    store.commit('product/addDistributor');
 };
+
 const remove = index => {
-    console.log('index', index);
-    modelRef.distributors.splice(index, 1);
+    store.commit('product/removeDistributor', { index });
+};
+
+const onChange = (field, index, value) => {
+    store.commit('product/setDistributorsData', { field, index, value });
 };
 </script>
