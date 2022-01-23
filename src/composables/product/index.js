@@ -77,7 +77,8 @@ export const useUpsertProduct = () => {
         const payload = {
             numberDisclosure: _.certificateId,
             disclosureDate: normalize(_.publishDate),
-            imageUrl: 'https://some.images',
+            imageUrl:
+                'https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544808?k=20&m=1147544808&s=612x612&w=0&h=8CUTlOdLd2d5HqO7p6kREJHyxDyAH0VeFA6u7mOQXbo=',
         };
 
         return createCertificationPromise(payload);
@@ -227,44 +228,53 @@ export const useGetProductDetail = () => {
     const errorMessage = ref('');
 
     const prepareVariants = data => {
-        console.log('🚀 ~ file: index.js ~ line 161 ~ useGetProductDetail ~ data', data);
+        console.log('🚀 ~ file: actions.js ~ line 78 ~ data', data);
         const variants = data ? JSON.parse(data) : [];
+        return variants;
+        // return variants.map(variant => {
+        //     const { productCode, status, attributes } = variant;
+        //     // const _attributes = JSON.parse(attributes);
 
-        return variants.map(variant => {
-            const { productCode, status, attributes } = variant;
-            const _attributes = JSON.parse(attributes);
-
-            return {
-                productCode,
-                status,
-                attributes: _attributes.map(_ => _.value),
-            };
-        });
+        //     return {
+        //         productCode,
+        //         status,
+        //         attributes: attributes.map(_ => _.value),
+        //     };
+        // });
     };
 
-    const collectPayload = data => {
-        const result = {
-            general: {
-                brand: pathOr('', 'brand.code')(data),
-                category: pathOr('', 'categories[0].code')(data),
-                productName: data.name,
-                englishName: data.englishName,
-                registerName: data.registedName,
-                url: data.url,
-            },
-            variants: prepareVariants(data.variants),
-        };
+    const prepareAttributes = reduce((acc, cur) => {
+        if (cur.attribute.label === 'Giấy chứng nhận') {
+            const parseValue = JSON.parse(cur.value);
 
-        return result;
-    };
+            acc.certifications = parseValue;
+        } else {
+            acc[cur.attribute.code] = cur.value;
+        }
+
+        return acc;
+    }, {});
 
     const getProductDetail = async id => {
         layoutLoading();
         const response = await api.product.get(id);
         console.log('response', response);
         if (response.data) {
-            // result.value = collectPayload(response.data[0]);
-            store.dispatch('product/setProductDetail', response.data[0]);
+            const data = response.data[0];
+            const result = {
+                general: {
+                    brand: pathOr('', 'brand.code')(data),
+                    category: pathOr('', 'categories[0].code')(data),
+                    name: data.name,
+                    englishName: data.englishName,
+                    registedName: data.registedName,
+                    url: data.url,
+                },
+                variants: prepareVariants(data.variantJson),
+                ...prepareAttributes(data.attributes),
+            };
+
+            store.dispatch('product/setProductDetail', result);
         }
         layoutDone();
     };

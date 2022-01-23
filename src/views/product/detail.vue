@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { provide, computed, watch } from 'vue';
+import { provide, computed, watch, toRaw } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { Row, Col, Form } from 'ant-design-vue';
@@ -25,15 +25,19 @@ import Head from '@/components/product/detail/head.vue';
 import General from '@/components/product/detail/general.vue';
 import AttributeWrapper from '@/components/product/create/attributeWrapper.vue';
 import { rulesRef, useGetProductDetail } from '@/composables/product/';
+import { useGetProductCertifications } from '@/composables/certification/';
+import { isEmpty, isPlainObject } from 'lodash/fp';
 
 const store = useStore();
 const route = useRoute();
 const useForm = Form.useForm;
 const { getProductDetail, result } = useGetProductDetail();
+const { getProductCertifications } = useGetProductCertifications();
 
 const productId = computed(() => route.params.id);
 const attributeSets = computed(() => store.state.product.attributes);
 const modelRef = computed(() => store.state.product.detail);
+const certifications = computed(() => store.state.product.detail.certifications);
 const form = useForm(modelRef, rulesRef);
 
 provide('form', form);
@@ -51,13 +55,13 @@ watch(
 );
 
 watch(
-    result,
+    certifications,
     () => {
-        if (result.value) {
-            console.log('result.value', result.value);
-            // for (const key of Object.keys(result.value)) {
-            Object.assign(modelRef, result.value);
-            // }
+        if (certifications.value) {
+            console.log('certifications.value', certifications.value);
+            if (!isEmpty(certifications.value) && !isPlainObject(certifications.value[0])) {
+                getProductCertifications(toRaw(certifications.value));
+            }
         }
     },
     { deep: true }
