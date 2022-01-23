@@ -93,6 +93,10 @@ export const useCreateProduct = () => {
             return acc;
         }, []);
 
+    const collectVariant = variants => {
+        return variants;
+    };
+
     const collectPayload = data => {
         console.log('data', data);
         const { general, variants = [], ...attributes } = data;
@@ -108,8 +112,10 @@ export const useCreateProduct = () => {
             registedName: general.registerName,
             status: 'IN_PRODUCTION',
             url: general.url,
-            variantCodes: variants,
+            variantCodes: collectVariant(variants),
         };
+
+        return null;
 
         return payload;
     };
