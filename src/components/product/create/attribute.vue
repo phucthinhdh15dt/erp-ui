@@ -40,7 +40,6 @@ import { PlusOutlined } from '@ant-design/icons-vue';
 
 const { Item: FormItem } = Form;
 const modelRef = inject('modelRef');
-console.log('modelRef 2', modelRef);
 const store = useStore();
 const props = defineProps({
     configs: {

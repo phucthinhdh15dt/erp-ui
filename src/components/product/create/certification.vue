@@ -14,11 +14,22 @@
                 <template #renderItem="{ index }">
                     <ListItem style="padding-top: 20px">
                         <template #extra>
-                            <Button danger type="link" style="cursor: pointer" @click="remove(index)">
-                                <template #icon>
-                                    <DeleteOutlined />
-                                </template>
-                            </Button>
+                            <Space>
+                                <Tooltip title="Cập nhật chứng chỉ">
+                                    <Button type="link" style="cursor: pointer" @click="update(index)">
+                                        <template #icon>
+                                            <CheckOutlined />
+                                        </template>
+                                    </Button>
+                                </Tooltip>
+
+                                <Tooltip title="Xóa chứng chỉ">
+                                    <Button danger type="link" style="cursor: pointer" @click="remove(index)">
+                                        <template #icon>
+                                            <DeleteOutlined />
+                                        </template>
+                                    </Button> </Tooltip
+                            ></Space>
                         </template>
                         <Form label-align="left" style="width: 100%">
                             <FormItem label="Số công bố" class="form-label-w-18">
@@ -34,7 +45,7 @@
                                     name="files"
                                     action="/upload.do"
                                 >
-                                    <div>
+                                    <div v-if="modelRef.certifications[index].images.length < 1">
                                         <PlusOutlined />
                                         <div class="ant-upload-text">Thêm ảnh</div>
                                     </div>
@@ -57,8 +68,10 @@
 <script setup>
 import { inject } from 'vue';
 import { useStore } from 'vuex';
-import { Card, Input, Form, Upload, DatePicker, Row, Col, Button, List } from 'ant-design-vue';
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue';
+import { Card, Input, Form, Upload, DatePicker, Row, Col, Button, List, Space, Tooltip } from 'ant-design-vue';
+import { PlusOutlined, EditOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons-vue';
+import { useUpdateProductCertification } from '@/composables/certification';
+
 const { Item: FormItem } = Form;
 const { Item: ListItem } = List;
 
@@ -67,7 +80,7 @@ const modelRef = inject('modelRef');
 // const form = inject('form');
 // const modelRef = inject('modelRef');
 // const { validateInfos } = form;
-
+const { updateProductCertification } = useUpdateProductCertification();
 const add = e => {
     modelRef.certifications.push({
         certificateId: '',
@@ -78,5 +91,10 @@ const add = e => {
 const remove = index => {
     console.log('index', index);
     modelRef.certifications.splice(index, 1);
+};
+const update = index => {
+    console.log('index', index);
+    // modelRef.certifications.splice(index, 1);
+    updateProductCertification();
 };
 </script>
