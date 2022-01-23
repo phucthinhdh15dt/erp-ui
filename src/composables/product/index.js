@@ -152,8 +152,6 @@ export const useUpsertProduct = () => {
         console.log('data', data);
         const { general, variants = [], certifications, ...attributes } = data;
 
-        const lstVariant = collectVariant(variants);
-
         const attributesCollected = collectAttributes(attributes);
 
         const certificationsCollected = await collectCertifications(certifications);
@@ -172,7 +170,6 @@ export const useUpsertProduct = () => {
             registedName: general.registerName,
             status: 'IN_PRODUCTION',
             url: general.url,
-            variants: lstVariant,
         };
 
         return payload;
@@ -181,6 +178,11 @@ export const useUpsertProduct = () => {
     const createProduct = async data => {
         layoutLoading();
         const payload = await collectPayload(data);
+
+        // variant create
+        const { variants = [] } = data;
+        payload.variants = collectVariant(variants);
+
         console.log('payload', payload);
         const response = await api.product.create(payload);
         console.log('response', response);
@@ -193,7 +195,11 @@ export const useUpsertProduct = () => {
     const updateProduct = async data => {
         layoutLoading();
         console.log('data', data);
-        const payload = collectPayload(data);
+        const payload = await collectPayload(data);
+
+        // variant update
+        payload.variants = data.variants;
+
         console.log('payload', payload);
         const response = await api.product.update(payload);
         console.log('response', response);
