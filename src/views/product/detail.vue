@@ -22,8 +22,8 @@ import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { Row, Col, Form } from 'ant-design-vue';
 import Head from '@/components/product/detail/head.vue';
-import General from '@/components/product/detail/general.vue';
-import AttributeWrapper from '@/components/product/create/attributeWrapper.vue';
+import General from '@/components/product/form/general.vue';
+import AttributeWrapper from '@/components/product/form/attributeWrapper.vue';
 import { rulesRef, useGetProductDetail } from '@/composables/product/';
 import { useGetProductCertifications } from '@/composables/certification/';
 import { isEmpty, isPlainObject } from 'lodash/fp';
@@ -67,49 +67,4 @@ watch(
     },
     { deep: true }
 );
-
-// watch(
-//     attributeSets,
-//     () => {
-//         const _attributeSets = [...toRaw(attributeSets.value.left), ...toRaw(attributeSets.value.right)];
-//         console.log('_attributeSets', _attributeSets);
-
-//         for (const _attributeSet of _attributeSets) {
-//             console.log('modelRef', modelRef);
-//             // giay_chung_nhan
-//             if (_attributeSet.groupCode === 'giay_chung_nhan') {
-//                 modelRef.certifications = [
-//                     {
-//                         certificateId: '',
-//                         publishDate: null,
-//                         images: [],
-//                     },
-//                 ];
-//             }
-//             // nha_phan_phoi
-//             else if (_attributeSet.groupCode === 'nha_phan_phoi') {
-//                 //  modelRef.distributors = [
-//                 //     {
-//                 //         certificateId: '',
-//                 //         publishDate: null,
-//                 //         images: [],
-//                 //     },
-//                 // ];
-//             } else if (_attributeSet.isVariant) {
-//                 modelRef.variants = _attributeSet.attributes.map(_ => _.code);
-//                 continue;
-//             } else {
-//                 for (const attr of _attributeSet.attributes) {
-//                     modelRef[attr.code] = attr.defaultValue;
-//                 }
-//                 // modelRef[_attributeSet.groupCode] = _attributeSet.attributes.reduce((acc, cur) => {
-//                 //     acc[cur.code] = cur.defaultValue;
-
-//                 //     return acc;
-//                 // }, {});
-//             }
-//         }
-//     },
-//     { deep: true }
-// );
 </script>
