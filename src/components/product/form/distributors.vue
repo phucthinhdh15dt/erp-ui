@@ -3,7 +3,6 @@
         <Row>
             <Col><div class="card-head-title">Nhà sản xuất và kênh phân phối</div></Col>
         </Row>
-        <!-- <div v-for="(cert, idx) in modelRef.certifications" :key="idx"> -->
         <Card body-style="padding: 20px ">
             <Table :data-source="modelRef.distributors" :columns="columns" :pagination="false">
                 <template #bodyCell="{ column, index }">

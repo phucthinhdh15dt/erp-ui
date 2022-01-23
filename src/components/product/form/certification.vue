@@ -35,6 +35,7 @@
                             <FormItem label="Số công bố" class="form-label-w-18">
                                 <Input
                                     :value="modelRef.certifications[index].certificateId"
+                                    :disabled="modelRef.certifications[index].id"
                                     @change="e => onChange('certificateId', index, e.target.value)"
                                 />
                             </FormItem>
@@ -51,7 +52,7 @@
                                     name="files"
                                     action="/upload.do"
                                 >
-                                    <div v-if="modelRef.certifications[index].images.length < 1">
+                                    <div v-if="pathOr(0, `certifications[${index}].images.length`)(modelRef) < 1">
                                         <PlusOutlined />
                                         <div class="ant-upload-text">Thêm ảnh</div>
                                     </div>
@@ -91,6 +92,7 @@ import {
 } from 'ant-design-vue';
 import { PlusOutlined, EditOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons-vue';
 import { useUpdateProductCertification } from '@/composables/certification';
+import { pathOr } from 'lodash/fp';
 
 const { Item: FormItem } = Form;
 const { Item: ListItem } = List;

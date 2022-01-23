@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { provide, computed, watch, toRaw } from 'vue';
+import { provide, computed, watch, toRaw, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { Row, Col, Form } from 'ant-design-vue';
@@ -27,12 +27,16 @@ import AttributeWrapper from '@/components/product/form/attributeWrapper.vue';
 import { rulesRef, useGetProductDetail } from '@/composables/product/';
 import { useGetProductCertifications } from '@/composables/certification/';
 import { isEmpty, isPlainObject } from 'lodash/fp';
+import { useGetAllManufacturer } from '@/composables/manufacturer';
+import { useGetAllDistributor } from '@/composables/distributor';
 
 const store = useStore();
 const route = useRoute();
 const useForm = Form.useForm;
-const { getProductDetail, result } = useGetProductDetail();
+const { getProductDetail } = useGetProductDetail();
 const { getProductCertifications } = useGetProductCertifications();
+useGetAllManufacturer();
+useGetAllDistributor();
 
 const productId = computed(() => route.params.id);
 const attributeSets = computed(() => store.state.product.attributes);

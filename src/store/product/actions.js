@@ -82,6 +82,7 @@ const setProductDetail = (context, data) => {
 
 const setProductCertifications = (context, data) => {
     const results = data.map(_ => ({
+        id: _.id,
         certificateId: _.numberDisclosure,
         publishDate: moment(_.disclosureDate),
         images: [_.imageUrl],

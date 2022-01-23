@@ -35,10 +35,19 @@ const setDistributorsData = (state, { field, index, value }) => {
 };
 
 const addDistributor = state => {
-    state.detail.distributors.push({
-        manufacturer: null,
-        distributor: [],
-    });
+    if (state.detail.distributors) {
+        state.detail.distributors.push({
+            manufacturer: null,
+            distributor: [],
+        });
+    } else {
+        state.detail.distributors = [
+            {
+                manufacturer: null,
+                distributor: [],
+            },
+        ];
+    }
 };
 
 const removeDistributor = (state, { index }) => {

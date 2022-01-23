@@ -53,6 +53,10 @@ export const useUpsertProduct = () => {
         });
 
     const collectCertificationPromises = map(_ => {
+        if (_.id) {
+            return _.id;
+        }
+
         const payload = {
             numberDisclosure: _.certificateId,
             disclosureDate: normalize(_.publishDate),
@@ -128,13 +132,13 @@ export const useUpsertProduct = () => {
             return acc;
         }, []);
 
-    const collectPayload = async data => {
+    const collectPayload = async (mode, data) => {
         console.log('data', data);
         const { general, variants = [], certifications, ...attributes } = data;
 
         const attributesCollected = collectAttributes(attributes);
 
-        const certificationsCollected = await collectCertifications(certifications);
+        const certificationsCollected = await collectCertifications(certifications.filter(_ => _.certificateId));
         if (certificationsCollected) {
             attributesCollected.push(certificationsCollected);
         }
@@ -153,12 +157,16 @@ export const useUpsertProduct = () => {
             // variants
         };
 
+        if (mode === 'update') {
+            payload.code = general.code;
+        }
+
         return payload;
     };
 
     const createProduct = async data => {
         layoutLoading();
-        const payload = await collectPayload(data);
+        const payload = await collectPayload('create', data);
 
         // variant create
         const { variants = [] } = data;
@@ -176,7 +184,7 @@ export const useUpsertProduct = () => {
     const updateProduct = async data => {
         layoutLoading();
         console.log('data', data);
-        const payload = await collectPayload(data);
+        const payload = await collectPayload('update', data);
 
         // variant update
         payload.variants = data.variants;
@@ -184,9 +192,9 @@ export const useUpsertProduct = () => {
         console.log('payload', payload);
         const response = await api.product.update(payload);
         console.log('response', response);
-        // if (response.data) {
-        //     result.value = response.data;
-        // }
+        if (response.success) {
+            result.value = 'Cập nhật sản phẩm thành công';
+        }
         layoutDone();
     };
 
@@ -253,6 +261,7 @@ export const useGetProductDetail = () => {
                     englishName: data.englishName,
                     registedName: data.registedName,
                     url: data.url,
+                    code: data.code,
                 },
                 variants: prepareVariants(data.variantJson),
                 ...prepareAttributes(data.attributes),
