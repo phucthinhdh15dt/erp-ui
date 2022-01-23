@@ -1,26 +1,37 @@
 <template>
     <div>
         <FormItem :label="configs.label" class="form-label-w-18">
-            <Input v-if="configs.uiComponentType === 'TEXT'" v-model:value="modelRef[configs.code]" />
+            <Input
+                v-if="configs.uiComponentType === 'TEXT'"
+                :value="modelRef[configs.code]"
+                @change="e => onChange(configs.code, e.target.value)"
+            />
             <Select
                 v-else-if="['MULTI_SELECT', 'SINGLE_SELECT'].includes(configs.uiComponentType)"
-                v-model:value="modelRef[configs.code]"
+                :value="modelRef[configs.code]"
                 :mode="configs.uiComponentType === 'MULTI_SELECT' ? 'multiple' : null"
                 :options="configs.options"
+                @change="value => onChange(configs.code, value)"
             />
             <DatePicker
                 v-else-if="configs.uiComponentType === 'DATETIME'"
-                v-model:value="modelRef[configs.code]"
+                :value="modelRef[configs.code]"
                 show-time
                 :locale="locale"
+                @change="value => onChange(configs.code, value)"
             />
-            <Switch v-else-if="configs.uiComponentType === 'YES_NO'" v-model:checked="modelRef[configs.code]" />
+            <Switch
+                v-else-if="configs.uiComponentType === 'YES_NO'"
+                :checked="modelRef[configs.code]"
+                @change="e => onChange(configs.code, e.target.checked)"
+            />
             <Upload
-                v-else-if="onfigs.uiComponentType === 'UPLOAD'"
-                v-model:fileList="modelRef[configs.code]"
+                v-else-if="configs.uiComponentType === 'UPLOAD'"
+                :file-list="modelRef[configs.code]"
                 list-type="picture-card"
                 name="files"
                 action="/upload.do"
+                @change="value => onChange(configs.code, value)"
             >
                 <div>
                     <PlusOutlined />
@@ -51,5 +62,10 @@ const props = defineProps({
         default: '',
     },
 });
-const { name, parent } = toRefs(props);
+// const { name, parent } = toRefs(props);
+
+const onChange = (field, data) => {
+    console.log('data', data);
+    store.commit('product/setAttributeData', { data, field });
+};
 </script>

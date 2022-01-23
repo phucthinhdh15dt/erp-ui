@@ -8,21 +8,27 @@
             <FormItem label="Thương hiệu" class="form-label-w-18" v-bind="validateInfos['general.brand']">
                 <BrandSelection :value="modelRef.general.brand" @change="onChangeBrand" />
             </FormItem>
-            <FormItem label="Tên sản phẩm" class="form-label-w-18" v-bind="validateInfos['general.productName']">
-                <Input v-model:value="modelRef.general.productName" />
+            <FormItem label="Tên sản phẩm" class="form-label-w-18" v-bind="validateInfos['general.name']">
+                <Input :value="modelRef.general.name" @change="e => onChangeInput('name', e.target.value)" />
             </FormItem>
             <FormItem
                 label="Tên sản phẩm đăng ký"
                 class="form-label-w-18"
-                v-bind="validateInfos['general.registerName']"
+                v-bind="validateInfos['general.registedName']"
             >
-                <Input v-model:value="modelRef.general.registerName" />
+                <Input
+                    :value="modelRef.general.registedName"
+                    @change="e => onChangeInput('registedName', e.target.value)"
+                />
             </FormItem>
             <FormItem label="Tên tiếng anh" class="form-label-w-18" v-bind="validateInfos['general.englishName']">
-                <Input v-model:value="modelRef.general.englishName" />
+                <Input
+                    :value="modelRef.general.englishName"
+                    @change="e => onChangeInput('englishName', e.target.value)"
+                />
             </FormItem>
             <FormItem label="Url" class="form-label-w-18" v-bind="validateInfos['general.url']">
-                <Input v-model:value="modelRef.general.url" />
+                <Input :value="modelRef.general.url" @change="e => onChangeInput('url', e.target.value)" />
             </FormItem>
         </Card>
     </div>
@@ -45,22 +51,20 @@ const { validateInfos } = form;
 
 const { searchAttributeSet } = useSearchAttributeSet();
 
-const onBlurName = e => {
-    store.commit('promotion/setName', e.target.value.trim());
-};
-
-const onChangeDescription = e => {
-    store.commit('promotion/setDescription', e.target.value);
-};
-
 const onChangeCategory = value => {
-    console.log('value1', value);
-    modelRef.general.category = value;
+    store.commit('product/setGeneralData', { data: value, field: 'category' });
+    // modelRef.general.category = value;
 };
 
 const onChangeBrand = value => {
     console.log('value1', value);
-    modelRef.general.brand = value;
+    store.commit('product/setGeneralData', { data: value, field: 'brand' });
+
+    // modelRef.general.brand = value;
+};
+
+const onChangeInput = (field, data) => {
+    store.commit('product/setGeneralData', { data, field });
 };
 
 watch(

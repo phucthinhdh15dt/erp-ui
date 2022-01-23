@@ -4,7 +4,7 @@ import { useStore } from 'vuex';
 import { isPlainObject, groupBy, pathOr, pick, flow, map, reduce, path } from 'lodash/fp';
 
 export const modelRef = reactive({
-    general: { category: '', brand: '', productName: '', registerName: '', englishName: '', url: '' },
+    general: { category: '', brand: '', name: '', registedName: '', englishName: '', url: '' },
 });
 
 export const rulesRef = reactive({
@@ -20,13 +20,13 @@ export const rulesRef = reactive({
             message: 'Chọn thương hiệu',
         },
     ],
-    'general.productName': [
+    'general.name': [
         {
             required: true,
             message: 'Nhập tên sản phẩm',
         },
     ],
-    'general.registerName': [
+    'general.registedName': [
         // {
         //     required: true,
         //     message: 'Please input product registerName',
@@ -61,6 +61,7 @@ export const useUpsertProduct = () => {
 
         return value;
     };
+
     const createCertificationPromise = data =>
         new Promise(resolve => {
             api.certification
@@ -134,7 +135,7 @@ export const useUpsertProduct = () => {
             let attr = {};
             if (cur === 'distributors') {
                 attr = {
-                    attrCode: 'distribution',
+                    attrCode: '13',
                     value: JSON.stringify(attributes[cur]),
                 };
             } else {
@@ -166,9 +167,9 @@ export const useUpsertProduct = () => {
             code: 'string',
             englishName: general.englishName,
             manufacturerCodes: [],
-            name: general.productName,
+            name: general.name,
             originalPrice: 0,
-            registedName: general.registerName,
+            registedName: general.registedName,
             status: 'IN_PRODUCTION',
             url: general.url,
         };
@@ -248,6 +249,10 @@ export const useGetProductDetail = () => {
             const parseValue = JSON.parse(cur.value);
 
             acc.certifications = parseValue;
+        } else if (cur.attribute.label === 'Nhà phân phối') {
+            const parseValue = JSON.parse(cur.value);
+
+            acc.distributors = parseValue;
         } else {
             acc[cur.attribute.code] = cur.value;
         }

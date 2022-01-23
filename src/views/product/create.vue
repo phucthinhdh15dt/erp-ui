@@ -17,19 +17,20 @@
 </template>
 
 <script setup>
-import { provide, computed, watch, toRaw } from 'vue';
+import { provide, computed, watch, toRaw, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { Row, Col, Form } from 'ant-design-vue';
 import Head from '@/components/product/create/head.vue';
 import General from '@/components/product/create/general.vue';
 import AttributeWrapper from '@/components/product/create/attributeWrapper.vue';
-import { modelRef, rulesRef } from '@/composables/product/';
+import { rulesRef } from '@/composables/product/';
 import { useGetAllManufacturer } from '@/composables/manufacturer';
 import { useGetAllDistributor } from '@/composables/distributor';
 
 const store = useStore();
 
 const useForm = Form.useForm;
+const modelRef = reactive(store.state.product.detail);
 const form = useForm(modelRef, rulesRef);
 
 provide('form', form);
