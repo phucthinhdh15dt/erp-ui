@@ -64,9 +64,7 @@ watch(
     () => {
         if (result.value) {
             Modal.info({
-                title: 'Tạo sản phẩm thành công',
-                content: () =>
-                    h('div', {}, ['Mã sản phẩm ', h('a', { href: `/product/${result.value}` }, `#${result.value}`)]),
+                title: 'Cập nhật sản phẩm thành công',
                 okText: 'Đóng',
                 centered: true,
                 onOk: () => {

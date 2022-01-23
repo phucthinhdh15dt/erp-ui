@@ -174,7 +174,7 @@ export default {
         module: MODULE.PRODUCT,
         endpoint: '',
         version: 'v1',
-        method: 'POST',
+        method: 'PUT',
     },
     [API_NAME.SEARCH_PRODUCT]: {
         module: MODULE.PRODUCT,
