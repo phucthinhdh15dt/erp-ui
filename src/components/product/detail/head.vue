@@ -1,6 +1,6 @@
 <template>
     <Row justify="space-between">
-        <div class="card-head-title font-18 font-bold">Tạo sản phẩm</div>
+        <div class="card-head-title font-18 font-bold">Chi tiết sản phẩm</div>
         <div class="mt-12">
             <Space>
                 <!-- <Button type="primary" :class="fixed ? 'fixed' : ''" @click="onReset">Khôi phục</Button> -->
