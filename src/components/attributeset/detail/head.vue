@@ -110,7 +110,7 @@ export default {
 
                 // kiểm tra biến thể phải là sigle select
                 if (!validateVariant(modelRef.value.attributes)) {
-                    message.error('Tính chất của thuộc tín biến thể phải là Single Select');
+                    message.error('Tính chất của thuộc tính biến thể phải là Single Select');
                     gotoError();
                     return;
                 }
