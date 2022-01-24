@@ -3,24 +3,25 @@
         <Row>
             <Col><div class="card-head-title">Nhà sản xuất và kênh phân phối</div></Col>
         </Row>
-        <!-- <div v-for="(cert, idx) in modelRef.certifications" :key="idx"> -->
         <Card body-style="padding: 20px ">
             <Table :data-source="modelRef.distributors" :columns="columns" :pagination="false">
                 <template #bodyCell="{ column, index }">
                     <template v-if="column.dataIndex === 'manufacturer'">
                         <FormItem style="margin-bottom: 0">
                             <Select
-                                v-model:value="modelRef.distributors[index].manufacturer"
+                                :value="modelRef.distributors[index].manufacturer"
                                 :options="manufacturerOptions"
+                                @change="value => onChange('manufacturer', index, value)"
                             />
                         </FormItem>
                     </template>
                     <template v-if="column.dataIndex === 'distributor'">
                         <FormItem style="margin-bottom: 0">
                             <Select
-                                v-model:value="modelRef.distributors[index].distributor"
-                                :options="distributorOptions"
+                                :value="modelRef.distributors[index].distributor"
                                 mode="multiple"
+                                :options="distributorOptions"
+                                @change="value => onChange('distributor', index, value)"
                             />
                         </FormItem>
                     </template>
@@ -49,15 +50,13 @@
 <script setup>
 import { computed, inject } from 'vue';
 import { useStore } from 'vuex';
-import { Card, Input, Form, Upload, DatePicker, Row, Col, Button, Select, Table } from 'ant-design-vue';
+import { Card, Form, Row, Col, Button, Select, Table } from 'ant-design-vue';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue';
 const { Item: FormItem } = Form;
 
 const store = useStore();
 const modelRef = inject('modelRef');
-// const form = inject('form');
-// const modelRef = inject('modelRef');
-// const { validateInfos } = form;
+
 const props = defineProps({
     attributes: {
         type: Object,
@@ -85,14 +84,16 @@ const columns = [
         key: 'action',
     },
 ];
+
 const add = () => {
-    modelRef.distributors.push({
-        manufacturer: null,
-        distributor: [],
-    });
+    store.commit('product/addDistributor');
 };
+
 const remove = index => {
-    console.log('index', index);
-    modelRef.distributors.splice(index, 1);
+    store.commit('product/removeDistributor', { index });
+};
+
+const onChange = (field, index, value) => {
+    store.commit('product/setDistributorsData', { field, index, value });
 };
 </script>

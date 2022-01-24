@@ -41,6 +41,7 @@ export const API_NAME = {
     SEARCH_CERTIFICATION: 'SEARCH_CERTIFICATION',
     CREATE_CERTIFICATION: 'CREATE_CERTIFICATION',
     GET_CERTIFICATION: 'GET_CERTIFICATION',
+    UPDATE_CERTIFICATION: 'UPDATE_CERTIFICATION',
 };
 
 const MODULE = {
@@ -173,7 +174,7 @@ export default {
         module: MODULE.PRODUCT,
         endpoint: '',
         version: 'v1',
-        method: 'POST',
+        method: 'PUT',
     },
     [API_NAME.SEARCH_PRODUCT]: {
         module: MODULE.PRODUCT,
@@ -215,6 +216,12 @@ export default {
         endpoint: '',
         version: 'v1',
         method: 'POST',
+    },
+    [API_NAME.UPDATE_CERTIFICATION]: {
+        module: MODULE.CERTIFICATION,
+        endpoint: '',
+        version: 'v1',
+        method: 'PUT',
     },
     [API_NAME.GET_CERTIFICATION]: {
         module: MODULE.CERTIFICATION,

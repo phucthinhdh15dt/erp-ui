@@ -10,4 +10,8 @@ export default axios => ({
         const api = apiGenerator(axios, API_NAME.GET_CERTIFICATION, { params: { id } });
         return api.call();
     },
+    update(payload) {
+        const api = apiGenerator(axios, API_NAME.UPDATE_CERTIFICATION, { payload });
+        return api.call();
+    },
 });

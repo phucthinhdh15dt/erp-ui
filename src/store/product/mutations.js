@@ -10,84 +10,64 @@ const setGeneralData = (state, { data, field }) => {
     state.detail.general[field] = data;
 };
 
-const setFilters = (state, data) => {
-    state.filters = data;
+const setAttributeData = (state, { data, field }) => {
+    state.detail[field] = data;
 };
 
-const setFilterCollected = (state, data) => {
-    state.filterCollected = data;
+const setCertificationData = (state, { field, index, value }) => {
+    state.detail.certifications[index][field] = value;
 };
 
-const setSearchResults = (state, data) => {
-    state.results = data;
+const addCertification = state => {
+    state.detail.certifications.push({
+        certificateId: '',
+        publishDate: null,
+        images: [],
+    });
 };
 
-const setAllResults = (state, data) => {
-    state.allResults = data;
+const removeCertification = (state, { index }) => {
+    state.detail.certifications.splice(index, 1);
 };
 
-const setSearchLoading = (state, data) => {
-    state.isLoading = data;
+const setDistributorsData = (state, { field, index, value }) => {
+    state.detail.distributors[index][field] = value;
 };
 
-const setSearchKeyword = (state, data) => {
-    state.keyword = data;
-};
-
-const setSearchPagination = (state, data) => {
-    state.pagination = data;
-};
-
-const setSearchPaginationCurrent = (state, data) => {
-    state.pagination.current = data;
-};
-
-const setSearchSelectedRow = (state, data) => {
-    state.selectedRow = data;
-};
-
-const setSearchSelectedAll = (state, data) => {
-    state.isSelectedAll = data;
-};
-
-const setProgressTotal = (state, data) => {
-    state.progress.total = data;
-};
-
-const setProgressCompleted = state => {
-    if (state.progress.completed < state.progress.total) {
-        state.progress.completed = state.progress.completed + 1;
+const addDistributor = state => {
+    if (state.detail.distributors) {
+        state.detail.distributors.push({
+            manufacturer: null,
+            distributor: [],
+        });
     } else {
-        state.progress = {
-            completed: 0,
-            total: 0,
-        };
+        state.detail.distributors = [
+            {
+                manufacturer: null,
+                distributor: [],
+            },
+        ];
     }
 };
 
-const resetProgress = state => {
-    state.progress = {
-        completed: 0,
-        total: 0,
-    };
+const removeDistributor = (state, { index }) => {
+    state.detail.distributors.splice(index, 1);
+};
+
+const setProductCertifications = (state, data) => {
+    state.detail.certifications = data;
 };
 
 export default {
     setAttributes,
     setProductDetail,
     setGeneralData,
-    //nope
-    setFilters,
-    setFilterCollected,
-    setSearchResults,
-    setAllResults,
-    setSearchLoading,
-    setSearchKeyword,
-    setSearchPagination,
-    setSearchPaginationCurrent,
-    setSearchSelectedRow,
-    setProgressTotal,
-    setProgressCompleted,
-    resetProgress,
-    setSearchSelectedAll,
+    setProductCertifications,
+    setAttributeData,
+    setCertificationData,
+    addCertification,
+    removeCertification,
+    setDistributorsData,
+    addDistributor,
+    removeDistributor,
 };

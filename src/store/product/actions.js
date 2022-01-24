@@ -70,81 +70,29 @@ const setAttributes = (context, data) => {
     const result = {
         left: leftAttributes,
         right: rightAttributes,
+        all: attributes,
     };
 
     context.commit('setAttributes', result);
 };
 
-const prepareVariants = data => {
-    console.log('🚀 ~ file: actions.js ~ line 78 ~ data', data);
-    const variants = data ? JSON.parse(data) : [];
-    return variants;
-    // return variants.map(variant => {
-    //     const { productCode, status, attributes } = variant;
-    //     // const _attributes = JSON.parse(attributes);
-
-    //     return {
-    //         productCode,
-    //         status,
-    //         attributes: attributes.map(_ => _.value),
-    //     };
-    // });
+const setProductDetail = (context, data) => {
+    context.commit('setProductDetail', data);
 };
 
-const prepareAttributes = reduce((acc, cur) => {
-    if (cur.attribute.label === 'Giấy chứng nhận') {
-        const parseValue = JSON.parse(cur.value);
+const setProductCertifications = (context, data) => {
+    const results = data.map(_ => ({
+        id: _.id,
+        certificateId: _.numberDisclosure,
+        publishDate: moment(_.disclosureDate),
+        images: [_.imageUrl],
+    }));
 
-        acc.certifications = parseValue;
-    } else {
-        acc[cur.attribute.code] = cur.value;
-    }
-
-    return acc;
-}, {});
-
-const setProductDetail = (context, data) => {
-    // a = {
-    //     attributes: collectAttributes(attributes),
-    //     avatar: 'string',
-    //     brandCode: general.brand,
-    //     categoryCode: general.category,
-    //     code: 'string',
-    //     description: 'string',
-    //     englishName: general.englishName,
-    //     gallery: ['string'],
-    //     id: 0,
-    //     listedPrice: 0,
-    //     name: general.productName,
-    //     originalPrice: 0,
-    //     registedName: general.registerName,
-    //     salesChannel: ['string'],
-    //     seoDescription: 'string',
-    //     seoTitle: 'string',
-    //     status: 'IN_PRODUCTION',
-    //     url: general.url,
-    //     userManual: 'string',
-    //     uses: 'string',
-    //     variantCodes: variants,
-    // };
-
-    const result = {
-        general: {
-            brand: pathOr('', 'brand.code')(data),
-            category: pathOr('', 'categories[0].code')(data),
-            name: data.name,
-            englishName: data.englishName,
-            registedName: data.registedName,
-            url: data.url,
-        },
-        variants: prepareVariants(data.variantJson),
-        ...prepareAttributes(data.attributes),
-    };
-
-    context.commit('setProductDetail', result);
+    context.commit('setProductCertifications', results);
 };
 
 export default {
     setAttributes,
     setProductDetail,
+    setProductCertifications,
 };

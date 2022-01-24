@@ -1,11 +1,7 @@
 import { reactive, inject, ref } from 'vue';
 import { useLayoutLoading } from '@/composables/common/layout';
 import { useStore } from 'vuex';
-import { isPlainObject, groupBy, pathOr, pick, flow, map, reduce, path } from 'lodash/fp';
-
-export const modelRef = reactive({
-    general: { category: '', brand: '', productName: '', registerName: '', englishName: '', url: '' },
-});
+import { isPlainObject, pathOr, map, reduce } from 'lodash/fp';
 
 export const rulesRef = reactive({
     'general.category': [
@@ -20,29 +16,11 @@ export const rulesRef = reactive({
             message: 'Chọn thương hiệu',
         },
     ],
-    'general.productName': [
+    'general.name': [
         {
             required: true,
             message: 'Nhập tên sản phẩm',
         },
-    ],
-    'general.registerName': [
-        // {
-        //     required: true,
-        //     message: 'Please input product registerName',
-        // },
-    ],
-    'general.englishName': [
-        // {
-        //     required: true,
-        //     message: 'Please input english englishName',
-        // },
-    ],
-    'general.url': [
-        // {
-        //     required: true,
-        //     message: 'Please input url',
-        // },
     ],
 });
 
@@ -61,6 +39,7 @@ export const useUpsertProduct = () => {
 
         return value;
     };
+
     const createCertificationPromise = data =>
         new Promise(resolve => {
             api.certification
@@ -74,10 +53,15 @@ export const useUpsertProduct = () => {
         });
 
     const collectCertificationPromises = map(_ => {
+        if (_.id) {
+            return _.id;
+        }
+
         const payload = {
             numberDisclosure: _.certificateId,
             disclosureDate: normalize(_.publishDate),
-            imageUrl: 'https://some.images',
+            imageUrl:
+                'https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544808?k=20&m=1147544808&s=612x612&w=0&h=8CUTlOdLd2d5HqO7p6kREJHyxDyAH0VeFA6u7mOQXbo=',
         };
 
         return createCertificationPromise(payload);
@@ -133,7 +117,7 @@ export const useUpsertProduct = () => {
             let attr = {};
             if (cur === 'distributors') {
                 attr = {
-                    attrCode: 'distribution',
+                    attrCode: '13',
                     value: JSON.stringify(attributes[cur]),
                 };
             } else {
@@ -148,13 +132,13 @@ export const useUpsertProduct = () => {
             return acc;
         }, []);
 
-    const collectPayload = async data => {
+    const collectPayload = async (mode, data) => {
         console.log('data', data);
         const { general, variants = [], certifications, ...attributes } = data;
 
         const attributesCollected = collectAttributes(attributes);
 
-        const certificationsCollected = await collectCertifications(certifications);
+        const certificationsCollected = await collectCertifications(certifications.filter(_ => _.certificateId));
         if (certificationsCollected) {
             attributesCollected.push(certificationsCollected);
         }
@@ -165,19 +149,24 @@ export const useUpsertProduct = () => {
             code: 'string',
             englishName: general.englishName,
             manufacturerCodes: [],
-            name: general.productName,
+            name: general.name,
             originalPrice: 0,
-            registedName: general.registerName,
+            registedName: general.registedName,
             status: 'IN_PRODUCTION',
             url: general.url,
+            // variants
         };
+
+        if (mode === 'update') {
+            payload.code = general.code;
+        }
 
         return payload;
     };
 
     const createProduct = async data => {
         layoutLoading();
-        const payload = await collectPayload(data);
+        const payload = await collectPayload('create', data);
 
         // variant create
         const { variants = [] } = data;
@@ -195,7 +184,7 @@ export const useUpsertProduct = () => {
     const updateProduct = async data => {
         layoutLoading();
         console.log('data', data);
-        const payload = await collectPayload(data);
+        const payload = await collectPayload('update', data);
 
         // variant update
         payload.variants = data.variants;
@@ -203,9 +192,9 @@ export const useUpsertProduct = () => {
         console.log('payload', payload);
         const response = await api.product.update(payload);
         console.log('response', response);
-        // if (response.data) {
-        //     result.value = response.data;
-        // }
+        if (response.success) {
+            result.value = 'Cập nhật sản phẩm thành công';
+        }
         layoutDone();
     };
 
@@ -227,44 +216,58 @@ export const useGetProductDetail = () => {
     const errorMessage = ref('');
 
     const prepareVariants = data => {
-        console.log('🚀 ~ file: index.js ~ line 161 ~ useGetProductDetail ~ data', data);
+        console.log('🚀 ~ file: actions.js ~ line 78 ~ data', data);
         const variants = data ? JSON.parse(data) : [];
+        return variants;
+        // return variants.map(variant => {
+        //     const { productCode, status, attributes } = variant;
+        //     // const _attributes = JSON.parse(attributes);
 
-        return variants.map(variant => {
-            const { productCode, status, attributes } = variant;
-            const _attributes = JSON.parse(attributes);
-
-            return {
-                productCode,
-                status,
-                attributes: _attributes.map(_ => _.value),
-            };
-        });
+        //     return {
+        //         productCode,
+        //         status,
+        //         attributes: attributes.map(_ => _.value),
+        //     };
+        // });
     };
 
-    const collectPayload = data => {
-        const result = {
-            general: {
-                brand: pathOr('', 'brand.code')(data),
-                category: pathOr('', 'categories[0].code')(data),
-                productName: data.name,
-                englishName: data.englishName,
-                registerName: data.registedName,
-                url: data.url,
-            },
-            variants: prepareVariants(data.variants),
-        };
+    const prepareAttributes = reduce((acc, cur) => {
+        if (cur.attribute.label === 'Giấy chứng nhận') {
+            const parseValue = JSON.parse(cur.value);
 
-        return result;
-    };
+            acc.certifications = parseValue;
+        } else if (cur.attribute.label === 'Nhà phân phối') {
+            const parseValue = JSON.parse(cur.value);
+
+            acc.distributors = parseValue;
+        } else {
+            acc[cur.attribute.code] = cur.value;
+        }
+
+        return acc;
+    }, {});
 
     const getProductDetail = async id => {
         layoutLoading();
         const response = await api.product.get(id);
         console.log('response', response);
         if (response.data) {
-            // result.value = collectPayload(response.data[0]);
-            store.dispatch('product/setProductDetail', response.data[0]);
+            const data = response.data[0];
+            const result = {
+                general: {
+                    brand: pathOr('', 'brand.code')(data),
+                    category: pathOr('', 'categories[0].code')(data),
+                    name: data.name,
+                    englishName: data.englishName,
+                    registedName: data.registedName,
+                    url: data.url,
+                    code: data.code,
+                },
+                variants: prepareVariants(data.variantJson),
+                ...prepareAttributes(data.attributes),
+            };
+
+            store.dispatch('product/setProductDetail', result);
         }
         layoutDone();
     };
