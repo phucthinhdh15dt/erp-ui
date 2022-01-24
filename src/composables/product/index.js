@@ -159,6 +159,7 @@ export const useUpsertProduct = () => {
 
         if (mode === 'update') {
             payload.code = general.code;
+            payload.status = general.status;
         }
 
         return payload;
@@ -255,6 +256,7 @@ export const useGetProductDetail = () => {
             const data = response.data[0];
             const result = {
                 general: {
+                    status: data.status,
                     brand: pathOr('', 'brand.code')(data),
                     category: pathOr('', 'categories[0].code')(data),
                     name: data.name,
