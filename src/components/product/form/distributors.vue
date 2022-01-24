@@ -1,7 +1,7 @@
 <template>
     <div>
         <Row>
-            <Col><div class="card-head-title">Nhà sản xuất và kênh phân phối</div></Col>
+            <Col><div class="card-head-title">Nhà phân phối và kênh phân phối</div></Col>
         </Row>
         <Card body-style="padding: 20px ">
             <Table :data-source="modelRef.distributors" :columns="columns" :pagination="false">
@@ -32,6 +32,9 @@
                             </template>
                         </Button>
                     </template>
+                    <template v-if="column.dataIndex === 'status'">
+                        {{ getDistributorStatus(modelRef.distributors[index].manufacturer) }}
+                    </template>
                 </template>
                 <template #footer>
                     <Button type="link" style="cursor: pointer" @click="add">
@@ -48,7 +51,7 @@
 </template>
 
 <script setup>
-import { computed, inject } from 'vue';
+import { computed, inject, toRaw } from 'vue';
 import { useStore } from 'vuex';
 import { Card, Form, Row, Col, Button, Select, Table } from 'ant-design-vue';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue';
@@ -69,7 +72,7 @@ const distributorOptions = computed(() => store.state.distributor.list);
 
 const columns = [
     {
-        title: 'Nhà sản xuất',
+        title: 'Nhà phân phối',
         dataIndex: 'manufacturer',
         key: 'manufacturer',
     },
@@ -77,6 +80,11 @@ const columns = [
         title: 'Kênh phân phối',
         dataIndex: 'distributor',
         key: 'distributor',
+    },
+    {
+        title: 'Trạng thái',
+        dataIndex: 'status',
+        key: 'status',
     },
     {
         title: '',
@@ -95,5 +103,10 @@ const remove = index => {
 
 const onChange = (field, index, value) => {
     store.commit('product/setDistributorsData', { field, index, value });
+};
+
+const getDistributorStatus = value => {
+    const found = manufacturerOptions.value.find(_ => _.value === toRaw(value));
+    return found.status;
 };
 </script>
