@@ -13,6 +13,7 @@ import { computed, h, inject, watch, toRaw, ref } from 'vue';
 import { useCreate } from '@/composables/attributeset/create';
 import { useStore } from 'vuex';
 import { groupByItem } from '@/utils/common';
+import { AttributeItemType } from '@/constants/attributeItem';
 
 export default {
     components: {
@@ -60,8 +61,17 @@ export default {
                     return;
                 }
 
-                // kiểm tra attribute có chung group
                 errorIds.value = [];
+
+                // kiểm tra biến thể phải là sigle select
+                if (!validateVariant(modelRef.value.attributes)) {
+                    message.error('Tính chất của thuộc tín biến thể phải là Single Select');
+                    gotoError();
+                    return;
+                }
+
+                // kiểm tra attribute có chung group
+
                 const key = 'groupName';
                 const listItems = groupByItem(modelRef.value.attributes, key);
                 if (listItems) {
@@ -80,6 +90,7 @@ export default {
                                         }
                                     }
                                 }
+                                debugger;
                             });
                         });
                     }
@@ -135,6 +146,14 @@ export default {
                 store.commit('attributeSet/setAttributeIdsError', []);
                 clearTimeout(id);
             }, 3000);
+        };
+
+        const validateVariant = attributes => {
+            errorIds.value = attributes.filter(f => f.isVariant && f.type !== 'SINGLE_SELECT').map(m => m.id);
+            if (errorIds.value && errorIds.value.length > 0) {
+                return false;
+            }
+            return true;
         };
         return { onCancel, onCreate, modelRef, isEnableSave, loading };
     },

@@ -106,8 +106,16 @@ export default {
                     return;
                 }
 
-                // kiểm tra attribute có chung group
                 errorIds.value = [];
+
+                // kiểm tra biến thể phải là sigle select
+                if (!validateVariant(modelRef.value.attributes)) {
+                    message.error('Tính chất của thuộc tín biến thể phải là Single Select');
+                    gotoError();
+                    return;
+                }
+
+                // kiểm tra attribute có chung group
                 const key = 'group';
                 const listItems = groupByItem(modelRef.value.attributes, key);
                 if (listItems) {
@@ -169,6 +177,15 @@ export default {
             }, 3000);
         };
 
+        const validateVariant = attributes => {
+            errorIds.value = attributes
+                .filter(f => f.isVariant && f.attribute && f.attribute.uiComponentType !== 'SINGLE_SELECT')
+                .map(m => m.id);
+            if (errorIds.value && errorIds.value.length > 0) {
+                return false;
+            }
+            return true;
+        };
         return {
             onRemove,
             onEdit,
