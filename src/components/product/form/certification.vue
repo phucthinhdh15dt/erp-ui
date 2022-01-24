@@ -16,7 +16,12 @@
                         <template #extra>
                             <Space>
                                 <Tooltip title="Cập nhật chứng chỉ">
-                                    <Button type="link" style="cursor: pointer" @click="update(index)">
+                                    <Button
+                                        v-if="modelRef.certifications[index].id"
+                                        type="link"
+                                        style="cursor: pointer"
+                                        @click="update(index)"
+                                    >
                                         <template #icon>
                                             <CheckOutlined />
                                         </template>
