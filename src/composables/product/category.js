@@ -9,11 +9,14 @@ export const useCreateCategory = () => {
     const errorMessage = ref('');
 
     const createCategory = async payload => {
+        result.value = '';
+
         layoutLoading();
         const response = await api.category.createCategory(payload);
         if (response.data) {
             result.value = 'Tạo ngành hàng mới thành công';
         }
+        loading.value = false;
         layoutDone();
     };
 
@@ -34,11 +37,14 @@ export const useUpdateCategory = () => {
     const errorMessage = ref('');
 
     const updateCategory = async payload => {
+        result.value = '';
+        loading.value = true;
         layoutLoading();
         const response = await api.category.updateCategory(payload);
         if (response.success) {
             result.value = 'Chỉnh sửa ngành hàng thành công';
         }
+        loading.value = false;
         layoutDone();
     };
 
@@ -59,6 +65,7 @@ export const useGetAllCategory = () => {
     const errorMessage = ref('');
 
     const getAllCategory = async () => {
+        result.value = '';
         layoutLoading();
 
         const response = await api.search.searchProductCategory({ from: 0, size: 10000 });
