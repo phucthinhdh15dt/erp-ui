@@ -21,14 +21,14 @@
                     <CodeSandboxOutlined />
                 </template>
                 <template #title>Quản lý sản phẩm</template>
-                <router-link to="/product/create">
+                <a href="/product/create">
                     <MenuItem key="2.1">
                         <template #icon>
                             <PlusOutlined />
                         </template>
                         Khai báo sản phẩm
                     </MenuItem>
-                </router-link>
+                </a>
                 <router-link to="/product/list">
                     <MenuItem key="2.2">
                         <template #icon>
