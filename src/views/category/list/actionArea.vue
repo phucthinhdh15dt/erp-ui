@@ -47,7 +47,7 @@
                     <TextArea v-model:value="formState.description" :rows="4" :disabled="progress.total > 0"></TextArea>
                 </FormItem>
                 <FormItem label="Ngành hàng cha" name="parent">
-                    <Select v-model:value="formState.parent" label-in-value show-search allow-clear>
+                    <Select v-model:value="formState.parent" show-search allow-clear>
                         <Option v-for="item in categories" :key="item.id" :value="item.id"> {{ item.label }}</Option>
                     </Select>
                 </FormItem>
@@ -166,7 +166,7 @@ const onConfirm = async () => {
             const { parent, ...rest } = toRaw(formState);
             const payload = {
                 ...rest,
-                parentID: parent ? parent.key : 0,
+                parentID: parent || 0,
                 categoryType: 'CAMPAIGN',
             };
             if (processingItem.value) {
@@ -204,17 +204,20 @@ watch(processingItem, () => {
         formState.name = processingItem.value.name;
         formState.code = processingItem.value.code;
         formState.description = processingItem.value.description;
-        if (categories.value && categories.value.length > 0) {
-            const parentName = categories.value.find(
-                v => v.id === (processingItem.value.parentID ? processingItem.value.parentID.toString() : 0)
-            );
-            if (parentName) {
-                formState.parent = parentName;
-            }
-        } else {
-            formState.parent = '';
+        // if (categories.value && categories.value.length > 0) {
+        //     const parentName = categories.value.find(
+        //         v => v.id === (processingItem.value.parentID ? processingItem.value.parentID.toString() : 0)
+        //     );
+        //     if (parentName) {
+        //         formState.parent = parentName;
+        //     }
+        // } else {
+        //     formState.parent = '';
+        // }
+        if (processingItem.value.parentCategory && processingItem.value.parentCategory.length > 0) {
+            formState.parent = processingItem.value.parentCategory[0].parentName;
         }
-        //formState.parent = processingItem.value.parentID;
+
         visible.value = true;
     } else {
         // formRef.value.resetFields();

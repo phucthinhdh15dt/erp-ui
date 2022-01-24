@@ -14,9 +14,9 @@ export const columns = [
         align: 'center',
     },
     {
-        title: 'Ngành hàng con',
-        dataIndex: 'subCategory',
-        key: 'subCategory',
+        title: 'Ngành hàng cha',
+        dataIndex: 'parentCategory',
+        key: 'parentCategory',
         width: 300,
     },
     {

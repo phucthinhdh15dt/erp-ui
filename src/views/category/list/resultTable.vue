@@ -13,8 +13,8 @@
                 <template v-if="column.dataIndex === 'code'">
                     <a class="id-style" @click="onEdit(record)">#{{ text }}</a>
                 </template>
-                <template v-if="column.dataIndex === 'subCategory'">
-                    <span v-if="text">{{ text.map(_ => _.subCategoryName).join(', ') }}</span>
+                <template v-if="column.dataIndex === 'parentCategory'">
+                    <span v-if="text">{{ text.map(_ => _.parentName).join(', ') }}</span>
                 </template>
             </template>
             <!-- <template #radio="{ record }">

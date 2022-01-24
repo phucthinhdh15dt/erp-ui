@@ -12,6 +12,7 @@ export const useSearchAttributeSet = () => {
 
     const searchAttributeSet = async (categoryId, brandId) => {
         layoutLoading();
+        result.value = '';
         const payload = {
             query: {
                 bool: {
@@ -69,6 +70,7 @@ export const useGetAttributeSet = () => {
 
     const getAttributeSet = async id => {
         loading.value = true;
+        result.value = '';
 
         const response = await api.productAttribute.getAttributeSet(getAttributeSet);
         console.log('🚀 ~ file: attribute.js ~ line 55 ~ getAttributeSet ~ response', response);
