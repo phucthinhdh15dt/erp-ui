@@ -114,6 +114,8 @@ export default {
                         if (cate) {
                             state.categoryName = cate.label;
                         }
+                    }
+                    if (modelRef.value.brand) {
                         const brand = resultBrand.value.find(f => f.id === modelRef.value.brand.id.toString());
                         if (brand) {
                             state.brandName = brand.label;
