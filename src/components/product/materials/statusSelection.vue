@@ -14,7 +14,6 @@
 <script setup>
 import { toRefs } from 'vue';
 import { Select } from 'ant-design-vue';
-// import { useGetAllCategory } from '@/composables/product/category';
 import { filterOption } from '@/utils/common';
 
 const props = defineProps({
@@ -22,7 +21,6 @@ const props = defineProps({
 });
 const emits = defineEmits(['change']);
 const { value } = toRefs(props);
-// const { result: categories } = useGetAllCategory();
 
 const status = [
     {
