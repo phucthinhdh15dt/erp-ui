@@ -45,7 +45,7 @@
 <script setup>
 import { inject, watch, computed } from 'vue';
 import { useStore } from 'vuex';
-import { Card, Input, Form, message } from 'ant-design-vue';
+import { Card, Input, Form } from 'ant-design-vue';
 import CategorySelection from '@/components/product/materials/categorySelection.vue';
 import BrandSelection from '@/components/product/materials/brandSelection.vue';
 import StatusSelection from '@/components/product/materials/statusSelection.vue';
@@ -65,19 +65,14 @@ const { searchAttributeSet } = useSearchAttributeSet();
 
 const onChangeCategory = value => {
     store.commit('product/setGeneralData', { data: value, field: 'category' });
-    // modelRef.general.category = value;
 };
 
 const onChangeStatus = value => {
     store.commit('product/setGeneralData', { data: value, field: 'status' });
-    // modelRef.general.category = value;
 };
 
 const onChangeBrand = value => {
-    console.log('value1', value);
     store.commit('product/setGeneralData', { data: value, field: 'brand' });
-
-    // modelRef.general.brand = value;
 };
 
 const onChangeInput = (field, data) => {
