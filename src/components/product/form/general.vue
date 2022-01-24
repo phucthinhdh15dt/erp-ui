@@ -2,6 +2,14 @@
     <div>
         <div class="card-head-title">Thông tin chung</div>
         <Card body-style="padding: 20px 20px 0 20px">
+            <FormItem
+                v-if="isEdit"
+                label="Trạng thái sản phẩm"
+                class="form-label-w-18"
+                v-bind="validateInfos['general.category']"
+            >
+                <StatusSelection :value="modelRef.general.status" @change="onChangeStatus" />
+            </FormItem>
             <FormItem label="Ngành hàng" class="form-label-w-18" v-bind="validateInfos['general.category']">
                 <CategorySelection :value="modelRef.general.category" @change="onChangeCategory" />
             </FormItem>
@@ -40,6 +48,7 @@ import { useStore } from 'vuex';
 import { Card, Input, Form, message } from 'ant-design-vue';
 import CategorySelection from '@/components/product/materials/categorySelection.vue';
 import BrandSelection from '@/components/product/materials/brandSelection.vue';
+import StatusSelection from '@/components/product/materials/statusSelection.vue';
 import { useSearchAttributeSet } from '@/composables/product/attribute';
 
 const { Item: FormItem } = Form;
@@ -47,6 +56,7 @@ const { Item: FormItem } = Form;
 const store = useStore();
 const form = inject('form');
 const modelRef = inject('modelRef');
+const isEdit = inject('isEdit');
 const { validateInfos } = form;
 
 const general = computed(() => store.state.product.detail.general);
@@ -55,6 +65,11 @@ const { searchAttributeSet } = useSearchAttributeSet();
 
 const onChangeCategory = value => {
     store.commit('product/setGeneralData', { data: value, field: 'category' });
+    // modelRef.general.category = value;
+};
+
+const onChangeStatus = value => {
+    store.commit('product/setGeneralData', { data: value, field: 'status' });
     // modelRef.general.category = value;
 };
 
