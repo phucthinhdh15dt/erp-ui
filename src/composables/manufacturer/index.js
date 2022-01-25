@@ -14,7 +14,6 @@ export const useGetAllManufacturer = () => {
         };
 
         const response = await api.search.searchManufacturer(payload);
-        console.log('response', response);
         if (response.data) {
             store.dispatch('manufacturer/setList', response.data.hits);
         }

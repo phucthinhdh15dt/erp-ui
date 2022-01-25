@@ -14,7 +14,6 @@ export const useGetAllDistributor = () => {
         };
 
         const response = await api.search.searchDistributor(payload);
-        console.log('response', response);
         if (response.data) {
             store.dispatch('distributor/setList', response.data.hits);
         }

@@ -65,7 +65,6 @@ export const useGetAllCategory = () => {
     const errorMessage = ref('');
 
     const getAllCategory = async () => {
-        result.value = '';
         layoutLoading();
 
         const response = await api.search.searchProductCategory({ from: 0, size: 10000 });
