@@ -15,7 +15,7 @@
                         :class="attributeIdsError && attributeIdsError.includes(item.id) ? 'error' : ''"
                         :data-id="item.id"
                     >
-                        <Col :span="5" style="padding-right: 20px">
+                        <Col :span="4" style="padding-right: 20px">
                             <Row>
                                 <label style="font-weight: bold">Thuộc tính {{ idx + 1 }}</label>
                             </Row>
@@ -25,7 +25,7 @@
                                 </Input>
                             </Row>
                         </Col>
-                        <Col :span="3">
+                        <Col :span="4">
                             <Row>
                                 <label style="font-weight: bold">Tính chất {{ idx + 1 }}</label>
                             </Row>
@@ -42,7 +42,7 @@
                                 <Input v-else v-model:value="item.group" placeholder="Nhập tên nhóm"> </Input>
                             </Row>
                         </Col>
-                        <Col :span="2" style="padding-right: 20px">
+                        <Col :span="3" style="padding-right: 20px">
                             <label style="font-weight: bold">Thứ tự nhóm</label>
                             <Row align="bottom" style="margin-top: 20px">
                                 <label v-if="!isEdit">{{ item.groupOrder || 0 }}</label>
@@ -60,7 +60,7 @@
                                 ></InputNumber>
                             </Row>
                         </Col>
-                        <Col :span="2">
+                        <Col :span="2" style="padding-right: 20px">
                             <label style="font-weight: bold">Số thứ tự</label>
                             <Row align="bottom" style="margin-top: 20px">
                                 <label v-if="!isEdit">{{ item.attrOrder || 0 }}</label>
@@ -77,7 +77,7 @@
                                 ></InputNumber>
                             </Row>
                         </Col>
-                        <Col :span="3">
+                        <Col :span="3" style="padding-right: 20px">
                             <label style="font-weight: bold">Vị trí</label>
                             <Row align="bottom" style="margin-top: 20px">
                                 <label v-if="!isEdit">{{ getPositionAttributeItem(item) }}</label>

@@ -47,8 +47,7 @@
                     <TextArea v-model:value="formState.description" :rows="4" :disabled="progress.total > 0"></TextArea>
                 </FormItem>
                 <FormItem label="Ngành hàng cha" name="parent">
-                    <Select v-model:value="formState.parent" show-search allow-clear>
-                        <Option v-for="item in categories" :key="item.id" :value="item.id"> {{ item.label }}</Option>
+                    <Select v-model:value="formState.parent" show-search allow-clear label-in-value :options="options">
                     </Select>
                 </FormItem>
 
@@ -166,7 +165,7 @@ const onConfirm = async () => {
             const { parent, ...rest } = toRaw(formState);
             const payload = {
                 ...rest,
-                parentID: parent || 0,
+                parentID: parent.value || 0,
                 categoryType: 'CAMPAIGN',
             };
             if (processingItem.value) {
@@ -197,6 +196,7 @@ const onConfirm = async () => {
             console.log('Validate Failed:', info);
         });
 };
+const options = computed(() => categories.value.map(_ => ({ value: _.value, label: _.label })));
 
 watch(processingItem, () => {
     if (processingItem.value) {
@@ -215,7 +215,10 @@ watch(processingItem, () => {
         //     formState.parent = '';
         // }
         if (processingItem.value.parentCategory && processingItem.value.parentCategory.length > 0) {
-            formState.parent = processingItem.value.parentCategory[0].parentName;
+            formState.parent = {
+                value: processingItem.value.parentCategory[0].parentCode,
+                label: processingItem.value.parentCategory[0].parentName,
+            };
         }
 
         visible.value = true;

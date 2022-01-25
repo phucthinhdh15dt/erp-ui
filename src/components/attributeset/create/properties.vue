@@ -12,7 +12,7 @@
                 :data-id="item.id"
             >
                 <Row>
-                    <Col :span="5" style="padding-right: 20px">
+                    <Col :span="4" style="padding-right: 20px">
                         <Row>
                             <label style="font-weight: bold">Thuộc tính {{ idx + 1 }}</label>
                         </Row>
@@ -20,7 +20,7 @@
                             <label>{{ item.label }}</label>
                         </Row>
                     </Col>
-                    <Col :span="3" style="padding-right: 20px">
+                    <Col :span="4" style="padding-right: 20px">
                         <Row>
                             <label style="font-weight: bold">Tính chất {{ idx + 1 }}</label>
                         </Row>
@@ -35,29 +35,23 @@
                             <label style="font-weight: bold">Tên nhóm</label>
                         </Row>
                         <Row style="margin-top: 20px">
-                            <FormItem name="item.groupName">
-                                <Input v-model:value="item.groupName" placeholder="Nhập tên nhóm"> </Input>
-                            </FormItem>
+                            <Input v-model:value="item.groupName" placeholder="Nhập tên nhóm"> </Input>
                         </Row>
                     </Col>
-                    <Col :span="2" style="padding-right: 20px">
+                    <Col :span="3" style="padding-right: 20px">
                         <Row>
                             <label style="font-weight: bold">Thứ tự nhóm</label>
                         </Row>
                         <Row align="bottom" style="margin-top: 20px">
-                            <FormItem name="groupOrder">
-                                <InputNumber
-                                    v-model:value="item.groupOrder"
-                                    :min="1"
-                                    :max="10000"
-                                    style="width: 100%"
-                                    :formatter="
-                                        value => `${value}`.replace('.', '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                                    "
-                                    :parser="value => value.replace('.', '').replace(/\$\s?|(,*)/g, '')"
-                                    :step="1"
-                                ></InputNumber>
-                            </FormItem>
+                            <InputNumber
+                                v-model:value="item.groupOrder"
+                                :min="1"
+                                :max="10000"
+                                style="width: 100%"
+                                :formatter="value => `${value}`.replace('.', '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                                :parser="value => value.replace('.', '').replace(/\$\s?|(,*)/g, '')"
+                                :step="1"
+                            ></InputNumber>
                         </Row>
                     </Col>
                     <Col :span="2" style="padding-right: 20px">
@@ -65,19 +59,15 @@
                             <label style="font-weight: bold">Số thứ tự</label>
                         </Row>
                         <Row align="bottom" style="margin-top: 20px">
-                            <FormItem name="attributeOrder">
-                                <InputNumber
-                                    v-model:value="item.attributeOrder"
-                                    :min="1"
-                                    :max="10000"
-                                    style="width: 100%"
-                                    :formatter="
-                                        value => `${value}`.replace('.', '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                                    "
-                                    :parser="value => value.replace('.', '').replace(/\$\s?|(,*)/g, '')"
-                                    :step="1"
-                                ></InputNumber>
-                            </FormItem>
+                            <InputNumber
+                                v-model:value="item.attributeOrder"
+                                :min="1"
+                                :max="10000"
+                                style="width: 100%"
+                                :formatter="value => `${value}`.replace('.', '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                                :parser="value => value.replace('.', '').replace(/\$\s?|(,*)/g, '')"
+                                :step="1"
+                            ></InputNumber>
                         </Row>
                     </Col>
                     <Col :span="3" style="padding-right: 20px">
@@ -85,30 +75,28 @@
                             <label style="font-weight: bold">Vị trí</label>
                         </Row>
                         <Row align="bottom" style="margin-top: 20px">
-                            <FormItem name="item.attributePosition">
-                                <Select
-                                    v-model:value="item.attributePosition"
-                                    placeholder="Chọn vị trí"
-                                    style="width: 100%"
-                                    label-in-value
-                                    @change="onChangePosition"
+                            <Select
+                                v-model:value="item.attributePosition"
+                                placeholder="Chọn vị trí"
+                                style="width: 100%"
+                                label-in-value
+                                @change="onChangePosition"
+                            >
+                                <Option
+                                    v-for="position in AttributeItemPosition"
+                                    :key="position.id"
+                                    :value="position.value"
                                 >
-                                    <Option
-                                        v-for="position in AttributeItemPosition"
-                                        :key="position.id"
-                                        :value="position.value"
-                                    >
-                                        {{ position.text }}</Option
-                                    >
-                                </Select>
-                            </FormItem>
+                                    {{ position.text }}</Option
+                                >
+                            </Select>
                         </Row>
                     </Col>
                     <Col :span="2" style="padding-right: 20px">
                         <Row align="bottom">
                             <label style="font-weight: bold; text-align: center; display: block">Biến thể</label>
                         </Row>
-                        <Row align="middle" style="margin-top: 23px; text-align: center">
+                        <Row align="middle" style="margin-top: 23px; text-align: center; display: block">
                             <Checkbox v-model:checked="item.isVariant"></Checkbox>
                         </Row>
                     </Col>

@@ -22,7 +22,7 @@ export const columns = [
         title: 'Mã nhóm thuộc tính',
         dataIndex: 'id',
         key: 'id',
-        width: 100,
+        width: 150,
         align: 'center',
     },
     {
