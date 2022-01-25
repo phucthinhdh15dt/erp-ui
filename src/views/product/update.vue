@@ -21,9 +21,9 @@ import { provide, computed, watch, toRaw } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { Row, Col, Form } from 'ant-design-vue';
-import Head from '@/components/product/detail/head.vue';
-import General from '@/components/product/detail/general.vue';
-import AttributeWrapper from '@/components/product/detail/attributeWrapper.vue';
+import Head from '@/components/product/update/head.vue';
+import General from '@/components/product/form/general.vue';
+import AttributeWrapper from '@/components/product/form/attributeWrapper.vue';
 import { rulesRef, useGetProductDetail } from '@/composables/product/';
 import { useGetProductCertifications } from '@/composables/certification/';
 import { isEmpty, isPlainObject } from 'lodash/fp';
@@ -39,8 +39,7 @@ useGetAllManufacturer();
 useGetAllDistributor();
 
 const productId = computed(() => route.params.id);
-const isUpdate = computed(() => route.name === 'ProductUpdate');
-console.log('route', route.name);
+const query = computed(() => route.query);
 
 const attributeSets = computed(() => store.state.product.attributes);
 const modelRef = computed(() => store.state.product.detail);
@@ -50,7 +49,7 @@ const form = useForm(modelRef, rulesRef);
 provide('form', form);
 provide('modelRef', modelRef);
 provide('rulesRef', rulesRef);
-provide('productId', productId);
+provide('isEdit', true);
 
 watch(
     productId,
