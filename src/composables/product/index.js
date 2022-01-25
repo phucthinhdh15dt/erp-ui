@@ -134,7 +134,7 @@ export const useUpsertProduct = () => {
 
     const collectPayload = async (mode, data) => {
         console.log('data', data);
-        const { general, variants = [], certifications, ...attributes } = data;
+        const { general, variants = [], certifications = [], ...attributes } = data;
 
         const attributesCollected = collectAttributes(attributes);
 
