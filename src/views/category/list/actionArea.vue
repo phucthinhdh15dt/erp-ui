@@ -196,7 +196,7 @@ const onConfirm = async () => {
             console.log('Validate Failed:', info);
         });
 };
-const options = computed(() => categories.value.map(_ => ({ value: _.value, label: _.label })));
+const options = computed(() => categories.value.map(_ => ({ value: _.id, label: _.label })));
 
 watch(processingItem, () => {
     if (processingItem.value) {
@@ -216,7 +216,7 @@ watch(processingItem, () => {
         // }
         if (processingItem.value.parentCategory && processingItem.value.parentCategory.length > 0) {
             formState.parent = {
-                value: processingItem.value.parentCategory[0].parentCode,
+                value: processingItem.value.parentCategory[0].id,
                 label: processingItem.value.parentCategory[0].parentName,
             };
         }
