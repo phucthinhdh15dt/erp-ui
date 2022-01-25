@@ -165,7 +165,7 @@ const onConfirm = async () => {
             const { parent, ...rest } = toRaw(formState);
             const payload = {
                 ...rest,
-                parentID: parent ? parrent.value : 0,
+                parentID: parent ? parent.value : 0,
                 categoryType: 'CAMPAIGN',
             };
             if (processingItem.value) {
