@@ -175,6 +175,7 @@ const onConfirm = async () => {
                 parentID: parent ? parent.value : 0,
                 categoryType: 'CAMPAIGN',
             };
+            payload.code = payload.code.trim();
             if (processingItem.value) {
                 payload.id = processingItem.value.id;
                 Modal.confirm({

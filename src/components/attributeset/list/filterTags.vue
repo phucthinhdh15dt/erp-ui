@@ -86,7 +86,7 @@ export default defineComponent({
         background-color: #d4d0e6;
         color: $primary-color;
         line-height: 2.5rem;
-        padding: 0 1rem;
+        padding: 0.5rem 1rem;
         margin-right: 0.5rem;
 
         div {

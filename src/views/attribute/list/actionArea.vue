@@ -165,7 +165,7 @@ export default defineComponent({
                     console.log('Received values of form: ', values);
                     console.log('formState: ', toRaw(formState));
                     const payload = toRaw(formState);
-
+                    payload.code = payload.code.trim();
                     if (processingItem.value) {
                         // payload.id = processingItem.value.id;
                         Modal.confirm({
