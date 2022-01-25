@@ -12,9 +12,11 @@
                             v-model:value="state.categoryName"
                             allow-clear
                             placeholder="Chọn ngành hàng"
+                            show-search
+                            :filter-option="filterOption"
                             @change="onChangeCategory"
                         >
-                            <Option v-for="item in resultCate" :key="item.code" :value="item.label">
+                            <Option v-for="item in resultCate" :key="item.code" :value="item.label" :label="item.label">
                                 {{ item.label }}</Option
                             >
                         </Select>
@@ -29,10 +31,17 @@
                             v-else
                             v-model:value="state.brandName"
                             allow-clear
+                            show-search
+                            :filter-option="filterOption"
                             placeholder="Chọn thương hiệu"
                             @change="onChangeBrand"
                         >
-                            <Option v-for="item in resultBrand" :key="item.code" :value="item.label">
+                            <Option
+                                v-for="item in resultBrand"
+                                :key="item.code"
+                                :value="item.label"
+                                :label="item.label"
+                            >
                                 {{ item.label }}</Option
                             >
                         </Select>
@@ -63,6 +72,7 @@ import { watch, computed, reactive, inject } from 'vue';
 import Properties from '@/components/attributeset/detail/properties.vue';
 import { useStore } from 'vuex';
 import { useCommon } from '@/composables/common/common';
+import { filterOption } from '@/utils/common';
 
 const { Item: FormItem } = Form;
 const { Option } = Select;
@@ -157,6 +167,7 @@ export default {
             onChangeCategory,
             state,
             validateInfos,
+            filterOption,
         };
     },
 };

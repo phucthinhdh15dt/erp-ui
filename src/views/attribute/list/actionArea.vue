@@ -28,7 +28,6 @@
                         v-model:value="formState.code"
                         :disabled="progress.total > 0 || (processingItem && processingItem.id)"
                         style="width: 100%"
-                        @keypress="onlyNumber"
                     >
                     </Input>
                 </FormItem>

@@ -8,10 +8,17 @@
                             <Select
                                 v-model:value="modelRef.category"
                                 label-in-value
+                                show-search
+                                :filter-option="filterOption"
                                 placeholder="Chọn ngành hàng"
                                 @change="onChangeCategory"
                             >
-                                <Option v-for="item in resultCate" :key="item.code" :value="item.code">
+                                <Option
+                                    v-for="item in resultCate"
+                                    :key="item.code"
+                                    :value="item.code"
+                                    :label="item.label"
+                                >
                                     {{ item.label }}</Option
                                 >
                             </Select>
@@ -23,10 +30,17 @@
                                 v-model:value="modelRef.brand"
                                 label-in-value
                                 allow-clear
+                                show-search
+                                :filter-option="filterOption"
                                 placeholder="Chọn thương hiệu"
                                 @change="onChangeBrand"
                             >
-                                <Option v-for="item in resultBrand" :key="item.code" :value="item.code">
+                                <Option
+                                    v-for="item in resultBrand"
+                                    :key="item.code"
+                                    :value="item.code"
+                                    :label="item.label"
+                                >
                                     {{ item.label }}</Option
                                 >
                             </Select>
@@ -56,6 +70,7 @@ import { inject } from 'vue';
 import Properties from '@/components/attributeset/create/properties.vue';
 import { useCommon } from '@/composables/common/common';
 import { useStore } from 'vuex';
+import { filterOption } from '@/utils/common';
 
 const { Item: FormItem } = Form;
 const { Option } = Select;
@@ -97,6 +112,7 @@ export default {
             onChangeBrand,
             validateInfos,
             loading,
+            filterOption,
         };
     },
 };

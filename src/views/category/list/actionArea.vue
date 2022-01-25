@@ -47,7 +47,14 @@
                     <TextArea v-model:value="formState.description" :rows="4" :disabled="progress.total > 0"></TextArea>
                 </FormItem>
                 <FormItem label="Ngành hàng cha" name="parent">
-                    <Select v-model:value="formState.parent" show-search allow-clear label-in-value :options="options">
+                    <Select
+                        v-model:value="formState.parent"
+                        show-search
+                        allow-clear
+                        label-in-value
+                        :options="options"
+                        :filter-option="filterOption"
+                    >
                     </Select>
                 </FormItem>
 
