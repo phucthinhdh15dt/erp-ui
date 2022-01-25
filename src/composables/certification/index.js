@@ -23,7 +23,6 @@ export const useGetProductCertifications = () => {
         };
 
         const response = await api.search.searchCertification(payload);
-        console.log('response', response);
         if (response.data) {
             store.dispatch('product/setProductCertifications', response.data.hits);
         }
@@ -62,7 +61,6 @@ export const useUpdateProductCertification = () => {
         };
 
         const response = await api.certification.update(payload);
-        console.log('response', response);
         if (response.success) {
             result.value = 'Cập nhật chứng chỉ thành công';
             // store.dispatch('product/setCertifications', response.data.hits);

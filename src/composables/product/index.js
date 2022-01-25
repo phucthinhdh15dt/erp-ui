@@ -175,7 +175,6 @@ export const useUpsertProduct = () => {
 
         console.log('payload', payload);
         const response = await api.product.create(payload);
-        console.log('response', response);
         if (response.data) {
             result.value = response.data;
         }
@@ -192,7 +191,6 @@ export const useUpsertProduct = () => {
 
         console.log('payload', payload);
         const response = await api.product.update(payload);
-        console.log('response', response);
         if (response.success) {
             result.value = 'Cập nhật sản phẩm thành công';
         }
@@ -217,7 +215,6 @@ export const useGetProductDetail = () => {
     const errorMessage = ref('');
 
     const prepareVariants = data => {
-        console.log('🚀 ~ file: actions.js ~ line 78 ~ data', data);
         const variants = data ? JSON.parse(data) : [];
         return variants;
         // return variants.map(variant => {
@@ -251,7 +248,7 @@ export const useGetProductDetail = () => {
     const getProductDetail = async id => {
         layoutLoading();
         const response = await api.product.get(id);
-        console.log('response', response);
+
         if (response.data) {
             const data = response.data[0];
             const result = {

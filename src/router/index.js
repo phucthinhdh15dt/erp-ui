@@ -10,6 +10,7 @@ const Product = () => import('@/views/product/index.vue');
 const ProductCreate = () => import('@/views/product/create.vue');
 const ProductList = () => import('@/views/product/list.vue');
 const ProductDetail = () => import('@/views/product/detail.vue');
+const ProductUpdate = () => import('@/views/product/update.vue');
 
 const AttributeSet = () => import('@/views/attributeset/index.vue');
 const AttributeSetCreate = () => import('@/views/attributeset/create.vue');
@@ -77,17 +78,39 @@ const routes = [
         },
         children: [
             {
-                name: 'ProductDetail',
+                name: 'Product',
                 path: ':id',
-                component: ProductDetail,
+                component: Product,
                 meta: {
                     title: 'Chi tiết sản phẩm',
                     breadCrumb: 'Chi tiết sản phẩm',
                     authRequired: true,
                     layout: 'default',
-                    // subMenuKey: '2',
-                    // menuKey: '2.1',
                 },
+                children: [
+                    {
+                        name: 'ProductDetail',
+                        path: '',
+                        component: ProductDetail,
+                        meta: {
+                            title: 'Chi tiết sản phẩm',
+                            breadCrumb: 'Chi tiết sản phẩm',
+                            authRequired: true,
+                            layout: 'default',
+                        },
+                    },
+                    {
+                        name: 'ProductUpdate',
+                        path: 'update',
+                        component: ProductUpdate,
+                        meta: {
+                            title: 'Cập nhật sản phẩm',
+                            breadCrumb: 'Cập nhật sản phẩm',
+                            authRequired: true,
+                            layout: 'default',
+                        },
+                    },
+                ],
             },
             {
                 name: 'ProductCreate',
@@ -102,6 +125,30 @@ const routes = [
                     menuKey: '2.1',
                 },
             },
+            // {
+            //     name: 'ProductUpdate',
+            //     path: 'update',
+            //     component: ProductUpdate,
+            //     meta: {
+            //         title: 'Cập nhật sản phẩm',
+            //         breadCrumb: 'Cập nhật sản phẩm',
+            //         authRequired: true,
+            //         layout: 'default',
+            //     },
+            //     children: [
+            //         {
+            //             name: 'ProductDetail',
+            //             path: ':id',
+            //             component: ProductDetail,
+            //             meta: {
+            //                 title: 'Cập nhật sản phẩm',
+            //                 breadCrumb: 'Cập nhật sản phẩm',
+            //                 authRequired: true,
+            //                 layout: 'default',
+            //             },
+            //         },
+            //     ]
+            // },
             {
                 name: 'ProductList',
                 path: 'list',
