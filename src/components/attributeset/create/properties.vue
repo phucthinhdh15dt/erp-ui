@@ -20,7 +20,7 @@
                             <label>{{ item.label }}</label>
                         </Row>
                     </Col>
-                    <Col :span="4" style="padding-right: 20px">
+                    <Col :span="3" style="padding-right: 20px">
                         <Row>
                             <label style="font-weight: bold">Tính chất {{ idx + 1 }}</label>
                         </Row>
@@ -54,7 +54,7 @@
                             ></InputNumber>
                         </Row>
                     </Col>
-                    <Col :span="2" style="padding-right: 20px">
+                    <Col :span="3" style="padding-right: 20px">
                         <Row>
                             <label style="font-weight: bold">Số thứ tự</label>
                         </Row>
