@@ -25,7 +25,7 @@
                                 </Input>
                             </Row>
                         </Col>
-                        <Col :span="4">
+                        <Col :span="3">
                             <Row>
                                 <label style="font-weight: bold">Tính chất {{ idx + 1 }}</label>
                             </Row>
@@ -60,7 +60,7 @@
                                 ></InputNumber>
                             </Row>
                         </Col>
-                        <Col :span="2" style="padding-right: 20px">
+                        <Col :span="3" style="padding-right: 20px">
                             <label style="font-weight: bold">Số thứ tự</label>
                             <Row align="bottom" style="margin-top: 20px">
                                 <label v-if="!isEdit">{{ item.attrOrder || 0 }}</label>
