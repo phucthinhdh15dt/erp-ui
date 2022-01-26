@@ -72,7 +72,7 @@
                     </Col>
                     <Col :span="3" style="padding-right: 20px">
                         <Row>
-                            <label style="font-weight: bold">Vị trí</label>
+                            <label style="font-weight: bold">Vị trí </label>
                         </Row>
                         <Row align="bottom" style="margin-top: 20px">
                             <Select
