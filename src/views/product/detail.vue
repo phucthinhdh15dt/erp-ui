@@ -39,9 +39,6 @@ useGetAllManufacturer();
 useGetAllDistributor();
 
 const productId = computed(() => route.params.id);
-const isUpdate = computed(() => route.name === 'ProductUpdate');
-console.log('route', route.name);
-
 const attributeSets = computed(() => store.state.product.attributes);
 const modelRef = computed(() => store.state.product.detail);
 const certifications = computed(() => store.state.product.detail.certifications);
