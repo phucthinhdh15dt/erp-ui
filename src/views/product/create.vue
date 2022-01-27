@@ -51,20 +51,14 @@ watch(
         for (const _attributeSet of _attributeSets) {
             // giay_chung_nhan
             if (_attributeSet.groupCode === 'giay_chung_nhan') {
-                modelRef.certifications = [
-                    {
-                        certificateId: '',
-                        publishDate: null,
-                        images: [],
-                    },
-                ];
+                modelRef.certifications = [];
             }
             // nha_phan_phoi
             else if (_attributeSet.groupCode === 'nha_phan_phoi') {
                 modelRef.distributors = [];
             } else if (_attributeSet.isVariant) {
-                modelRef.variants = _attributeSet.attributes.map(_ => _.code);
-                continue;
+                console.log('_attributeSet', _attributeSet);
+                modelRef.variants = [];
             } else {
                 for (const attr of _attributeSet.attributes) {
                     modelRef[attr.code] = attr.defaultValue;

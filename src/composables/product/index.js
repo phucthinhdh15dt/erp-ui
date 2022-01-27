@@ -80,28 +80,22 @@ export const useUpsertProduct = () => {
         };
     };
 
-    const collectVariant = items => {
-        return items.reduce((acc, cur) => {
-            let attrVariant = {};
-            if (cur.value && cur.value.length > 0) {
-                cur.value.forEach(element => {
-                    attrVariant = {
-                        attributes: [
-                            {
-                                code: element.key,
-                                value: element.label,
-                            },
-                        ],
-                        productCode: '',
-                        status: 'IN_PRODUCTION',
-                    };
-                    acc.push(attrVariant);
+    const collectVariants = reduce((acc, cur) => {
+        acc.push({
+            attributes: reduce((_acc, _cur) => {
+                _acc.push({
+                    code: _cur,
+                    value: cur[_cur],
                 });
-            }
 
-            return acc;
-        }, []);
-    };
+                return _acc;
+            }, [])(Object.keys(cur)),
+            productCode: '',
+            status: 'IN_PRODUCTION',
+        });
+
+        return acc;
+    }, []);
 
     const collectAttributes = attributes =>
         Object.keys(attributes).reduce((acc, cur) => {
@@ -128,6 +122,7 @@ export const useUpsertProduct = () => {
         const { general, variants = [], certifications = [], ...attributes } = data;
 
         const attributesCollected = collectAttributes(attributes);
+        const variantsCollected = collectVariants(variants);
 
         const certificationsCollected = await collectCertifications(certifications.filter(_ => _.certificateId));
         if (certificationsCollected) {
@@ -144,7 +139,7 @@ export const useUpsertProduct = () => {
             registedName: general.registedName,
             status: 'IN_PRODUCTION',
             url: general.url,
-            // variants
+            variants: variantsCollected,
         };
         if (general.brand) {
             payload.brandCode = general.brand;
@@ -161,10 +156,6 @@ export const useUpsertProduct = () => {
     const createProduct = async data => {
         layoutLoading();
         const payload = await collectPayload('create', data);
-
-        // variant create
-        const { variants = [] } = data;
-        payload.variants = collectVariant(variants);
         console.log('payload', payload);
         const response = await api.product.create(payload);
         if (response.data) {
@@ -177,10 +168,6 @@ export const useUpsertProduct = () => {
         layoutLoading();
         console.log('data', data);
         const payload = await collectPayload('update', data);
-
-        // variant update
-        payload.variants = data.variants;
-
         console.log('payload', payload);
         const response = await api.product.update(payload);
         if (response.success) {
@@ -208,17 +195,21 @@ export const useGetProductDetail = () => {
 
     const prepareVariants = data => {
         const variants = data ? JSON.parse(data) : [];
-        return variants;
-        // return variants.map(variant => {
-        //     const { productCode, status, attributes } = variant;
-        //     // const _attributes = JSON.parse(attributes);
+        console.log('variants', variants);
 
-        //     return {
-        //         productCode,
-        //         status,
-        //         attributes: attributes.map(_ => _.value),
-        //     };
-        // });
+        return variants.map(variant => {
+            const { productCode, status, attributes } = variant;
+
+            return {
+                productCode,
+                status,
+                ...attributes.reduce((acc, cur) => {
+                    acc[cur.code] = cur.value;
+
+                    return acc;
+                }, {}),
+            };
+        });
     };
 
     const prepareAttributes = reduce((acc, cur) => {
