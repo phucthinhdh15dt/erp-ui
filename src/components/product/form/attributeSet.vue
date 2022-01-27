@@ -1,8 +1,9 @@
 <template>
     <div>
-        <Certification v-if="code === 'giay_chung_nhan'">ahiih</Certification>
+        <Certification v-if="code === 'giay_chung_nhan'" />
         <Distributors v-else-if="code === 'nha_phan_phoi'" :attributes="attributes" />
-        <div v-else-if="isVariant">
+        <Variant v-else-if="isVariant" :attributes="attributes" />
+        <!-- <div v-else-if="isVariant">
             <div class="card-head-title">{{ name }}</div>
             <Card body-style="padding: 20px 20px 0 20px">
                 <FormItem
@@ -20,7 +21,7 @@
                     />
                 </FormItem>
             </Card>
-        </div>
+        </div> -->
         <div v-else>
             <div class="card-head-title">{{ name }}</div>
             <Card body-style="padding: 20px 20px 0 20px">
@@ -37,6 +38,7 @@ import { Card, Form, Select } from 'ant-design-vue';
 import Attribute from './attribute.vue';
 import Certification from './certification.vue';
 import Distributors from './distributors.vue';
+import Variant from './variant.vue';
 
 const { Item: FormItem } = Form;
 const modelRef = inject('modelRef');
@@ -61,7 +63,4 @@ const props = defineProps({
     },
 });
 const { name, code, isVariant, attributes } = toRefs(props);
-const onChange = (field, index, value) => {
-    store.commit('product/setVariantData', { field, index, value });
-};
 </script>

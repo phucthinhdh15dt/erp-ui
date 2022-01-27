@@ -34,14 +34,6 @@ const setDistributorsData = (state, { field, index, value }) => {
     state.detail.distributors[index][field] = value;
 };
 
-const setVariantData = (state, { field, index, value }) => {
-    const data = {
-        value: value,
-        field: field,
-    };
-    state.detail.variants[index] = data;
-};
-
 const addDistributor = state => {
     if (state.detail.distributors) {
         state.detail.distributors.push({
@@ -62,6 +54,18 @@ const removeDistributor = (state, { index }) => {
     state.detail.distributors.splice(index, 1);
 };
 
+const addVariant = (state, data) => {
+    state.detail.variants.push(data);
+};
+
+const removeVariant = (state, { index }) => {
+    state.detail.variants.splice(index, 1);
+};
+
+const setVariantData = (state, { field, index, value }) => {
+    state.detail.variants[index][field] = value;
+};
+
 const setProductCertifications = (state, data) => {
     state.detail.certifications = data;
 };
@@ -78,5 +82,7 @@ export default {
     setDistributorsData,
     addDistributor,
     removeDistributor,
+    addVariant,
+    removeVariant,
     setVariantData,
 };
