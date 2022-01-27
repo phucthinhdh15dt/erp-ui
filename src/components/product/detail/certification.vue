@@ -20,7 +20,7 @@
                             <Datetime :value="modelRef.certifications[index].publishDate"></Datetime>
                         </DescriptionsItem>
                         <DescriptionsItem label="Hình ảnh" class="label-width-18 mb-0">
-                            <Avatar :src="modelRef.certifications[index].images" size="large" />
+                            <Avatar shape="square" :src="modelRef.certifications[index].images" size="large" />
                         </DescriptionsItem>
                     </Descriptions>
                 </ListItem>
