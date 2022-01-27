@@ -15,6 +15,11 @@
                         </FormItem>
                     </template>
                 </Column>
+                <Column v-if="isEdit" key="status" title="Trạng thái">
+                    <template #default="{ index: dataIndex }">
+                        <StatusSelection :value="modelRef.variants[dataIndex].status" />
+                    </template>
+                </Column>
                 <Column key="action" title="">
                     <template #default>
                         <Button danger type="link" style="cursor: pointer" @click="remove(index)">
@@ -42,6 +47,7 @@ import { computed, inject, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { Card, Table, Form, Select, Button } from 'ant-design-vue';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue';
+import StatusSelection from '../materials/statusSelection.vue';
 
 const { Column } = Table;
 const { Item: FormItem } = Form;
@@ -54,6 +60,7 @@ const props = defineProps({
 });
 const { attributes } = toRefs(props);
 const modelRef = inject('modelRef');
+const isEdit = inject('isEdit');
 
 const store = useStore();
 

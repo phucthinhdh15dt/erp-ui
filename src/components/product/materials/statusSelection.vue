@@ -6,6 +6,7 @@
             :filter-option="filterOption"
             show-search
             allow-clear
+            style="width: 100%"
             @change="onChange"
         ></Select>
     </div>

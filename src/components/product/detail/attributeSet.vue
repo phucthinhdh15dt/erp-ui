@@ -2,21 +2,8 @@
     <div>
         <Certification v-if="code === 'giay_chung_nhan'">ahiih</Certification>
         <Distributors v-else-if="code === 'nha_phan_phoi'" :attributes="attributes" />
-        <div v-else-if="isVariant">
-            <div class="card-head-title">{{ name }}</div>
-            <Card body-style="padding: 20px">
-                <Descriptions :column="1">
-                    <DescriptionsItem
-                        v-for="(attribute, index) in attributes"
-                        :key="index"
-                        class="form-label-w-18"
-                        :label="attribute.label"
-                    >
-                        {{ attribute.options.map(_ => _.value).join(', ') }}
-                    </DescriptionsItem>
-                </Descriptions>
-            </Card>
-        </div>
+        <Variant v-else-if="isVariant" :attributes="attributes" />
+
         <div v-else>
             <div class="card-head-title">{{ name }}</div>
             <Card body-style="padding: 0">
@@ -33,6 +20,7 @@ import { Card, Descriptions } from 'ant-design-vue';
 import Attribute from './attribute.vue';
 import Certification from './certification.vue';
 import Distributors from './distributors.vue';
+import Variant from './variant.vue';
 
 const { Item: DescriptionsItem } = Descriptions;
 
