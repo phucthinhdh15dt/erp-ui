@@ -6,7 +6,9 @@
 
 <script setup>
 import { toRefs, computed } from 'vue';
+import { useStore } from 'vuex';
 
+const store = useStore();
 const props = defineProps({
     value: { type: String, default: null },
 });

@@ -10,7 +10,7 @@
                         <ManufacturerLabel :value="modelRef.distributors[index].manufacturer" />
                     </template>
                     <template v-if="column.dataIndex === 'distributor'">
-                        {{ modelRef.distributors[index].distributor.join }}
+                        {{ modelRef.distributors[index].distributor }}
                     </template>
                     <template v-if="column.dataIndex === 'status'">
                         {{ getDistributorStatus(modelRef.distributors[index].manufacturer) }}
@@ -63,6 +63,6 @@ const columns = [
 
 const getDistributorStatus = value => {
     const found = manufacturerOptions.value.find(_ => _.value === toRaw(value));
-    return found.status;
+    return found?.status || '';
 };
 </script>
