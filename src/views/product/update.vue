@@ -39,7 +39,6 @@ useGetAllManufacturer();
 useGetAllDistributor();
 
 const productId = computed(() => route.params.id);
-const query = computed(() => route.query);
 
 const attributeSets = computed(() => store.state.product.attributes);
 const modelRef = computed(() => store.state.product.detail);
@@ -49,7 +48,7 @@ const form = useForm(modelRef, rulesRef);
 provide('form', form);
 provide('modelRef', modelRef);
 provide('rulesRef', rulesRef);
-provide('isEdit', true);
+provide('productId', productId);
 
 watch(
     productId,

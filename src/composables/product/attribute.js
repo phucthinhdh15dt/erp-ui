@@ -13,8 +13,28 @@ export const useSearchAttributeSet = () => {
     const searchAttributeSet = async (categoryId, brandId) => {
         layoutLoading();
         result.value = '';
-        const should = [
-            {
+        const payload = {
+            query: {
+                bool: {
+                    must: [
+                        {
+                            match: {
+                                'category.code': categoryId,
+                            },
+                        },
+                    ],
+                },
+            },
+        };
+
+        if (brandId) {
+            payload.query.bool.must.push({
+                match: {
+                    'brand.code': brandId,
+                },
+            });
+        } else {
+            payload.query.bool.should = {
                 bool: {
                     must_not: {
                         exists: {
@@ -22,29 +42,9 @@ export const useSearchAttributeSet = () => {
                         },
                     },
                 },
-            },
-        ];
-
-        if (brandId) {
-            should.push({
-                match: {
-                    'brand.code': brandId,
-                },
-            });
+            };
         }
 
-        const payload = {
-            query: {
-                bool: {
-                    must: {
-                        match: {
-                            'category.code': categoryId,
-                        },
-                    },
-                    should,
-                },
-            },
-        };
         const responseSearch = await api.search.searchAttributeSet(payload);
         if (!responseSearch.data) {
             layoutDone();
