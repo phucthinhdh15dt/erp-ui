@@ -13,10 +13,12 @@
 </template>
 
 <script setup>
-import { h, watch, inject, ref, toRaw } from 'vue';
-import { Row, Button, Modal, message, Space } from 'ant-design-vue';
+import { watch, inject, ref, toRaw } from 'vue';
+import { Row, Button, Modal, Space } from 'ant-design-vue';
 import { useUpsertProduct } from '@/composables/product';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const form = inject('form');
 const modelRef = inject('modelRef');
 const { validate, clearValidate } = form;
@@ -68,7 +70,7 @@ watch(
                 okText: 'Đóng',
                 centered: true,
                 onOk: () => {
-                    window.location.reload();
+                    router.push({ name: 'ProductDetail' });
                 },
             });
         }
