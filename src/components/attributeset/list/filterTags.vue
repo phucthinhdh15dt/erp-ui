@@ -81,7 +81,7 @@ export default defineComponent({
     padding-left: 1.6rem;
 
     .ant-tag {
-        border-color: $primary-color;
+        border: 1px solid $primary-color;
         border-radius: 1.6rem;
         background-color: #d4d0e6;
         color: $primary-color;
