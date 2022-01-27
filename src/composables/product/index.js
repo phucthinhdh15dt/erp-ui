@@ -10,12 +10,12 @@ export const rulesRef = reactive({
             message: 'Chọn ngành hàng',
         },
     ],
-    'general.brand': [
-        {
-            required: true,
-            message: 'Chọn thương hiệu',
-        },
-    ],
+    // 'general.brand': [
+    //     {
+    //         required: true,
+    //         message: 'Chọn thương hiệu',
+    //     },
+    // ],
     'general.name': [
         {
             required: true,
@@ -144,7 +144,6 @@ export const useUpsertProduct = () => {
         }
         const payload = {
             attributes: attributesCollected,
-            brandCode: general.brand,
             categoryCode: general.category,
             code: 'string',
             englishName: general.englishName,
@@ -156,6 +155,9 @@ export const useUpsertProduct = () => {
             url: general.url,
             // variants
         };
+        if (general.brand) {
+            payload.brandCode = general.brand;
+        }
 
         if (mode === 'update') {
             payload.code = general.code;

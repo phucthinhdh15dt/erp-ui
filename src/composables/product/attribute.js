@@ -13,21 +13,35 @@ export const useSearchAttributeSet = () => {
     const searchAttributeSet = async (categoryId, brandId) => {
         layoutLoading();
         result.value = '';
+        const should = [
+            {
+                bool: {
+                    must_not: {
+                        exists: {
+                            field: 'category.code',
+                        },
+                    },
+                },
+            },
+        ];
+
+        if (brandId) {
+            should.push({
+                match: {
+                    'brand.code': brandId,
+                },
+            });
+        }
+
         const payload = {
             query: {
                 bool: {
-                    must: [
-                        {
-                            match: {
-                                'category.code': categoryId,
-                            },
+                    must: {
+                        match: {
+                            'category.code': categoryId,
                         },
-                        {
-                            match: {
-                                'brand.code': brandId,
-                            },
-                        },
-                    ],
+                    },
+                    should,
                 },
             },
         };

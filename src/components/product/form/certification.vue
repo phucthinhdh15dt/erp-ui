@@ -15,7 +15,7 @@
                     <ListItem style="padding-top: 20px">
                         <template #extra>
                             <Space>
-                                <Tooltip title="Cập nhật chứng chỉ">
+                                <Tooltip title="Cập nhật">
                                     <Button
                                         v-if="modelRef.certifications[index].id"
                                         type="link"
@@ -28,7 +28,7 @@
                                     </Button>
                                 </Tooltip>
 
-                                <Tooltip title="Xóa chứng chỉ">
+                                <Tooltip title="Xóa">
                                     <Button danger type="link" style="cursor: pointer" @click="remove(index)">
                                         <template #icon>
                                             <DeleteOutlined />
@@ -51,17 +51,10 @@
                                 />
                             </FormItem>
                             <FormItem label="Hình ảnh" class="form-label-w-18 mb-0">
-                                <Upload
-                                    :file-list="modelRef.certifications[index].images"
-                                    list-type="picture-card"
-                                    name="files"
-                                    action="/upload.do"
-                                >
-                                    <div v-if="pathOr(0, `certifications[${index}].images.length`)(modelRef) < 1">
-                                        <PlusOutlined />
-                                        <div class="ant-upload-text">Thêm ảnh</div>
-                                    </div>
-                                </Upload>
+                                <Input
+                                    :value="modelRef.certifications[index].images"
+                                    @change="e => onChange('images', index, e.target.value)"
+                                />
                             </FormItem>
                         </Form>
                     </ListItem>
@@ -80,24 +73,9 @@
 <script setup>
 import { inject, toRaw, watch } from 'vue';
 import { useStore } from 'vuex';
-import {
-    Card,
-    Input,
-    Form,
-    Upload,
-    DatePicker,
-    Row,
-    Col,
-    Button,
-    List,
-    Space,
-    Tooltip,
-    message,
-    Spin,
-} from 'ant-design-vue';
+import { Card, Input, Form, DatePicker, Row, Col, Button, List, Space, Tooltip, message, Spin } from 'ant-design-vue';
 import { PlusOutlined, EditOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons-vue';
 import { useUpdateProductCertification } from '@/composables/certification';
-import { pathOr } from 'lodash/fp';
 
 const { Item: FormItem } = Form;
 const { Item: ListItem } = List;
