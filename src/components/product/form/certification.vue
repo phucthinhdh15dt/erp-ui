@@ -9,7 +9,7 @@
                 </Button>
             </Col>
         </Row>
-        <Card body-style="padding: 0 20px 20px 20px">
+        <Card body-style="padding: 0 0 20px 0 ">
             <List size="small" :data-source="modelRef.certifications">
                 <template #renderItem="{ index }">
                     <ListItem style="padding-top: 20px">
@@ -60,7 +60,7 @@
                     </ListItem>
                 </template>
             </List>
-            <Button type="link" style="cursor: pointer" @click="add">
+            <Button type="link" style="cursor: pointer; margin-top: 20px" @click="add">
                 <template #icon>
                     <PlusOutlined />
                 </template>

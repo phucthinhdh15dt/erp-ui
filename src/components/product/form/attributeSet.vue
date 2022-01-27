@@ -3,25 +3,6 @@
         <Certification v-if="code === 'giay_chung_nhan'" />
         <Distributors v-else-if="code === 'nha_phan_phoi'" :attributes="attributes" />
         <Variant v-else-if="isVariant" :attributes="attributes" />
-        <!-- <div v-else-if="isVariant">
-            <div class="card-head-title">{{ name }}</div>
-            <Card body-style="padding: 20px 20px 0 20px">
-                <FormItem
-                    v-for="(attribute, index) in attributes"
-                    :key="index"
-                    class="form-label-w-18"
-                    :label="attribute.label"
-                >
-                    <Select
-                        :value="attribute.value"
-                        :options="attribute.options"
-                        mode="multiple"
-                        label-in-value
-                        @change="value => onChange(attribute.code, index, value)"
-                    />
-                </FormItem>
-            </Card>
-        </div> -->
         <div v-else>
             <div class="card-head-title">{{ name }}</div>
             <Card body-style="padding: 20px 20px 0 20px">
@@ -32,18 +13,13 @@
 </template>
 
 <script setup>
-import { toRefs, inject } from 'vue';
-import { useStore } from 'vuex';
-import { Card, Form, Select } from 'ant-design-vue';
+import { toRefs } from 'vue';
+import { Card } from 'ant-design-vue';
 import Attribute from './attribute.vue';
 import Certification from './certification.vue';
 import Distributors from './distributors.vue';
 import Variant from './variant.vue';
 
-const { Item: FormItem } = Form;
-const modelRef = inject('modelRef');
-
-const store = useStore();
 const props = defineProps({
     name: {
         type: String,

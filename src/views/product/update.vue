@@ -49,6 +49,7 @@ provide('form', form);
 provide('modelRef', modelRef);
 provide('rulesRef', rulesRef);
 provide('productId', productId);
+provide('isEdit', true);
 
 watch(
     productId,
