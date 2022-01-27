@@ -10,12 +10,12 @@ export const rulesRef = reactive({
             message: 'Chọn ngành hàng',
         },
     ],
-    'general.brand': [
-        {
-            required: true,
-            message: 'Chọn thương hiệu',
-        },
-    ],
+    // 'general.brand': [
+    //     {
+    //         required: true,
+    //         message: 'Chọn thương hiệu',
+    //     },
+    // ],
     'general.name': [
         {
             required: true,
@@ -60,8 +60,7 @@ export const useUpsertProduct = () => {
         const payload = {
             numberDisclosure: _.certificateId,
             disclosureDate: normalize(_.publishDate),
-            imageUrl:
-                'https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544808?k=20&m=1147544808&s=612x612&w=0&h=8CUTlOdLd2d5HqO7p6kREJHyxDyAH0VeFA6u7mOQXbo=',
+            imageUrl: _.images,
         };
 
         return createCertificationPromise(payload);
@@ -144,7 +143,6 @@ export const useUpsertProduct = () => {
         }
         const payload = {
             attributes: attributesCollected,
-            brandCode: general.brand,
             categoryCode: general.category,
             code: 'string',
             englishName: general.englishName,
@@ -156,6 +154,9 @@ export const useUpsertProduct = () => {
             url: general.url,
             // variants
         };
+        if (general.brand) {
+            payload.brandCode = general.brand;
+        }
 
         if (mode === 'update') {
             payload.code = general.code;

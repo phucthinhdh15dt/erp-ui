@@ -82,7 +82,7 @@ const onChangeInput = (field, data) => {
 watch(
     () => [general.value.category, general.value.brand],
     () => {
-        if (general.value.category && general.value.brand) {
+        if (general.value.category) {
             searchAttributeSet(general.value.category, general.value.brand);
         }
     }
