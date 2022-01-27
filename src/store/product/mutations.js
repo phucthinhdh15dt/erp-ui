@@ -34,6 +34,14 @@ const setDistributorsData = (state, { field, index, value }) => {
     state.detail.distributors[index][field] = value;
 };
 
+const setVariantData = (state, { field, index, value }) => {
+    const data = {
+        value: value,
+        field: field,
+    };
+    state.detail.variants[index] = data;
+};
+
 const addDistributor = state => {
     if (state.detail.distributors) {
         state.detail.distributors.push({
@@ -70,4 +78,5 @@ export default {
     setDistributorsData,
     addDistributor,
     removeDistributor,
+    setVariantData,
 };
