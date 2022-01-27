@@ -107,6 +107,6 @@ const onChange = (field, index, value) => {
 
 const getDistributorStatus = value => {
     const found = manufacturerOptions.value.find(_ => _.value === toRaw(value));
-    return found.status;
+    return found?.status || '';
 };
 </script>

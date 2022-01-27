@@ -1,7 +1,7 @@
 <template>
     <div>
         <Descriptions>
-            <DescriptionsItem :label="configs.label" class="label-width-18">
+            <DescriptionsItem :label="configs.label" class="label-width-18 border-bottom">
                 <div v-if="configs.uiComponentType === 'TEXT'">{{ modelRef[configs.code] }}</div>
                 <Select
                     v-else-if="['MULTI_SELECT', 'SINGLE_SELECT'].includes(configs.uiComponentType)"

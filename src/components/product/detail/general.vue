@@ -1,24 +1,24 @@
 <template>
     <div>
         <div class="card-head-title">Thông tin chung</div>
-        <Card body-style="padding: 20px 20px 0 20px">
+        <Card body-style="padding: 0">
             <Descriptions :column="1">
-                <DescriptionsItem label="Trạng thái sản phẩm" class="label-width-18">
+                <DescriptionsItem label="Trạng thái sản phẩm" class="label-width-18 border-bottom">
                     <StatusTag :value="general.status" />
                 </DescriptionsItem>
-                <DescriptionsItem label="Ngành hàng" class="label-width-18">
+                <DescriptionsItem label="Ngành hàng" class="label-width-18 border-bottom">
                     <CategoryLabel :value="general.category" />
                 </DescriptionsItem>
-                <DescriptionsItem label="Thương hiệu" class="label-width-18">
+                <DescriptionsItem label="Thương hiệu" class="label-width-18 border-bottom">
                     <BrandLabel :value="general.brand" />
                 </DescriptionsItem>
-                <DescriptionsItem label="Tên sản phẩm" class="label-width-18">
+                <DescriptionsItem label="Tên sản phẩm" class="label-width-18 border-bottom">
                     {{ general.name }}
                 </DescriptionsItem>
-                <DescriptionsItem label="Tên sản phẩm đăng ký" class="label-width-18">
+                <DescriptionsItem label="Tên sản phẩm đăng ký" class="label-width-18 border-bottom">
                     {{ general.registedName }}
                 </DescriptionsItem>
-                <DescriptionsItem label="Tên tiếng anh" class="label-width-18">
+                <DescriptionsItem label="Tên tiếng anh" class="label-width-18 border-bottom">
                     {{ general.englishName }}
                 </DescriptionsItem>
                 <DescriptionsItem label="Url" class="label-width-18">

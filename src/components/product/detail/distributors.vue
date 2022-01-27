@@ -3,14 +3,20 @@
         <Row>
             <Col><div class="card-head-title">Nhà phân phối và kênh phân phối</div></Col>
         </Row>
-        <Card body-style="padding: 20px ">
+        <Card body-style="padding: 0">
             <Table :data-source="modelRef.distributors" :columns="columns" :pagination="false">
                 <template #bodyCell="{ column, index }">
                     <template v-if="column.dataIndex === 'manufacturer'">
                         <ManufacturerLabel :value="modelRef.distributors[index].manufacturer" />
                     </template>
                     <template v-if="column.dataIndex === 'distributor'">
-                        {{ modelRef.distributors[index].distributor }}
+                        <Space>
+                            <DistributorLabel
+                                v-for="(distributor, idx) in modelRef.distributors[index].distributor"
+                                :key="idx"
+                                :value="distributor"
+                            />
+                        </Space>
                     </template>
                     <template v-if="column.dataIndex === 'status'">
                         {{ getDistributorStatus(modelRef.distributors[index].manufacturer) }}
@@ -23,16 +29,23 @@
 </template>
 
 <script setup>
-import { computed, inject, toRaw } from 'vue';
+import { computed, inject, toRaw, watch } from 'vue';
 import { useStore } from 'vuex';
-import { Card, Descriptions, Row, Col, Button, Select, Table } from 'ant-design-vue';
+import { Card, Descriptions, Row, Col, Space, Table } from 'ant-design-vue';
 import ManufacturerLabel from '@/components/product/materials/manufacturerLabel';
+import DistributorLabel from '@/components/product/materials/distributorLabel';
 
 const { Item: DescriptionsItem } = Descriptions;
 
 const store = useStore();
 const modelRef = inject('modelRef');
-
+watch(
+    modelRef,
+    () => {
+        console.log(modelRef.value);
+    },
+    { deep: true, immediate: true }
+);
 const props = defineProps({
     attributes: {
         type: Object,
