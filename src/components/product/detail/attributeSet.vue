@@ -4,7 +4,7 @@
         <Distributors v-else-if="code === 'nha_phan_phoi'" :attributes="attributes" />
         <div v-else-if="isVariant">
             <div class="card-head-title">{{ name }}</div>
-            <Card body-style="padding: 20px 20px 0 20px">
+            <Card body-style="padding: 20px">
                 <Descriptions :column="1">
                     <DescriptionsItem
                         v-for="(attribute, index) in attributes"
@@ -19,7 +19,7 @@
         </div>
         <div v-else>
             <div class="card-head-title">{{ name }}</div>
-            <Card body-style="padding: 20px 20px 0 20px">
+            <Card body-style="padding: 0">
                 <Attribute v-for="(attribute, index) in attributes" :key="index" :configs="attribute" :parent="code" />
             </Card>
         </div>
