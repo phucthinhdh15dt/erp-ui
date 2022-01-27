@@ -14,6 +14,7 @@
                     <Select
                         :value="attribute.value"
                         :options="attribute.options"
+                        mode="multiple"
                         label-in-value
                         @change="value => onChange(attribute.code, index, value)"
                     />

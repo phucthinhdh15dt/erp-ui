@@ -36,7 +36,7 @@ const setDistributorsData = (state, { field, index, value }) => {
 
 const setVariantData = (state, { field, index, value }) => {
     const data = {
-        value: value.key,
+        value: value,
         field: field,
     };
     state.detail.variants[index] = data;

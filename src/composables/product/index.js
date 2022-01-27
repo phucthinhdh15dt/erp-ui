@@ -83,18 +83,21 @@ export const useUpsertProduct = () => {
     const collectVariant = items => {
         return items.reduce((acc, cur) => {
             let attrVariant = {};
-            attrVariant = {
-                attributes: [
-                    {
-                        code: cur.field,
-                        value: cur.value,
-                    },
-                ],
-                productCode: '',
-                status: 'IN_PRODUCTION',
-            };
-
-            acc.push(attrVariant);
+            if (cur.value && cur.value.length > 0) {
+                cur.value.forEach(element => {
+                    attrVariant = {
+                        attributes: [
+                            {
+                                code: element.key,
+                                value: element.label,
+                            },
+                        ],
+                        productCode: '',
+                        status: 'IN_PRODUCTION',
+                    };
+                    acc.push(attrVariant);
+                });
+            }
 
             return acc;
         }, []);
