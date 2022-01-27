@@ -81,31 +81,20 @@ export const useUpsertProduct = () => {
     };
 
     const collectVariant = items => {
-        const groupVariants = store.state.product.attributes.right;
         return items.reduce((acc, cur) => {
             let attrVariant = {};
+            attrVariant = {
+                attributes: [
+                    {
+                        code: cur.field,
+                        value: cur.value,
+                    },
+                ],
+                productCode: '',
+                status: 'IN_PRODUCTION',
+            };
 
-            const groupIndex = groupVariants.findIndex(
-                v => v.isVariant && v.attributes && v.attributes.map(m => m.code).includes(cur)
-            );
-            if (groupIndex >= 0) {
-                const groupVariant = groupVariants[groupIndex];
-                const attribute = groupVariant.attributes.find(f => f.code === cur);
-                if (attribute) {
-                    attrVariant = {
-                        attributes: [
-                            {
-                                code: cur,
-                                value: attribute.label,
-                            },
-                        ],
-                        productCode: '',
-                        status: 'IN_PRODUCTION',
-                    };
-
-                    acc.push(attrVariant);
-                }
-            }
+            acc.push(attrVariant);
 
             return acc;
         }, []);
@@ -173,7 +162,6 @@ export const useUpsertProduct = () => {
         // variant create
         const { variants = [] } = data;
         payload.variants = collectVariant(variants);
-
         console.log('payload', payload);
         const response = await api.product.create(payload);
         if (response.data) {

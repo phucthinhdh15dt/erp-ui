@@ -11,7 +11,12 @@
                     class="form-label-w-18"
                     :label="attribute.label"
                 >
-                    {{ attribute.options.map(_ => _.value).join(', ') }}
+                    <Select
+                        :value="attribute.value"
+                        :options="attribute.options"
+                        label-in-value
+                        @change="value => onChange(attribute.code, index, value)"
+                    />
                 </FormItem>
             </Card>
         </div>
@@ -25,14 +30,15 @@
 </template>
 
 <script setup>
-import { toRefs } from 'vue';
+import { toRefs, inject } from 'vue';
 import { useStore } from 'vuex';
-import { Card, Form } from 'ant-design-vue';
+import { Card, Form, Select } from 'ant-design-vue';
 import Attribute from './attribute.vue';
 import Certification from './certification.vue';
 import Distributors from './distributors.vue';
 
 const { Item: FormItem } = Form;
+const modelRef = inject('modelRef');
 
 const store = useStore();
 const props = defineProps({
@@ -54,4 +60,7 @@ const props = defineProps({
     },
 });
 const { name, code, isVariant, attributes } = toRefs(props);
+const onChange = (field, index, value) => {
+    store.commit('product/setVariantData', { field, index, value });
+};
 </script>
