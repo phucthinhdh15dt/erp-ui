@@ -3,7 +3,7 @@
         <Row>
             <Col><div class="card-head-title">Nhà phân phối và kênh phân phối</div></Col>
         </Row>
-        <Card body-style="padding: 20px ">
+        <Card body-style="padding: 0">
             <Table :data-source="modelRef.distributors" :columns="columns" :pagination="false">
                 <template #bodyCell="{ column, index }">
                     <template v-if="column.dataIndex === 'manufacturer'">
