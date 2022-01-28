@@ -12,7 +12,7 @@ import { defineComponent, computed, toRefs, inject } from 'vue';
 import { CloseCircleOutlined } from '@ant-design/icons-vue';
 import { useStore } from 'vuex';
 import { cloneDeep } from 'lodash/fp';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 export default defineComponent({
     name: 'FilterTags',
@@ -32,7 +32,7 @@ export default defineComponent({
         const formatFilter = (filter, input) => {
             switch (filter.type) {
                 case 'DateRange':
-                    return [moment(input[0]).format('DD/MM/YYYY'), moment(input[1]).format('DD/MM/YYYY')].join(' - ');
+                    return [dayjs(input[0]).format('DD/MM/YYYY'), dayjs(input[1]).format('DD/MM/YYYY')].join(' - ');
 
                 case 'Selection':
                     const { dataMapping, options } = filter.configs;

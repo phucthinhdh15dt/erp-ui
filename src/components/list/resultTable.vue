@@ -39,7 +39,7 @@ import { Table, Radio } from 'ant-design-vue';
 import { useStore } from 'vuex';
 import { STATUS } from '@/constants';
 import { getOr } from 'lodash/fp';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import Status from '@/components/common/status.vue';
 import Datetime from '@/components/common/datetime.vue';
 
@@ -98,7 +98,7 @@ export default defineComponent({
 
         const getStatusColor = record => {
             let color = getOr('#000', 'color', STATUS[record.status]);
-            if (record.status === STATUS.PUBLISHED.code && moment(record.publishFromDate).isAfter(moment())) {
+            if (record.status === STATUS.PUBLISHED.code && dayjs(record.publishFromDate).isAfter(moment())) {
                 color = '#52c41a';
             }
             return color;

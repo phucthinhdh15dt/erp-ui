@@ -43,7 +43,7 @@ import Status from '@/components/common/status.vue';
 import { STATUS_PRODUCT } from '@/constants/product';
 import Datetime from '@/components/common/datetime.vue';
 import { getOr } from 'lodash/fp';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 export default defineComponent({
     name: 'Result',
@@ -100,7 +100,7 @@ export default defineComponent({
 
         const getStatusColor = record => {
             let color = getOr('#000', 'color', STATUS[record.status]);
-            if (record.status === STATUS.PUBLISHED.code && moment(record.publishFromDate).isAfter(moment())) {
+            if (record.status === STATUS.PUBLISHED.code && dayjs(record.publishFromDate).isAfter(dayjs())) {
                 color = '#52c41a';
             }
             return color;

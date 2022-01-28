@@ -1,6 +1,6 @@
 import { ref, inject, toRaw } from 'vue';
 import jwtDecode from 'jwt-decode';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import firebase from '@/plugins/firebase';
 
 const useAuth = () => {
@@ -26,7 +26,7 @@ const useAuth = () => {
     const isAuthenticated = () => {
         try {
             const { exp, is_must_be_change_password: requireChangePass } = jwtDecode(accessToken.value);
-            const isValid = moment(exp * 1000).isAfter(moment());
+            const isValid = dayjs(exp * 1000).isAfter(dayjs());
 
             _isAuthenticated.value = isValid;
             _requirePassChange.value = requireChangePass;

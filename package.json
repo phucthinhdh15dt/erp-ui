@@ -28,7 +28,6 @@
     "firebaseui": "^6.0.0",
     "form-urlencoded": "^6.0.4",
     "jwt-decode": "^3.1.2",
-    "moment": "^2.29.1",
     "snakecase-keys": "^5.0.0",
     "vue": "^3.0.0",
     "vue-axios": "^3.2.5",

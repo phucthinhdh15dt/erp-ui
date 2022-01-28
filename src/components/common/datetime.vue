@@ -5,7 +5,7 @@
 <script>
 import { computed } from 'vue';
 import { getFormatDate } from '@/utils/datetime';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 export default {
     name: 'CommonDatetime',
@@ -21,7 +21,7 @@ export default {
     },
     setup(props) {
         const datetimeFormatted = computed(() =>
-            moment(props.value).utcOffset(14).format(getFormatDate(props.value, false, props.noTime))
+            dayjs(props.value).utcOffset(14).format(getFormatDate(props.value, false, props.noTime))
         );
 
         return { datetimeFormatted };
