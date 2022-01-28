@@ -46,7 +46,8 @@
                             </FormItem>
                             <FormItem label="Ngày công bố" class="form-label-w-18">
                                 <DatePicker
-                                    v-model:value="modelRef.certifications[index].publishDate"
+                                    :value="modelRef.certifications[index].publishDate"
+                                    :locale="locale"
                                     @change="value => onChange('publishDate', index, value)"
                                 />
                             </FormItem>
@@ -76,6 +77,7 @@ import { useStore } from 'vuex';
 import { Card, Input, Form, DatePicker, Row, Col, Button, List, Space, Tooltip, message, Spin } from 'ant-design-vue';
 import { PlusOutlined, EditOutlined, DeleteOutlined, CheckOutlined } from '@ant-design/icons-vue';
 import { useUpdateProductCertification } from '@/composables/certification';
+import locale from 'ant-design-vue/es/date-picker/locale/vi_VN';
 
 const { Item: FormItem } = Form;
 const { Item: ListItem } = List;
@@ -98,9 +100,17 @@ const update = index => {
 };
 
 const onChange = (field, index, value) => {
+    console.log({ field, index, value });
     store.commit('product/setCertificationData', { field, index, value });
 };
 
+watch(
+    modelRef,
+    () => {
+        console.log('modelRef', modelRef.value);
+    },
+    { deep: true, immediate: true }
+);
 watch(
     result,
     () => {

@@ -1,6 +1,6 @@
 import { groupBy, pathOr, pick, flow, map, reduce, path } from 'lodash/fp';
 import { removeAscent } from '@/utils/common';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 const collectAttributes = (groupByAttributes, type) =>
     flow(
@@ -84,7 +84,7 @@ const setProductCertifications = (context, data) => {
     const results = data.map(_ => ({
         id: _.id,
         certificateId: _.numberDisclosure,
-        publishDate: moment(_.disclosureDate),
+        publishDate: dayjs(_.disclosureDate),
         images: [_.imageUrl],
     }));
 
