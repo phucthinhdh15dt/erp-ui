@@ -21,7 +21,7 @@ export default {
     },
     setup(props) {
         const datetimeFormatted = computed(() =>
-            dayjs(props.value).utcOffset(14).format(getFormatDate(props.value, false, props.noTime))
+            dayjs(props.value).format(getFormatDate(props.value, false, props.noTime))
         );
 
         return { datetimeFormatted };
