@@ -27,6 +27,9 @@
                 <template v-if="column.dataIndex === 'code'">
                     <a class="id-style" :href="`/${searchConfigs.urlParam}/${record.id}`">#{{ text }}</a>
                 </template>
+                  <template v-if="column.dataIndex === 'variants'">
+                    <span v-if="record.variants">{{ record.variants.join(', ') }}</span>
+                </template>
                 <template v-if="column.dataIndex === 'status'">
                     <Status v-if="record.status" :code="record.status" :list-status="STATUS_PRODUCT" />
                 </template>

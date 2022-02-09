@@ -65,14 +65,11 @@ export const columns = [
         align: 'center',
     },
     {
-        title: 'Giá VAT',
-        dataIndex: 'originalPrice',
-        key: 'originalPrice',
-        width: 150,
+        title: 'Biến thể',
+        dataIndex: 'variants',
+        key: 'variants',
+        width: 250,
         align: 'center',
-        customRender({ text }) {
-            return formatToCurrency(text);
-        },
     },
     {
         title: 'Trạng thái',
