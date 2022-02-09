@@ -62,6 +62,10 @@ const removeVariant = (state, { index }) => {
     state.detail.variants.splice(index, 1);
 };
 
+const setVariantDataCreate = (state, { field, value }) => {
+    state.detail.variants[field] = value;
+};
+
 const setVariantData = (state, { field, index, value }) => {
     state.detail.variants[index][field] = value;
 };
@@ -84,5 +88,6 @@ export default {
     removeDistributor,
     addVariant,
     removeVariant,
+    setVariantDataCreate,
     setVariantData,
 };
