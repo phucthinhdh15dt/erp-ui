@@ -29,8 +29,8 @@
                     </template>
                 </Column>
                 <Column key="action" title="">
-                    <template #default>
-                        <Button danger type="link" style="cursor: pointer" @click="remove(index)">
+                    <template #default="{ index: dataIndex }">
+                        <Button danger type="link" style="cursor: pointer" @click="remove(dataIndex)">
                             <template #icon>
                                 <DeleteOutlined />
                             </template>
@@ -72,7 +72,6 @@ import { useStore } from 'vuex';
 import { Card, Table, Form, Select, Button } from 'ant-design-vue';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import StatusSelection from '../materials/statusSelection.vue';
-import { pathOr } from 'lodash/fp';
 
 const { Column } = Table;
 const { Item: FormItem } = Form;
