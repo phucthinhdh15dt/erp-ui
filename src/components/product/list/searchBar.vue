@@ -86,47 +86,47 @@ export default defineComponent({
         getCategory();
         const store = useStore();
         const onSearch = inject('onSearch');
-        const filters = computed(() => store.state.attributeSet.list.data.filters);
-        const filterCollected = computed(() => store.state.attributeSet.list.data.filterCollected);
+        const filters = computed(() => store.state.list.filters);
+        const filterCollected = computed(() => store.state.list.filterCollected);
         const localKeyword = ref('');
         const visible = ref(false);
         const inputRef = ref(null);
-        const keyword = computed(() => store.state.attributeSet.list.data.keyword);
-        const selectedRow = computed(() => store.state.attributeSet.list.data.selectedRow);
+        const keyword = computed(() => store.state.list.keyword);
+        const selectedRow = computed(() => store.state.list.selectedRow);
         const onOpen = () => {
-            store.commit('attributeSet/setFilters', cloneDeep(filterCollected.value));
+            store.commit('list/setFilters', cloneDeep(filterCollected.value));
             visible.value = true;
         };
         const onClose = () => {
             visible.value = false;
         };
         const onResetFilters = () => {
-            store.commit('attributeSet/setFilterCollected', {});
-            store.commit('attributeSet/setFilters', {});
+            store.commit('list/setFilterCollected', {});
+            store.commit('list/setFilters', {});
             onSearch();
             onClose();
         };
         const onBlurSearch = e => {
             const value = trim(e.target.value);
             localKeyword.value = value;
-            store.commit('attributeSet/setSearchKeyword', value);
-            store.commit('attributeSet/setSearchPaginationCurrent', 1);
+            store.commit('list/setSearchKeyword', value);
+            store.commit('list/setSearchPaginationCurrent', 1);
             onSearch();
         };
         const onSearchEnter = val => {
             const value = trim(val);
             localKeyword.value = value;
-            store.commit('attributeSet/setSearchKeyword', value);
-            store.commit('attributeSet/setSearchPaginationCurrent', 1);
+            store.commit('list/setSearchKeyword', value);
+            store.commit('list/setSearchPaginationCurrent', 1);
             onSearch();
         };
         const onChange = data => {
-            store.commit('attributeSet/setSearchFilters', cloneDeep(data));
+            store.commit('list/setSearchFilters', cloneDeep(data));
         };
         provide('onChange', onChange);
         const search = () => {
-            store.commit('attributeSet/setFilterCollected', cloneDeep(filters.value));
-            store.commit('attributeSet/setSearchPaginationCurrent', 1);
+            store.commit('list/setFilterCollected', cloneDeep(filters.value));
+            store.commit('list/setSearchPaginationCurrent', 1);
             onSearch();
             onClose();
         };
