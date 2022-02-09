@@ -64,16 +64,16 @@ export const columns = [
         width: 150,
         align: 'center',
     },
-    {
-        title: 'Giá VAT',
-        dataIndex: 'originalPrice',
-        key: 'originalPrice',
-        width: 150,
-        align: 'center',
-        customRender({ text }) {
-            return formatToCurrency(text);
-        },
-    },
+    // {
+    //     title: 'Giá VAT',
+    //     dataIndex: 'originalPrice',
+    //     key: 'originalPrice',
+    //     width: 150,
+    //     align: 'center',
+    //     customRender({ text }) {
+    //         return formatToCurrency(text);
+    //     },
+    // },
     {
         title: 'Trạng thái',
         dataIndex: 'status',
