@@ -15,35 +15,70 @@ export const useSearchAttributeSet = () => {
         result.value = '';
         const payload = {
             query: {
-                bool: {
-                    must: [
+                function_score: {
+                    query: {
+                        bool: {
+                            must: [
+                                {
+                                    match: {
+                                        'category.code': categoryId,
+                                    },
+                                },
+                                {
+                                    bool: {
+                                        should: [
+                                            {
+                                                match: {
+                                                    'brand.code': brandId,
+                                                },
+                                            },
+                                            {
+                                                bool: {
+                                                    must_not: {
+                                                        exists: {
+                                                            field: 'brand',
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    functions: [
                         {
-                            match: {
-                                'category.code': categoryId,
+                            filter: {
+                                match: {
+                                    'brand.code': brandId,
+                                },
                             },
+                            weight: 100,
                         },
                     ],
                 },
             },
+            size: 1,
         };
 
-        if (brandId) {
-            payload.query.bool.must.push({
-                match: {
-                    'brand.code': brandId,
-                },
-            });
-        } else {
-            payload.query.bool.should = {
-                bool: {
-                    must_not: {
-                        exists: {
-                            field: 'category.code',
-                        },
-                    },
-                },
-            };
-        }
+        // if (brandId) {
+        //     payload.query.bool.must.push({
+        //         match: {
+        //             'brand.code': brandId,
+        //         },
+        //     });
+        // } else {
+        //     payload.query.bool.should = {
+        //         bool: {
+        //             must_not: {
+        //                 exists: {
+        //                     field: 'category.code',
+        //                 },
+        //             },
+        //         },
+        //     };
+        // }
 
         const responseSearch = await api.search.searchAttributeSet(payload);
         if (!responseSearch.data) {
