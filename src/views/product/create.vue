@@ -58,7 +58,7 @@ watch(
                 modelRef.distributors = [];
             } else if (_attributeSet.isVariant) {
                 console.log('_attributeSet', _attributeSet);
-                modelRef.variants = [];
+                modelRef.variants = {};
             } else {
                 for (const attr of _attributeSet.attributes) {
                     modelRef[attr.code] = attr.defaultValue;

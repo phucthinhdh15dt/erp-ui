@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="card-head-title">Biến thể của sản phẩm</div>
-        <Card body-style="padding: 0">
-            <Table :data-source="modelRef.variants" :pagination="false">
+        <Card>
+            <Table v-if="isEdit" :data-source="modelRef.variants" :pagination="false">
                 <Column v-for="(column, colIndex) in columns" :key="column.key">
                     <template #title>{{ column.title }}</template>
                     <template #default="{ index: dataIndex }">
@@ -38,16 +38,32 @@
                     </Button>
                 </template>
             </Table>
+            <div v-else>
+                <FormItem
+                    v-for="(column, colIndex) in columns"
+                    :key="column.key"
+                    :label="column.title"
+                    class="form-label-w-18"
+                >
+                    <Select
+                        :value="modelRef.variants[column.key]"
+                        :options="attributes[colIndex].options"
+                        mode="multiple"
+                        @change="value => onChangeCreate(column.key, colIndex, value)"
+                    />
+                </FormItem>
+            </div>
         </Card>
     </div>
 </template>
 
 <script setup>
-import { computed, inject, toRefs } from 'vue';
+import { computed, inject, toRefs, toRaw } from 'vue';
 import { useStore } from 'vuex';
 import { Card, Table, Form, Select, Button } from 'ant-design-vue';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import StatusSelection from '../materials/statusSelection.vue';
+import { pathOr } from 'lodash/fp';
 
 const { Column } = Table;
 const { Item: FormItem } = Form;
@@ -80,11 +96,15 @@ const defaultData = computed(() =>
     }, {})
 );
 const add = () => {
-    store.commit('product/addVariant', defaultData.value);
+    store.commit('product/addVariant', toRaw(defaultData.value));
 };
 
 const remove = index => {
     store.commit('product/removeVariant', { index });
+};
+
+const onChangeCreate = (field, index, value) => {
+    store.commit('product/setVariantDataCreate', { field, index, value });
 };
 
 const onChange = (field, index, value) => {
