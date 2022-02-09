@@ -10,12 +10,12 @@ export const rulesRef = reactive({
             message: 'Chọn ngành hàng',
         },
     ],
-    // 'general.brand': [
-    //     {
-    //         required: true,
-    //         message: 'Chọn thương hiệu',
-    //     },
-    // ],
+    'general.brand': [
+        {
+            required: true,
+            message: 'Chọn thương hiệu',
+        },
+    ],
     'general.name': [
         {
             required: true,
