@@ -90,8 +90,8 @@ export const useUpsertProduct = () => {
 
                 return _acc;
             }, [])(Object.keys(cur)),
-            productCode: '',
-            status: 'IN_PRODUCTION',
+            productCode: cur.productCode,
+            status: cur.status,
         });
 
         return acc;
