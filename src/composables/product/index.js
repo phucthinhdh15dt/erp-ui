@@ -80,7 +80,7 @@ export const useUpsertProduct = () => {
         };
     };
 
-    const collectVariants = reduce((acc, cur) => {
+    const collectVariantsUpdate = reduce((acc, cur) => {
         acc.push({
             attributes: reduce((_acc, _cur) => {
                 _acc.push({
@@ -90,12 +90,56 @@ export const useUpsertProduct = () => {
 
                 return _acc;
             }, [])(Object.keys(cur)),
-            productCode: '',
-            status: 'IN_PRODUCTION',
+            productCode: cur.productCode,
+            status: cur.status,
         });
 
         return acc;
     }, []);
+
+    const collectVariantsCreate = variants => {
+        const variantKeys = Object.keys(variants);
+        const result = [];
+
+        const key1 = variantKeys[0];
+        const key2 = variantKeys[1];
+
+        if (key2) {
+            for (const value1 of variants[key1]) {
+                for (const value2 of variants[key2]) {
+                    result.push({
+                        attributes: [
+                            {
+                                code: key1,
+                                value: value1,
+                            },
+                            {
+                                code: key2,
+                                value: value2,
+                            },
+                        ],
+                        productCode: '',
+                        status: 'IN_PRODUCTION',
+                    });
+                }
+            }
+        } else {
+            for (const value1 of variants[key1]) {
+                result.push({
+                    attributes: [
+                        {
+                            code: key1,
+                            value: value1,
+                        },
+                    ],
+                    productCode: '',
+                    status: 'IN_PRODUCTION',
+                });
+            }
+        }
+
+        return result;
+    };
 
     const collectAttributes = attributes =>
         Object.keys(attributes).reduce((acc, cur) => {
@@ -122,7 +166,7 @@ export const useUpsertProduct = () => {
         const { general, variants = [], certifications = [], ...attributes } = data;
 
         const attributesCollected = collectAttributes(attributes);
-        const variantsCollected = collectVariants(variants);
+        const variantsCollected = mode === 'update' ? collectVariantsUpdate(variants) : collectVariantsCreate(variants);
 
         const certificationsCollected = await collectCertifications(certifications.filter(_ => _.certificateId));
         if (certificationsCollected) {

@@ -1,8 +1,13 @@
 <template>
     <div>
         <div class="card-head-title">Biến thể của sản phẩm</div>
-        <Card body-style="padding: 0">
+        <Card v-if="isEdit" body-style="padding: 0">
             <Table :data-source="modelRef.variants" :pagination="false">
+                <Column key="productCode" title="Product code">
+                    <template #default="{ index: dataIndex }">
+                        {{ modelRef.variants[dataIndex].productCode }}
+                    </template>
+                </Column>
                 <Column v-for="(column, colIndex) in columns" :key="column.key">
                     <template #title>{{ column.title }}</template>
                     <template #default="{ index: dataIndex }">
@@ -17,12 +22,15 @@
                 </Column>
                 <Column v-if="isEdit" key="status" title="Trạng thái">
                     <template #default="{ index: dataIndex }">
-                        <StatusSelection :value="modelRef.variants[dataIndex].status" />
+                        <StatusSelection
+                            :value="modelRef.variants[dataIndex].status"
+                            @change="value => onChange('status', dataIndex, value)"
+                        />
                     </template>
                 </Column>
                 <Column key="action" title="">
-                    <template #default>
-                        <Button danger type="link" style="cursor: pointer" @click="remove(index)">
+                    <template #default="{ index: dataIndex }">
+                        <Button danger type="link" style="cursor: pointer" @click="remove(dataIndex)">
                             <template #icon>
                                 <DeleteOutlined />
                             </template>
@@ -39,11 +47,27 @@
                 </template>
             </Table>
         </Card>
+
+        <Card v-else>
+            <FormItem
+                v-for="(column, colIndex) in columns"
+                :key="column.key"
+                :label="column.title"
+                class="form-label-w-18"
+            >
+                <Select
+                    :value="modelRef.variants[column.key]"
+                    :options="attributes[colIndex].options"
+                    mode="multiple"
+                    @change="value => onChangeCreate(column.key, colIndex, value)"
+                />
+            </FormItem>
+        </Card>
     </div>
 </template>
 
 <script setup>
-import { computed, inject, toRefs } from 'vue';
+import { computed, inject, toRefs, toRaw } from 'vue';
 import { useStore } from 'vuex';
 import { Card, Table, Form, Select, Button } from 'ant-design-vue';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue';
@@ -80,11 +104,15 @@ const defaultData = computed(() =>
     }, {})
 );
 const add = () => {
-    store.commit('product/addVariant', defaultData.value);
+    store.commit('product/addVariant', toRaw(defaultData.value));
 };
 
 const remove = index => {
     store.commit('product/removeVariant', { index });
+};
+
+const onChangeCreate = (field, index, value) => {
+    store.commit('product/setVariantDataCreate', { field, index, value });
 };
 
 const onChange = (field, index, value) => {
