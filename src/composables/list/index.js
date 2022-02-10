@@ -71,6 +71,7 @@ const useSearch = () => {
 
         const payload = collectSearchPayload(searchQuery);
         const response = await api.search[`search${name}`](payload);
+        debugger;
         const data = cloneDeep(response.data);
         // const data = { hits: [{ id: 1, code: 1 }], total: 1 };
 
