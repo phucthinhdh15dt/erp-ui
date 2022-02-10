@@ -11,9 +11,7 @@
         >
             <template #bodyCell="{ column, text, record, index }">
                 <template v-if="column.dataIndex === 'numberIndex'">
-                    <span>
-                        {{ index + 1 }}
-                    </span>
+                    <span> {{ paginationStored.current == 1 ? index + 1 : paginationStored.limit + index + 1 }} </span>
                 </template>
                 <template v-if="column.dataIndex === 'createAt'">
                     <Datetime :value="status" />
@@ -27,7 +25,7 @@
                 <template v-if="column.dataIndex === 'code'">
                     <a class="id-style" :href="`/${searchConfigs.urlParam}/${record.id}`">#{{ text }}</a>
                 </template>
-                  <template v-if="column.dataIndex === 'variants'">
+                <template v-if="column.dataIndex === 'variants'">
                     <span v-if="record.variantFields">{{ record.variantFields.join(', ') }}</span>
                 </template>
                 <template v-if="column.dataIndex === 'status'">
@@ -135,6 +133,7 @@ export default defineComponent({
             onSelectAll,
             onEdit,
             STATUS_PRODUCT,
+            paginationStored,
         };
     },
 });
