@@ -90,7 +90,7 @@ const filters = [
         type: 'Selection',
         label: 'Ngành hàng',
         key: 'category',
-        name: 'category.id',
+        name: 'categories.id',
         configs: {
             dataMapping: true,
         },
