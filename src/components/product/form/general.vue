@@ -6,7 +6,7 @@
                 v-if="isEdit"
                 label="Trạng thái sản phẩm"
                 class="form-label-w-18"
-                v-bind="validateInfos['general.category']"
+                v-bind="validateInfos['general.status']"
             >
                 <StatusSelection :value="modelRef.general.status" @change="onChangeStatus" />
             </FormItem>

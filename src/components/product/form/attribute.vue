@@ -22,8 +22,8 @@
             />
             <Switch
                 v-else-if="configs.uiComponentType === 'YES_NO'"
-                :checked="modelRef[configs.code]"
-                @change="e => onChange(configs.code, e.target.checked)"
+                :checked="[true, 'true'].includes(modelRef[configs.code])"
+                @change="e => onChange(configs.code, e)"
             />
             <Upload
                 v-else-if="configs.uiComponentType === 'UPLOAD'"
