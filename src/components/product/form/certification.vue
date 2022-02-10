@@ -48,6 +48,7 @@
                                 <DatePicker
                                     :value="modelRef.certifications[index].publishDate"
                                     :locale="locale"
+                                    style="width: 100%"
                                     @change="value => onChange('publishDate', index, value)"
                                 />
                             </FormItem>
