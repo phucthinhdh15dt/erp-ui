@@ -22,6 +22,12 @@ export const rulesRef = reactive({
             message: 'Nhập tên sản phẩm',
         },
     ],
+    'general.status': [
+        {
+            required: true,
+            message: 'Chọn trạng thái',
+        },
+    ],
 });
 
 export const useUpsertProduct = () => {
@@ -98,6 +104,8 @@ export const useUpsertProduct = () => {
     }, []);
 
     const collectVariantsCreate = variants => {
+        if (!variants.length) return [];
+
         const variantKeys = Object.keys(variants);
         const result = [];
 
