@@ -97,6 +97,7 @@ const routes = [
                             breadCrumb: 'Chi tiết sản phẩm',
                             authRequired: true,
                             layout: 'default',
+                            subMenuKey: '2',
                         },
                     },
                     {
@@ -108,6 +109,7 @@ const routes = [
                             breadCrumb: 'Cập nhật sản phẩm',
                             authRequired: true,
                             layout: 'default',
+                            subMenuKey: '2',
                         },
                     },
                 ],
