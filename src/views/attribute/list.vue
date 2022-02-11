@@ -57,7 +57,7 @@ const filters = [
 ];
 
 const searchConfigs = {
-    fields: ['code', 'name'],
+    fields: ['code', 'label'],
     placeholder: 'Nhập mã hoặc tên thuộc tính',
     rowKey: 'code',
     urlParam: 'attribute',
