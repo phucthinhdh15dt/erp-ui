@@ -1,7 +1,7 @@
 import { reactive, inject, ref } from 'vue';
 import { useLayoutLoading } from '@/composables/common/layout';
 import { useStore } from 'vuex';
-import { isPlainObject, pathOr, map, reduce } from 'lodash/fp';
+import { isPlainObject, pathOr, map, reduce, isEmpty } from 'lodash/fp';
 
 export const rulesRef = reactive({
     'general.category': [
@@ -104,7 +104,7 @@ export const useUpsertProduct = () => {
     }, []);
 
     const collectVariantsCreate = variants => {
-        if (!variants.length) return [];
+        if (isEmpty(variants)) return [];
 
         const variantKeys = Object.keys(variants);
         const result = [];
