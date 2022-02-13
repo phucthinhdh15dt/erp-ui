@@ -69,6 +69,7 @@
 <script setup>
 import { computed, inject, toRefs, toRaw } from 'vue';
 import { useStore } from 'vuex';
+import { cloneDeep } from 'lodash/fp';
 import { Card, Table, Form, Select, Button } from 'ant-design-vue';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import StatusSelection from '../materials/statusSelection.vue';
@@ -104,7 +105,7 @@ const defaultData = computed(() =>
     }, {})
 );
 const add = () => {
-    store.commit('product/addVariant', toRaw(defaultData.value));
+    store.commit('product/addVariant', cloneDeep(toRaw(defaultData.value)));
 };
 
 const remove = index => {
