@@ -55,6 +55,8 @@ import { computed, inject, toRaw } from 'vue';
 import { useStore } from 'vuex';
 import { Card, Form, Row, Col, Button, Select, Table } from 'ant-design-vue';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue';
+import { STATUS_DISTRIBUTOR } from '@/constants';
+import { pathOr } from 'lodash/fp';
 const { Item: FormItem } = Form;
 
 const store = useStore();
@@ -107,6 +109,7 @@ const onChange = (field, index, value) => {
 
 const getDistributorStatus = value => {
     const found = manufacturerOptions.value.find(_ => _.value === toRaw(value));
-    return found?.status || '';
+    const status = pathOr({}, found?.status || '')(STATUS_DISTRIBUTOR);
+    return pathOr('', 'label')(status);
 };
 </script>

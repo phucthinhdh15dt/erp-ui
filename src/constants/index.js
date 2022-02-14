@@ -13,3 +13,16 @@ export const STATUS_BRAND = {
         color: '#ff4d4f',
     },
 };
+
+export const STATUS_DISTRIBUTOR = {
+    ACTIVE: {
+        code: 'ACTIVE',
+        label: 'Đang phân phối',
+        color: '#52c41a',
+    },
+    DEACTIVE: {
+        code: 'DEACTIVE',
+        label: 'Ngưng phân phối',
+        color: '#ff4d4f',
+    },
+};
