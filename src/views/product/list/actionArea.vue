@@ -1,6 +1,6 @@
 <template>
     <div class="ActionArea">
-        <Button type="primary" @click="createProduct"> Tạo mới </Button>
+        <a href="/product/create"> <Button type="primary"> Tạo mới </Button></a>
     </div>
 </template>
 
