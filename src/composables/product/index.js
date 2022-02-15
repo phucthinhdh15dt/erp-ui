@@ -86,22 +86,30 @@ export const useUpsertProduct = () => {
         };
     };
 
-    const collectVariantsUpdate = reduce((acc, cur) => {
-        acc.push({
-            attributes: reduce((_acc, _cur) => {
-                _acc.push({
-                    code: _cur,
-                    value: cur[_cur],
-                });
+    const collectVariantsUpdate = (variants, general) => {
+        let isStatusChange = general.status !== general.initalStatus;
 
-                return _acc;
-            }, [])(Object.keys(cur)),
-            productCode: cur.productCode,
-            status: cur.status,
-        });
+        return reduce((acc, cur) => {
+            const status = isStatusChange ? general.status : cur.status;
 
-        return acc;
-    }, []);
+            acc.push({
+                attributes: reduce((_acc, _cur) => {
+                    if (!['productCode', 'status'].includes(_cur)) {
+                        _acc.push({
+                            code: _cur,
+                            value: cur[_cur],
+                        });
+                    }
+
+                    return _acc;
+                }, [])(Object.keys(cur)),
+                productCode: cur.productCode,
+                status: status,
+            });
+
+            return acc;
+        }, [])(variants);
+    };
 
     const collectVariantsCreate = variants => {
         if (isEmpty(variants)) return [];
@@ -174,7 +182,8 @@ export const useUpsertProduct = () => {
         const { general, variants = [], certifications = [], ...attributes } = data;
 
         const attributesCollected = collectAttributes(attributes);
-        const variantsCollected = mode === 'update' ? collectVariantsUpdate(variants) : collectVariantsCreate(variants);
+        const variantsCollected =
+            mode === 'update' ? collectVariantsUpdate(variants, general) : collectVariantsCreate(variants);
 
         const certificationsCollected = await collectCertifications(certifications.filter(_ => _.certificateId));
         if (certificationsCollected) {
@@ -254,12 +263,12 @@ export const useGetProductDetail = () => {
 
             return {
                 productCode,
-                status,
                 ...attributes.reduce((acc, cur) => {
                     acc[cur.code] = cur.value;
 
                     return acc;
                 }, {}),
+                status,
             };
         });
     };
@@ -288,6 +297,7 @@ export const useGetProductDetail = () => {
             const data = response.data[0];
             const result = {
                 general: {
+                    initalStatus: data.status,
                     status: data.status,
                     brand: pathOr('', 'brand.code')(data),
                     category: pathOr('', 'categories[0].code')(data),
