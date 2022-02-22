@@ -8,7 +8,7 @@
             />
             <Select
                 v-else-if="['MULTI_SELECT', 'SINGLE_SELECT'].includes(configs.uiComponentType)"
-                :value="modelRef[configs.code]"
+                :value="modelRef[configs.code] || undefined"
                 :mode="configs.uiComponentType === 'MULTI_SELECT' ? 'multiple' : null"
                 :options="configs.options"
                 @change="value => onChange(configs.code, value)"

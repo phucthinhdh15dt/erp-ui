@@ -1,7 +1,7 @@
 import { reactive, inject, ref } from 'vue';
 import { useLayoutLoading } from '@/composables/common/layout';
 import { useStore } from 'vuex';
-import { isPlainObject, pathOr, map, reduce, isEmpty } from 'lodash/fp';
+import { isPlainObject, pathOr, map, reduce, isEmpty, isArray } from 'lodash/fp';
 
 export const rulesRef = reactive({
     'general.category': [
@@ -41,6 +41,8 @@ export const useUpsertProduct = () => {
     const normalize = value => {
         if (isPlainObject(value)) {
             return value.toISOString();
+        } else if (isArray(value)) {
+            return JSON.stringify(value);
         }
 
         return value;
@@ -273,6 +275,14 @@ export const useGetProductDetail = () => {
         });
     };
 
+    const getJSONValueMaybe = value => {
+        try {
+            return JSON.parse(value);
+        } catch (e) {
+            return value;
+        }
+    };
+
     const prepareAttributes = reduce((acc, cur) => {
         if (cur.attribute.label === 'Giấy chứng nhận') {
             const parseValue = JSON.parse(cur.value);
@@ -283,7 +293,7 @@ export const useGetProductDetail = () => {
 
             acc.distributors = parseValue;
         } else {
-            acc[cur.attribute.code] = cur.value;
+            acc[cur.attribute.code] = getJSONValueMaybe(cur.value);
         }
 
         return acc;
