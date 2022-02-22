@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import { defineComponent, computed, provide, onMounted, toRefs, toRaw } from 'vue';
 import { Form } from 'ant-design-vue';
 import { useStore } from 'vuex';
@@ -75,6 +76,18 @@ export default defineComponent({
                     const rawValue = toRaw(filters.value[filter]);
 
                     switch (config.type) {
+                        case 'DateRange':
+                            const fromDate = moment(rawValue[0]).startOf('day').utcOffset(0).format('YYYY-MM-DD');
+                            const toDate = moment(rawValue[1]).endOf('day').utcOffset(0).format('YYYY-MM-DD');
+                            acc.push({
+                                range: {
+                                    [filter]: {
+                                        gte: fromDate,
+                                        lte: toDate,
+                                    },
+                                },
+                            });
+                            break;
                         default:
                             acc.push({
                                 match: { [filter]: rawValue },
