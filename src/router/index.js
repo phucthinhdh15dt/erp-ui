@@ -4,6 +4,22 @@ import { useAuth } from '@/composables/auth/index';
 import { nextTick } from 'vue';
 
 const Login = () => import('@/views/auth/login.vue');
+const CategoryList = () => import('@/views/category/list.vue');
+
+const Product = () => import('@/views/product/index.vue');
+const ProductCreate = () => import('@/views/product/create.vue');
+const ProductList = () => import('@/views/product/list.vue');
+const ProductDetail = () => import('@/views/product/detail.vue');
+const ProductUpdate = () => import('@/views/product/update.vue');
+
+const AttributeSet = () => import('@/views/attributeset/index.vue');
+const AttributeSetCreate = () => import('@/views/attributeset/create.vue');
+const AttributeSetDetail = () => import('@/views/attributeset/detail.vue');
+const AttributeSetList = () => import('@/views/attributeset/list.vue');
+
+const BrandList = () => import('@/views/brand/list.vue');
+
+const AttributeList = () => import('@/views/attribute/list.vue');
 
 const routes = [
     {
@@ -11,7 +27,7 @@ const routes = [
         name: 'Home',
         component: Home,
         meta: {
-            title: 'ERP',
+            title: 'Blissbery - ERP',
             authRequired: true,
         },
     },
@@ -24,58 +40,236 @@ const routes = [
             layout: 'blank',
         },
     },
-    // {
-    //     path: '/order',
-    //     name: 'Order',
-    //     component: Order,
-    //     meta: {
-    //         title: 'Đơn hàng',
-    //         breadCrumb: 'Đơn hàng',
-    //         authRequired: true,
-    //         layout: 'default',
-    //     },
-    //     children: [
-    //         {
-    //             name: 'OrderDetail',
-    //             path: ':id',
-    //             component: OrderDetail,
-    //             meta: {
-    //                 title: 'Đơn hàng',
-    //                 breadCrumb: 'Chi tiết đơn hàng',
-    //                 authRequired: true,
-    //                 layout: 'default',
-    //                 subMenuKey: '1',
-    //                 menuKey: '1.3',
-    //             },
-    //         },
-    //         {
-    //             name: 'OrderList',
-    //             path: 'list',
-    //             component: OrderList,
-    //             meta: {
-    //                 title: 'Đơn hàng',
-    //                 breadCrumb: 'Danh sách đơn hàng',
-    //                 authRequired: true,
-    //                 layout: 'default',
-    //                 subMenuKey: '1',
-    //                 menuKey: '1.2',
-    //             },
-    //         },
-    //         {
-    //             name: 'OrderCreate',
-    //             path: 'create',
-    //             component: OrderCreate,
-    //             meta: {
-    //                 title: 'Đơn hàng',
-    //                 breadCrumb: 'Tạo đơn hàng',
-    //                 authRequired: true,
-    //                 layout: 'default',
-    //                 subMenuKey: '1',
-    //                 menuKey: '1.1',
-    //             },
-    //         },
-    //     ],
-    // },
+    {
+        path: '/category',
+        name: 'CategoryList',
+        component: CategoryList,
+        meta: {
+            title: 'Ngành hàng',
+            breadCrumb: 'Ngành hàng',
+            authRequired: true,
+            layout: 'default',
+        },
+        children: [
+            {
+                name: 'OrderList',
+                path: 'list',
+                component: CategoryList,
+                meta: {
+                    title: 'Đơn hàng',
+                    breadCrumb: 'Danh sách ngành hàng',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '1',
+                    menuKey: '1.2',
+                },
+            },
+        ],
+    },
+    {
+        path: '/product',
+        name: 'Product',
+        component: Product,
+        meta: {
+            title: 'Sản phẩm',
+            breadCrumb: 'Sản phẩm',
+            authRequired: true,
+            layout: 'default',
+        },
+        children: [
+            {
+                name: 'Product',
+                path: ':id',
+                component: Product,
+                meta: {
+                    title: 'Chi tiết sản phẩm',
+                    breadCrumb: 'Chi tiết sản phẩm',
+                    authRequired: true,
+                    layout: 'default',
+                },
+                children: [
+                    {
+                        name: 'ProductDetail',
+                        path: '',
+                        component: ProductDetail,
+                        meta: {
+                            title: 'Chi tiết sản phẩm',
+                            breadCrumb: 'Chi tiết sản phẩm',
+                            authRequired: true,
+                            layout: 'default',
+                            subMenuKey: '2',
+                        },
+                    },
+                    {
+                        name: 'ProductUpdate',
+                        path: 'update',
+                        component: ProductUpdate,
+                        meta: {
+                            title: 'Cập nhật sản phẩm',
+                            breadCrumb: 'Cập nhật sản phẩm',
+                            authRequired: true,
+                            layout: 'default',
+                            subMenuKey: '2',
+                        },
+                    },
+                ],
+            },
+            {
+                name: 'ProductCreate',
+                path: 'create',
+                component: ProductCreate,
+                meta: {
+                    title: 'Sản phẩm',
+                    breadCrumb: 'Khai báo sản phẩm',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '2',
+                    menuKey: '2.1',
+                },
+            },
+            // {
+            //     name: 'ProductUpdate',
+            //     path: 'update',
+            //     component: ProductUpdate,
+            //     meta: {
+            //         title: 'Cập nhật sản phẩm',
+            //         breadCrumb: 'Cập nhật sản phẩm',
+            //         authRequired: true,
+            //         layout: 'default',
+            //     },
+            //     children: [
+            //         {
+            //             name: 'ProductDetail',
+            //             path: ':id',
+            //             component: ProductDetail,
+            //             meta: {
+            //                 title: 'Cập nhật sản phẩm',
+            //                 breadCrumb: 'Cập nhật sản phẩm',
+            //                 authRequired: true,
+            //                 layout: 'default',
+            //             },
+            //         },
+            //     ]
+            // },
+            {
+                name: 'ProductList',
+                path: 'list',
+                component: ProductList,
+                meta: {
+                    title: 'Danh sách sản phẩm',
+                    breadCrumb: 'Danh sách sản phẩm',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '2',
+                    menuKey: '2.2',
+                },
+            },
+        ],
+    },
+    {
+        path: '/attribute-set',
+        name: 'AttributeSet',
+        component: AttributeSet,
+        meta: {
+            title: 'Nhóm thuộc tính',
+            breadCrumb: 'Nhóm huộc tính',
+            authRequired: true,
+            layout: 'default',
+        },
+        children: [
+            {
+                name: 'AttributeSetDetail',
+                path: ':id',
+                component: AttributeSetDetail,
+                meta: {
+                    title: 'Chi tiết nhóm thuộc tính',
+                    breadCrumb: 'Chi tiết nhóm thuộc tính',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '3',
+                    menuKey: '3.1',
+                },
+            },
+            {
+                name: 'AttributeSetList',
+                path: 'list',
+                component: AttributeSetList,
+                meta: {
+                    title: 'Danh sách nhóm thuộc tính',
+                    breadCrumb: 'Danh sách nhóm thuộc tính',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '3',
+                    menuKey: '3.2',
+                },
+            },
+            {
+                name: 'AttributeSetCreate',
+                path: 'create',
+                component: AttributeSetCreate,
+                meta: {
+                    title: 'Tạo nhóm thuộc tính',
+                    breadCrumb: 'Tạo nhóm thuộc tính',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '3',
+                    menuKey: '3.1',
+                },
+            },
+        ],
+    },
+    {
+        path: '/brand',
+        name: 'BrandList',
+        component: BrandList,
+        meta: {
+            title: 'Thương hiệu',
+            authRequired: true,
+            breadCrumb: 'Thương hiệu',
+            layout: 'default',
+        },
+        children: [
+            {
+                name: 'BrandList',
+                path: 'list',
+                component: BrandList,
+                meta: {
+                    title: 'Danh sách thương hiệu',
+                    breadCrumb: 'Danh sách thương hiệu',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '4',
+                    menuKey: '4.1',
+                },
+            },
+        ],
+    },
+    {
+        path: '/attribute',
+        name: 'AttributeList',
+        component: AttributeList,
+        meta: {
+            title: 'Thuộc tính',
+            breadCrumb: 'Thuộc tính',
+            authRequired: true,
+            layout: 'default',
+        },
+        children: [
+            {
+                name: 'AttributeList',
+                path: 'list',
+                component: AttributeList,
+                meta: {
+                    title: 'Danh sách thuộc tính',
+                    breadCrumb: 'Danh sách thuộc tính',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '5',
+                    menuKey: '5.1',
+                },
+            },
+        ],
+    },
 ];
 
 const router = createRouter({

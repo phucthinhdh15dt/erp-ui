@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { defineComponent, toRefs, inject, ref, watch } from 'vue';
 import { DatePicker } from 'ant-design-vue';
 
@@ -43,7 +43,7 @@ export default defineComponent({
                 if (!value.value.length) {
                     scopedValue.value = [];
                 } else {
-                    scopedValue.value = [moment(value.value[0]), moment(value.value[1])];
+                    scopedValue.value = [dayjs(value.value[0]), dayjs(value.value[1])];
                 }
             },
             { deep: true }

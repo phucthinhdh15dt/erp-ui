@@ -5,12 +5,19 @@
                 ref="inputRef"
                 v-model:value="localKeyword"
                 class="SearchBar__Input"
+                enter-button
                 :placeholder="searchConfigs.placeholder"
                 allow-clear
                 @search="onSearchEnter"
                 @blur="onBlurSearch"
             />
-            <Button class="SearchBar__Filter__Btn" type="primary" @click="onOpen">Lọc</Button>
+            <Button
+                v-if="filterConfigs && filterConfigs.length > 0"
+                class="SearchBar__Filter__Btn"
+                type="primary"
+                @click="onOpen"
+                >Lọc</Button
+            >
             <slot name="ActionArea" />
             <Drawer title="Bộ lọc" placement="bottom" :height="300" closable :visible="visible" @close="onClose">
                 <Form>

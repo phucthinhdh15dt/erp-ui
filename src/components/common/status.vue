@@ -5,7 +5,6 @@
 <script>
 import { computed, defineComponent } from 'vue';
 import { Tag } from 'ant-design-vue';
-import { STATUS } from '@/constants';
 import { getOr } from 'lodash/fp';
 
 export default defineComponent({
@@ -18,10 +17,13 @@ export default defineComponent({
             type: String,
             default: '',
         },
+        listStatus: {
+            type: Array,
+            default: undefined,
+        },
     },
     setup(props) {
-        const status = computed(() => getOr({}, props.code, STATUS));
-
+        const status = computed(() => getOr({}, props.code, props.listStatus));
         return { status };
     },
 });

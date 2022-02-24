@@ -1,9 +1,9 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { FORMAT_DATE_HAS_YEAR, FORMAT_DATE_NO_YEAR, FORMAT_TIME } from '@/constants';
 
-const getFormatDate = (date, noYear = true, noTime = false) => {
-    const currentYear = moment().year();
-    const year = moment(date).year();
+export const getFormatDate = (date, noYear = true, noTime = false) => {
+    const currentYear = dayjs().year();
+    const year = dayjs(date).year();
     let result = FORMAT_DATE_HAS_YEAR;
 
     if (noYear && year === currentYear) {
@@ -12,5 +12,3 @@ const getFormatDate = (date, noYear = true, noTime = false) => {
 
     return noTime ? result.replace(FORMAT_TIME, '').trim() : result;
 };
-
-export { getFormatDate };

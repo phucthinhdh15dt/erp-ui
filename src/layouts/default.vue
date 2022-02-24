@@ -1,7 +1,7 @@
 <template>
     <Layout class="LayoutDefault">
         <SideMenu :sub-menu-key-ref="subMenuKeyRef" :menu-key-ref="menuKeyRef" />
-        <Layout>
+        <Layout :style="`margin-left: ${isCollapsed ? 80 : 222}px`">
             <Header />
             <Breadcrumb :data="crumbs" class="LayoutDefault__Breadcrumb" />
             <LayoutContent class="LayoutDefault__Content">
@@ -13,6 +13,7 @@
 
 <script>
 import { computed, defineComponent } from 'vue';
+import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { Layout } from 'ant-design-vue';
 import Header from '@/components/layout/Header.vue';
@@ -31,6 +32,7 @@ export default defineComponent({
     },
     setup() {
         const route = useRoute();
+        const store = useStore();
         const crumbs = computed(() => {
             let pathArray = route.path.split('/');
             pathArray.shift();
@@ -48,6 +50,8 @@ export default defineComponent({
             return breadcrumbs;
         });
 
+        const isCollapsed = computed(() => store.state.layout.menuCollapsed);
+
         const menuKeyRef = computed(() => {
             return route.meta.menuKey;
         });
@@ -60,6 +64,7 @@ export default defineComponent({
             crumbs,
             subMenuKeyRef,
             menuKeyRef,
+            isCollapsed,
         };
     },
 });
@@ -70,6 +75,7 @@ export default defineComponent({
     &__Content {
         margin: $primary-margin;
         margin-right: 0 !important;
+        min-height: 100vh;
     }
 
     &__Breadcrumb {

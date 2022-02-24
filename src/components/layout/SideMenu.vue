@@ -1,5 +1,5 @@
 <template>
-    <LayoutSider :collapsed="collapsed" :trigger="null" collapsible class="LayoutSider" width="208">
+    <LayoutSider :collapsed="collapsed" :trigger="null" collapsible class="LayoutSider" width="222">
         <router-link to="/">
             <div class="LayoutSider__Logo">
                 <img src="@/assets/images/logo_color.svg" width="140" />&nbsp;
@@ -7,18 +7,62 @@
             </div>
         </router-link>
         <Menu :selected-keys="[menuKey]" :open-keys="openKeys" theme="dark" mode="inline" class="LayoutSider__Menu">
-            <SubMenu key="1">
+            <!-- <template #title>Quản lý ngành hàng</template> -->
+            <router-link to="/category">
+                <MenuItem key="1.1">
+                    <template #icon>
+                        <DatabaseOutlined />
+                    </template>
+                    Quản lý ngành hàng
+                </MenuItem>
+            </router-link>
+            <SubMenu key="2">
+                <template #icon>
+                    <CodeSandboxOutlined />
+                </template>
+                <template #title>Quản lý sản phẩm</template>
+                <a href="/product/create">
+                    <MenuItem key="2.1">
+                        <template #icon>
+                            <PlusOutlined />
+                        </template>
+                        Khai báo sản phẩm
+                    </MenuItem>
+                </a>
+                <router-link to="/product/list">
+                    <MenuItem key="2.2">
+                        <template #icon>
+                            <UnorderedListOutlined />
+                        </template>
+                        Danh sách sản phẩm
+                    </MenuItem>
+                </router-link>
+            </SubMenu>
+            <!--   <router-link to="/order/list">
+                    <MenuItem key="1.2">Danh sách đơn hàng</MenuItem>
+                </router-link> -->
+            <SubMenu key="3">
                 <template #icon>
                     <FormOutlined />
                 </template>
-                <template #title>Quản lý gì đó</template>
-                <!--  <router-link to="/order/create">
-                    <MenuItem key="1.1">Tạo đơn hàng</MenuItem>
+                <template #title>QL nhóm thuộc tính</template>
+                <router-link to="/attribute-set/create">
+                    <MenuItem key="3.1">Tạo nhóm thuộc tính</MenuItem>
                 </router-link>
-                <router-link to="/order/list">
-                    <MenuItem key="1.2">Danh sách đơn hàng</MenuItem>
-                </router-link> -->
+                <router-link to="/attribute-set/list">
+                    <MenuItem key="3.2">DS nhóm thuộc tính</MenuItem>
+                </router-link>
             </SubMenu>
+            <router-link to="/brand">
+                <MenuItem key="4.1">
+                    <template #icon> <FormOutlined /> </template> Quản lý thương hiệu
+                </MenuItem>
+            </router-link>
+            <router-link to="/attribute">
+                <MenuItem key="5.1">
+                    <template #icon> <FormOutlined /> </template> Quản lý thuộc tính
+                </MenuItem>
+            </router-link>
         </Menu>
     </LayoutSider>
 </template>
@@ -26,9 +70,14 @@
 <script>
 import { defineComponent, reactive, toRefs, watch, computed } from 'vue';
 import store from '@/store';
-import { FormOutlined, TeamOutlined } from '@ant-design/icons-vue';
+import {
+    FormOutlined,
+    PlusOutlined,
+    UnorderedListOutlined,
+    CodeSandboxOutlined,
+    DatabaseOutlined,
+} from '@ant-design/icons-vue';
 import { Menu, Layout } from 'ant-design-vue';
-import { isEmpty } from 'lodash/fp';
 
 const { SubMenu, Item: MenuItem } = Menu;
 const { Sider: LayoutSider } = Layout;
@@ -37,9 +86,13 @@ export default defineComponent({
     components: {
         FormOutlined,
         Menu,
-        // MenuItem,
+        MenuItem,
         SubMenu,
         LayoutSider,
+        PlusOutlined,
+        UnorderedListOutlined,
+        CodeSandboxOutlined,
+        DatabaseOutlined,
     },
     props: {
         subMenuKeyRef: {
@@ -92,14 +145,10 @@ export default defineComponent({
 .LayoutSider {
     background: #fff;
     border-right: 1px solid #ddd;
-    min-height: 100vh;
+    height: 100vh;
     z-index: 3;
-
-    &__Wrapper {
-        position: fixed;
-        left: 0;
-        // overflow: auto;
-    }
+    position: fixed;
+    overflow: auto;
 
     &__Logo {
         height: 48px;
@@ -157,10 +206,10 @@ export default defineComponent({
             }
         }
 
-        .ant-menu-submenu-title,
-        .ant-menu-item-only-child {
-            padding-left: $primary-padding !important;
-        }
+        // .ant-menu-submenu-title,
+        // .ant-menu-item-only-child {
+        //     padding-left: $primary-padding !important;
+        // }
 
         .ant-menu-submenu-arrow::before,
         .ant-menu-submenu-arrow::after {
