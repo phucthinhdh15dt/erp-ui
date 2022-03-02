@@ -39,7 +39,6 @@ axiosInstance.interceptors.response.use(
             code: 'Undefined',
             message: 'Lỗi không xác định',
         };
-
         if (error.response) {
             const { status, data } = error.response;
             errorInfo = exceptionHandler(status, data);
