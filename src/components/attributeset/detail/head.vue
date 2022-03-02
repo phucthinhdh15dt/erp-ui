@@ -74,7 +74,7 @@ export default {
                 if (result.value) {
                     message.success('Xóa nhóm thuộc tính thành công');
                     setTimeout(() => {
-                        router.push({ path: '/attributeSet/list' });
+                        router.push({ path: '/attribute-set/list' });
                     }, 500);
                 }
             }
