@@ -14,4 +14,10 @@ export default axios => ({
         const api = apiGenerator(axios, API_NAME.GET_PRODUCT, { query: { key: id } });
         return api.call();
     },
+
+    //common get list create combo
+    getProduct(query) {
+        const api = apiGenerator(axios, API_NAME.GET_PRODUCT, { query });
+        return api.call();
+    },
 });

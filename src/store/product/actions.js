@@ -1,6 +1,7 @@
 import { groupBy, pathOr, pick, flow, map, reduce, path } from 'lodash/fp';
 import { removeAscent } from '@/utils/common';
 import dayjs from 'dayjs';
+import { cloneDeep } from 'lodash/fp';
 
 const collectAttributes = (groupByAttributes, type) =>
     flow(
@@ -91,8 +92,62 @@ const setProductCertifications = (context, data) => {
     context.commit('setProductCertifications', results);
 };
 
+//create
+const addProductItem = (context, data) => {
+    const { state } = context;
+    const productItems = state.create.data.product.items;
+    const newProductItems = cloneDeep(productItems);
+    const foundProduct = newProductItems.find(_ => _.productCode === data.productCode);
+
+    if (foundProduct) {
+        foundProduct.quantity = foundProduct.quantity + data.quantity;
+        context.commit('setProductItems', newProductItems);
+    } else {
+        newProductItems.push(data);
+        context.commit('setProductItems', newProductItems);
+    }
+};
+
+const updateProductItemQuantity = (context, { productCode, quantity }) => {
+    const { state } = context;
+    const productItems = state.create.data.product.items;
+    const foundProduct = productItems.find(_ => _.productCode === productCode);
+
+    if (foundProduct) {
+        foundProduct.quantity = quantity;
+        context.commit('setProductItems', productItems);
+    }
+};
+
+const updateProductItemDiscount = (context, { productCode, discount }) => {
+    const { state } = context;
+    const productItems = state.create.data.product.items;
+    const foundProduct = productItems.find(_ => _.productCode === productCode);
+
+    if (foundProduct) {
+        foundProduct.discount = discount;
+        context.commit('setProductItems', productItems);
+    }
+};
+
+const removeProductItem = (context, { productCode }) => {
+    const { state } = context;
+    const productItems = state.create.data.product.items;
+    const foundProduct = productItems.findIndex(_ => _.productCode === productCode);
+
+    if (foundProduct > -1) {
+        productItems.splice(foundProduct, 1);
+        context.commit('setProductItems', productItems);
+    }
+};
+
 export default {
     setAttributes,
     setProductDetail,
     setProductCertifications,
+    //create
+    addProductItem,
+    updateProductItemQuantity,
+    updateProductItemDiscount,
+    removeProductItem,
 };

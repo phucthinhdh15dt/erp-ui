@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card-head-title">Thông tin chung</div>
+        <div class="card-head-title">Thông tin chung </div>
         <Card body-style="padding: 20px 20px 0 20px">
             <FormItem
                 v-if="isEdit"
@@ -20,6 +20,7 @@
                 <Input :value="modelRef.general.name" @change="e => onChangeInput('name', e.target.value)" />
             </FormItem>
             <FormItem
+                v-if="!isCreateCombo"
                 label="Tên sản phẩm đăng ký"
                 class="form-label-w-18"
                 v-bind="validateInfos['general.registedName']"
@@ -29,7 +30,7 @@
                     @change="e => onChangeInput('registedName', e.target.value)"
                 />
             </FormItem>
-            <FormItem label="Tên tiếng anh" class="form-label-w-18" v-bind="validateInfos['general.englishName']">
+            <FormItem v-if="!isCreateCombo" label="Tên tiếng anh" class="form-label-w-18" v-bind="validateInfos['general.englishName']">
                 <Input
                     :value="modelRef.general.englishName"
                     @change="e => onChangeInput('englishName', e.target.value)"
@@ -58,6 +59,15 @@ const form = inject('form');
 const modelRef = inject('modelRef');
 const isEdit = inject('isEdit');
 const { validateInfos } = form;
+
+const props = defineProps({
+    mode: {
+        type: String,
+        default: 'product',
+    },
+});
+
+const isCreateCombo = computed(() => props.mode === "combo");
 
 const general = computed(() => store.state.product.detail.general);
 

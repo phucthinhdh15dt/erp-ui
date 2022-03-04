@@ -180,6 +180,10 @@ export const useUpsertProduct = () => {
         }, []);
 
     const collectPayload = async (mode, data) => {
+        const listCombo = store.state.product.create.data.product.items.map(item => ({
+            code: item.productCode,
+            quantity: item.quantity,
+        }));
         console.log('data', data);
         const { general, variants = [], certifications = [], ...attributes } = data;
 
@@ -203,6 +207,7 @@ export const useUpsertProduct = () => {
             status: 'IN_PRODUCTION',
             url: general.url,
             variants: variantsCollected,
+            items: listCombo,
         };
         if (general.brand) {
             payload.brandCode = general.brand;

@@ -8,6 +8,7 @@ const CategoryList = () => import('@/views/category/list.vue');
 
 const Product = () => import('@/views/product/index.vue');
 const ProductCreate = () => import('@/views/product/create.vue');
+const ComboCreate = () => import('@/views/product/createCombo.vue');
 const ProductList = () => import('@/views/product/list.vue');
 const ProductDetail = () => import('@/views/product/detail.vue');
 const ProductUpdate = () => import('@/views/product/update.vue');
@@ -125,6 +126,19 @@ const routes = [
                     layout: 'default',
                     subMenuKey: '2',
                     menuKey: '2.1',
+                },
+            },
+            {
+                name: 'ComboCreate',
+                path: 'combo-create',
+                component: ComboCreate,
+                meta: {
+                    title: 'Combo',
+                    breadCrumb: 'Tạo combo',
+                    authRequired: true,
+                    layout: 'default',
+                    subMenuKey: '2',
+                    menuKey: '2.3',
                 },
             },
             // {

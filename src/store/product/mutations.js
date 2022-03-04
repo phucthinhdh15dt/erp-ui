@@ -74,6 +74,11 @@ const setProductCertifications = (state, data) => {
     state.detail.certifications = data;
 };
 
+//create
+const setProductItems = (state, data) => {
+    state.create.data.product.items = data;
+};
+
 export default {
     setAttributes,
     setProductDetail,
@@ -90,4 +95,5 @@ export default {
     removeVariant,
     setVariantDataCreate,
     setVariantData,
+    setProductItems,
 };

@@ -20,6 +20,13 @@ export default {
                 url: '',
             },
         },
+        create: {
+            data: {
+                product: {
+                    items: [],
+                },
+            },
+        },
     }),
     getters,
     actions,

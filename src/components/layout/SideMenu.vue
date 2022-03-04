@@ -37,6 +37,14 @@
                         Danh sách sản phẩm
                     </MenuItem>
                 </router-link>
+                <a href="/product/combo-create">
+                    <MenuItem key="2.3">
+                        <template #icon>
+                            <PlusOutlined />
+                        </template>
+                        Tạo combo
+                    </MenuItem>
+                </a>
             </SubMenu>
             <!--   <router-link to="/order/list">
                     <MenuItem key="1.2">Danh sách đơn hàng</MenuItem>
