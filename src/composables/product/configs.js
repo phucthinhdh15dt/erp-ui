@@ -11,6 +11,7 @@ export const columnsCreate = [
         dataIndex: 'productName',
         key: 'productName',
         slots: { customRender: 'product' },
+        width: 300,
     },
     {
         title: 'Số lượng',

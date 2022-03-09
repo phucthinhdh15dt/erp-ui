@@ -71,17 +71,16 @@
                 </template>
                 <template v-if="sumQuanlity" #footer>
                     <Row>
-                        <Col :span="8">
+                        <Col style="width: 300px">
                             <strong>Tổng cộng</strong>
                         </Col>
-                        <Col :span="2">
+                        <Col style="width: 200px; text-align: end">
                             {{ sumQuanlity }}
                         </Col>
-                        <Col :span="5" />
-                        <Col :span="2">
+                        <Col style="width: 150px; text-align: end">
                             <Currency class="font-bold" :value="sumPrice" />
                         </Col>
-                        <Col :span="2" />
+                        <Col style="width: 150px" />
                     </Row>
                 </template>
             </Table>

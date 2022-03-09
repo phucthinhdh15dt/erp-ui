@@ -1,7 +1,68 @@
-import { ref, inject } from 'vue';
+import { ref, inject, onMounted } from 'vue';
+import { useStore } from 'vuex';
+import { cloneDeep } from 'lodash/fp';
+import * as XLSX from 'xlsx';
+import moment from 'moment';
+import { formatToCurrency } from '@/utils/number';
+import { caculatorPrice } from '@/utils/index';
+import { STATUS } from '@/constants/index';
+// import { useSearch } from '@/composables/list/index';
+
+const useGetOperationStatus = () => {
+    const api = inject('api');
+    const store = useStore();
+    const result = ref({});
+    const errorMessage = ref('');
+
+    const getOperationStatus = async id => {
+        // store.commit('layout/setLoading', true);
+        const response = await api.product.getOperationStatus(id);
+
+        if (response.data) {
+            store.dispatch('product/setOperationStatus', cloneDeep(response.data));
+        }
+        // store.commit('layout/setLoading', false);
+    };
+
+    onMounted(getOperationStatus);
+    // watch(id, getPost);
+
+    return {
+        getOperationStatus,
+        result,
+        errorMessage,
+    };
+};
+
+const useGetCancelReason = () => {
+    const api = inject('api');
+    const store = useStore();
+    const result = ref({});
+    const errorMessage = ref('');
+
+    const getCancelReason = async id => {
+        // store.commit('layout/setLoading', true);
+        const response = await api.product.getCancelReason(id);
+
+        if (response.data) {
+            store.dispatch('product/setCancelReason', cloneDeep(response.data));
+        }
+        // store.commit('layout/setLoading', false);
+    };
+
+    onMounted(getCancelReason);
+    // watch(id, getPost);
+
+    return {
+        getCancelReason,
+        result,
+        errorMessage,
+    };
+};
 
 const useGetProduct = () => {
     const api = inject('api');
+    const store = useStore();
     const loading = ref(false);
     const result = ref([]);
     const errorMessage = ref('');
@@ -34,6 +95,9 @@ const useGetProduct = () => {
         result.value = [];
     };
 
+    // onMounted(getCancelReason);
+    // watch(id, getPost);
+
     return {
         getProduct,
         result,
@@ -43,4 +107,4 @@ const useGetProduct = () => {
     };
 };
 
-export { useGetProduct };
+export { useGetOperationStatus, useGetCancelReason, useGetProduct };
